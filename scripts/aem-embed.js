@@ -1,5 +1,3 @@
-
-No actions available for code files
 /*
  * AEM Embed WebComponent
  * Include content from one Helix page in any other web surface.
