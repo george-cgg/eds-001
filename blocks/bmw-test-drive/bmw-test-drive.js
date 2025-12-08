@@ -153,7 +153,7 @@ function createDateDisplay() {
   return display;
 }
 
-function createTimeSlots(timeSlots, onSelect) {
+function createTimeSlots(timeSlots) {
   const container = document.createElement('div');
   container.className = 'time-slots-container';
   container.id = 'time-slots';
@@ -171,7 +171,11 @@ function createTimeSlots(timeSlots, onSelect) {
         container.querySelectorAll('.time-slot').forEach((s) => s.classList.remove('selected'));
         btn.classList.add('selected');
         selectedTime = slot.time;
-        onSelect(slot.time);
+        // Enable the submit button
+        const submitBtn = document.getElementById('submit-btn');
+        if (submitBtn) {
+          submitBtn.disabled = false;
+        }
       });
     }
 
@@ -207,13 +211,17 @@ function createStep1(data, onNext) {
     if (dateDisplay) {
       dateDisplay.textContent = formatFullDate(day).toUpperCase();
     }
-    // Regenerate time slots
+    // Regenerate time slots and reset selection
     const timeSlotsContainer = document.getElementById('time-slots');
     if (timeSlotsContainer) {
-      const newTimeSlots = createTimeSlots(data.timeSlots, updateSubmitButton);
+      const newTimeSlots = createTimeSlots(data.timeSlots);
       timeSlotsContainer.replaceWith(newTimeSlots);
       selectedTime = null;
-      updateSubmitButton();
+      // Disable submit button when day changes
+      const submitBtn = document.getElementById('submit-btn');
+      if (submitBtn) {
+        submitBtn.disabled = true;
+      }
     }
   });
 
@@ -223,26 +231,20 @@ function createStep1(data, onNext) {
   dateLine.className = 'date-line';
 
   // Time slots
-  const updateSubmitButton = () => {
-    const submitBtn = document.getElementById('submit-btn');
-    if (submitBtn) {
-      submitBtn.disabled = !selectedTime;
-    }
-  };
-  const timeSlots = createTimeSlots(data.timeSlots, updateSubmitButton);
+  const timeSlots = createTimeSlots(data.timeSlots);
 
   // Note
   const note = document.createElement('p');
   note.className = 'test-drive-note';
   note.textContent = 'Your test drive will be approximately 30 mins. Please plan to arrive ten minutes before your test drive.';
 
-  // Submit button
-  const submitBtn = document.createElement('button');
-  submitBtn.className = 'submit-btn';
-  submitBtn.id = 'submit-btn';
-  submitBtn.textContent = 'Request Your Test Drive';
-  submitBtn.disabled = true;
-  submitBtn.addEventListener('click', () => {
+  // Continue button
+  const continueBtn = document.createElement('button');
+  continueBtn.className = 'submit-btn';
+  continueBtn.id = 'submit-btn';
+  continueBtn.textContent = 'Continue';
+  continueBtn.disabled = true;
+  continueBtn.addEventListener('click', () => {
     if (selectedDay && selectedTime) {
       onNext();
     }
@@ -257,7 +259,7 @@ function createStep1(data, onNext) {
   step.appendChild(dateLine);
   step.appendChild(timeSlots);
   step.appendChild(note);
-  step.appendChild(submitBtn);
+  step.appendChild(continueBtn);
 
   return step;
 }
