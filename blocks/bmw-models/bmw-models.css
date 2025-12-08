@@ -194,6 +194,8 @@
   font-weight: 300;
   line-height: 1;
   color: #262626;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .bmw-carousel-arrow:hover {
@@ -201,8 +203,14 @@
   box-shadow: 0 4px 12px rgb(0 0 0 / 20%);
 }
 
+.bmw-carousel-arrow:focus {
+  outline: none;
+  background: rgb(255 255 255 / 85%);
+}
+
 .bmw-carousel-arrow:active {
   transform: translateY(-50%) scale(0.95);
+  background: rgb(255 255 255 / 90%);
 }
 
 .bmw-carousel-arrow.disabled {
