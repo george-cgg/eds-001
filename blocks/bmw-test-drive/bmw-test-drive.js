@@ -48,17 +48,10 @@ function createVehicleHeader(vehicle) {
 
   const modelName = document.createElement('h2');
   modelName.className = 'vehicle-model-name';
-  modelName.textContent = `${vehicle.model} ${vehicle.type}`;
+  modelName.textContent = vehicle.model;
 
   header.appendChild(label);
   header.appendChild(modelName);
-
-  if (vehicle.startingMsrp) {
-    const msrp = document.createElement('p');
-    msrp.className = 'vehicle-msrp';
-    msrp.textContent = `Starting MSRP ${formatCurrency(vehicle.startingMsrp)}`;
-    header.appendChild(msrp);
-  }
 
   return header;
 }
