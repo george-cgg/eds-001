@@ -99,14 +99,10 @@ function createCarouselArrows(container, block) {
   const scrollAmount = 400;
 
   leftArrow.addEventListener('click', () => {
-    leftArrow.classList.add('clicked');
-    setTimeout(() => leftArrow.classList.remove('clicked'), 200);
     container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
   });
 
   rightArrow.addEventListener('click', () => {
-    rightArrow.classList.add('clicked');
-    setTimeout(() => rightArrow.classList.remove('clicked'), 200);
     container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
   });
 

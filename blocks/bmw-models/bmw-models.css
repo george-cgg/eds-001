@@ -169,44 +169,40 @@
   font-size: 16px;
 }
 
-/* Carousel Arrows */
+/* Carousel Arrows - Subtle, on top of cards */
 .bmw-carousel-arrow {
   position: absolute;
-  top: 55%;
+  top: 50%;
   transform: translateY(-50%);
-  background: #fff;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  width: 48px;
-  height: 48px;
-  min-width: 48px;
-  min-height: 48px;
+  background: rgb(255 255 255 / 85%);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  min-height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   z-index: 100;
-  box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
+  box-shadow: 0 2px 8px rgb(0 0 0 / 15%);
   transition: all 0.2s ease;
   padding: 0;
   flex-shrink: 0;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 300;
   line-height: 1;
   color: #262626;
 }
 
 .bmw-carousel-arrow:hover {
-  background: #262626;
-  border-color: #262626;
-  color: #fff;
+  background: rgb(255 255 255 / 95%);
+  box-shadow: 0 4px 12px rgb(0 0 0 / 20%);
 }
 
-.bmw-carousel-arrow:active,
-.bmw-carousel-arrow.clicked {
-  background: #1c69d4;
-  border-color: #1c69d4;
-  color: #fff;
+.bmw-carousel-arrow:active {
+  transform: translateY(-50%) scale(0.95);
 }
 
 .bmw-carousel-arrow.disabled {
@@ -216,11 +212,11 @@
 }
 
 .bmw-carousel-arrow-left {
-  left: 5px;
+  left: 65px;
 }
 
 .bmw-carousel-arrow-right {
-  right: 5px;
+  right: 65px;
 }
 
 /* Responsive Design */
@@ -265,20 +261,19 @@
   }
 
   .bmw-carousel-arrow {
-    width: 40px;
-    height: 40px;
-    min-width: 40px;
-    min-height: 40px;
-    font-size: 20px;
-    border-radius: 6px;
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    min-height: 36px;
+    font-size: 18px;
   }
 
   .bmw-carousel-arrow-left {
-    left: 2px;
+    left: 40px;
   }
 
   .bmw-carousel-arrow-right {
-    right: 2px;
+    right: 40px;
   }
 }
 
