@@ -171,10 +171,10 @@ function createTimeSlots(timeSlots) {
         container.querySelectorAll('.time-slot').forEach((s) => s.classList.remove('selected'));
         btn.classList.add('selected');
         selectedTime = slot.time;
-        // Enable the submit button
-        const submitBtn = document.getElementById('submit-btn');
-        if (submitBtn) {
-          submitBtn.disabled = false;
+        // Enable the continue button directly
+        const continueBtn = document.getElementById('continue-btn');
+        if (continueBtn) {
+          continueBtn.disabled = false;
         }
       });
     }
@@ -205,23 +205,32 @@ function createStep1(data, onNext) {
   // Location card
   const locationCard = createLocationCard(data.dealership);
 
+  // Continue button
+  const continueBtn = document.createElement('button');
+  continueBtn.className = 'submit-btn';
+  continueBtn.id = 'continue-btn';
+  continueBtn.textContent = 'Continue';
+  continueBtn.disabled = true;
+  continueBtn.addEventListener('click', () => {
+    if (selectedDay && selectedTime) {
+      onNext();
+    }
+  });
+
   // Day selector
   const daySelector = createDaySelector(data.availableDays, (day) => {
-    const dateDisplay = document.getElementById('selected-date-display');
+    const dateDisplay = step.querySelector('.date-display');
     if (dateDisplay) {
       dateDisplay.textContent = formatFullDate(day).toUpperCase();
     }
     // Regenerate time slots and reset selection
-    const timeSlotsContainer = document.getElementById('time-slots');
+    const timeSlotsContainer = step.querySelector('.time-slots-container');
     if (timeSlotsContainer) {
       const newTimeSlots = createTimeSlots(data.timeSlots);
       timeSlotsContainer.replaceWith(newTimeSlots);
       selectedTime = null;
-      // Disable submit button when day changes
-      const submitBtn = document.getElementById('submit-btn');
-      if (submitBtn) {
-        submitBtn.disabled = true;
-      }
+      const btn = document.getElementById('continue-btn');
+      if (btn) btn.disabled = true;
     }
   });
 
@@ -237,18 +246,6 @@ function createStep1(data, onNext) {
   const note = document.createElement('p');
   note.className = 'test-drive-note';
   note.textContent = 'Your test drive will be approximately 30 mins. Please plan to arrive ten minutes before your test drive.';
-
-  // Continue button
-  const continueBtn = document.createElement('button');
-  continueBtn.className = 'submit-btn';
-  continueBtn.id = 'submit-btn';
-  continueBtn.textContent = 'Continue';
-  continueBtn.disabled = true;
-  continueBtn.addEventListener('click', () => {
-    if (selectedDay && selectedTime) {
-      onNext();
-    }
-  });
 
   step.appendChild(headerLabel);
   step.appendChild(vehicleHeader);
