@@ -146,7 +146,7 @@ function createDateDisplay() {
   return display;
 }
 
-function createTimeSlots(timeSlots) {
+function createTimeSlots(timeSlots, continueButton) {
   const container = document.createElement('div');
   container.className = 'time-slots-container';
   container.id = 'time-slots';
@@ -164,10 +164,9 @@ function createTimeSlots(timeSlots) {
         container.querySelectorAll('.time-slot').forEach((s) => s.classList.remove('selected'));
         btn.classList.add('selected');
         selectedTime = slot.time;
-        // Enable the continue button directly
-        const continueBtn = document.getElementById('continue-btn');
-        if (continueBtn) {
-          continueBtn.disabled = false;
+        // Enable the continue button
+        if (continueButton) {
+          continueButton.disabled = false;
         }
       });
     }
@@ -219,11 +218,10 @@ function createStep1(data, onNext) {
     // Regenerate time slots and reset selection
     const timeSlotsContainer = step.querySelector('.time-slots-container');
     if (timeSlotsContainer) {
-      const newTimeSlots = createTimeSlots(data.timeSlots);
+      const newTimeSlots = createTimeSlots(data.timeSlots, continueBtn);
       timeSlotsContainer.replaceWith(newTimeSlots);
       selectedTime = null;
-      const btn = document.getElementById('continue-btn');
-      if (btn) btn.disabled = true;
+      continueBtn.disabled = true;
     }
   });
 
@@ -233,7 +231,7 @@ function createStep1(data, onNext) {
   dateLine.className = 'date-line';
 
   // Time slots
-  const timeSlots = createTimeSlots(data.timeSlots);
+  const timeSlots = createTimeSlots(data.timeSlots, continueBtn);
 
   // Note
   const note = document.createElement('p');
