@@ -252,7 +252,123 @@ function createStep1(data, onNext) {
   return step;
 }
 
-function createStep2(data, onBack) {
+function generateConfirmationId() {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  let id = 'BMW-';
+  for (let i = 0; i < 8; i += 1) {
+    id += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return id;
+}
+
+function createLoadingSpinner() {
+  const container = document.createElement('div');
+  container.className = 'loading-container';
+
+  const spinner = document.createElement('div');
+  spinner.className = 'spinner';
+
+  const text = document.createElement('p');
+  text.className = 'loading-text';
+  text.textContent = 'Processing your request...';
+
+  container.appendChild(spinner);
+  container.appendChild(text);
+
+  return container;
+}
+
+function createConfirmation(data, userInfo, confirmationId) {
+  const container = document.createElement('div');
+  container.className = 'confirmation-container';
+
+  // Success icon
+  const icon = document.createElement('div');
+  icon.className = 'confirmation-icon';
+  icon.textContent = '✓';
+
+  // Title
+  const title = document.createElement('h1');
+  title.className = 'confirmation-title';
+  title.textContent = 'Test Drive Confirmed!';
+
+  // Confirmation ID
+  const idLabel = document.createElement('p');
+  idLabel.className = 'confirmation-id';
+  idLabel.innerHTML = `Confirmation ID: <strong>${confirmationId}</strong>`;
+
+  // Details card
+  const detailsCard = document.createElement('div');
+  detailsCard.className = 'details-card';
+
+  const detailsLabel = document.createElement('p');
+  detailsLabel.className = 'details-label';
+  detailsLabel.textContent = 'YOUR TEST DRIVE';
+
+  const vehicleName = document.createElement('h4');
+  vehicleName.className = 'details-name';
+  vehicleName.textContent = data.vehicle.model;
+
+  const locationName = document.createElement('p');
+  locationName.className = 'details-location';
+  locationName.textContent = data.dealership.name;
+
+  const locationAddress = document.createElement('p');
+  locationAddress.className = 'details-address';
+  locationAddress.textContent = data.dealership.address;
+
+  const dateTime = document.createElement('p');
+  dateTime.className = 'details-datetime';
+  const formattedDate = selectedDay ? formatFullDate(selectedDay) : '';
+  dateTime.textContent = `${formattedDate}, ${selectedTime || ''}`;
+
+  detailsCard.appendChild(detailsLabel);
+  detailsCard.appendChild(vehicleName);
+  detailsCard.appendChild(locationName);
+  detailsCard.appendChild(locationAddress);
+  detailsCard.appendChild(dateTime);
+
+  // User info card
+  const userCard = document.createElement('div');
+  userCard.className = 'details-card';
+
+  const userLabel = document.createElement('p');
+  userLabel.className = 'details-label';
+  userLabel.textContent = 'DRIVER DETAILS';
+
+  const userName = document.createElement('h4');
+  userName.className = 'details-name';
+  userName.textContent = `${userInfo.firstName} ${userInfo.lastName}`;
+
+  const userEmail = document.createElement('p');
+  userEmail.className = 'details-contact';
+  userEmail.textContent = userInfo.email;
+
+  const userPhone = document.createElement('p');
+  userPhone.className = 'details-contact';
+  userPhone.textContent = userInfo.phone;
+
+  userCard.appendChild(userLabel);
+  userCard.appendChild(userName);
+  userCard.appendChild(userEmail);
+  userCard.appendChild(userPhone);
+
+  // Note
+  const note = document.createElement('p');
+  note.className = 'confirmation-note';
+  note.textContent = 'A confirmation email has been sent. Please arrive 10 minutes before your scheduled time.';
+
+  container.appendChild(icon);
+  container.appendChild(title);
+  container.appendChild(idLabel);
+  container.appendChild(detailsCard);
+  container.appendChild(userCard);
+  container.appendChild(note);
+
+  return container;
+}
+
+function createStep2(data, onBack, block) {
   const step = document.createElement('div');
   step.className = 'wizard-step step-2';
 
@@ -334,9 +450,25 @@ function createStep2(data, onBack) {
   submitBtn.textContent = 'Request Your Test Drive';
   submitBtn.addEventListener('click', (e) => {
     e.preventDefault();
-    // Button does nothing for now as per requirements
-    // eslint-disable-next-line no-alert
-    alert('Test drive request submitted! (Demo only)');
+
+    // Get form values
+    const userInfo = {
+      firstName: form.querySelector('#firstName').value || 'Guest',
+      lastName: form.querySelector('#lastName').value || '',
+      email: form.querySelector('#email').value || '',
+      phone: form.querySelector('#phone').value || ''
+    };
+
+    // Show loading spinner
+    block.innerHTML = '';
+    block.appendChild(createLoadingSpinner());
+
+    // After 3 seconds, show confirmation
+    setTimeout(() => {
+      const confirmationId = generateConfirmationId();
+      block.innerHTML = '';
+      block.appendChild(createConfirmation(data, userInfo, confirmationId));
+    }, 3000);
   });
 
   step.appendChild(backBtn);
@@ -361,7 +493,7 @@ function renderWizard(block, data) {
     const step2 = createStep2(data, () => {
       currentStep = 1;
       renderWizard(block, data);
-    });
+    }, block);
     block.appendChild(step2);
   }
 }
