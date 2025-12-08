@@ -60,12 +60,12 @@ function createBmwCard(vehicle) {
     `plus loyalty credit up to ${formatCurrency(vehicle.loyaltyCredit)} for qualified buyers. ` +
     `Now through ${vehicle.offerExpiry}.`;
 
-  // CTA button
+  // CTA button - Explore link
   const button = document.createElement('button');
   button.className = 'bmw-cta-button';
-  button.textContent = 'Offer details';
+  button.textContent = `Explore ${vehicle.shortName || vehicle.model.split(' ')[0]}`;
   button.addEventListener('click', () => {
-    window.open(`https://www.bmwusa.com/special-offers-new.html#/offer-detail/${vehicle.id}/lease`, '_blank');
+    window.open(vehicle.exploreUrl, '_blank');
   });
 
   body.appendChild(modelName);
@@ -99,10 +99,14 @@ function createCarouselArrows(container, block) {
   const scrollAmount = 400;
 
   leftArrow.addEventListener('click', () => {
+    leftArrow.classList.add('clicked');
+    setTimeout(() => leftArrow.classList.remove('clicked'), 200);
     container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
   });
 
   rightArrow.addEventListener('click', () => {
+    rightArrow.classList.add('clicked');
+    setTimeout(() => rightArrow.classList.remove('clicked'), 200);
     container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
   });
 
@@ -111,24 +115,6 @@ function createCarouselArrows(container, block) {
 
   block.appendChild(leftArrow);
   block.appendChild(rightArrow);
-}
-
-function createCategoryFilter(categories, activeCategory, onSelect) {
-  const filterContainer = document.createElement('div');
-  filterContainer.className = 'bmw-filter-container';
-
-  categories.forEach((cat) => {
-    const btn = document.createElement('button');
-    btn.className = 'bmw-filter-btn';
-    if (cat === activeCategory) {
-      btn.classList.add('active');
-    }
-    btn.textContent = cat === 'all' ? 'All Models' : cat;
-    btn.addEventListener('click', () => onSelect(cat));
-    filterContainer.appendChild(btn);
-  });
-
-  return filterContainer;
 }
 
 export default async function decorate(block, onDataLoaded) {
@@ -144,49 +130,18 @@ export default async function decorate(block, onDataLoaded) {
     }
 
     const allModels = data.models;
-    let activeCategory = data.category || 'all';
 
-    const renderModels = (category) => {
-      // Clear existing content except filter
-      const existingContainer = block.querySelector('.bmw-container');
-      const existingArrows = block.querySelectorAll('.bmw-carousel-arrow');
-      if (existingContainer) existingContainer.remove();
-      existingArrows.forEach((arrow) => arrow.remove());
+    // Create carousel container
+    const container = document.createElement('div');
+    container.className = 'bmw-container';
 
-      // Filter models
-      const filteredModels = category === 'all'
-        ? allModels
-        : allModels.filter((m) => m.category === category);
-
-      // Create carousel container
-      const container = document.createElement('div');
-      container.className = 'bmw-container';
-
-      filteredModels.forEach((vehicle) => {
-        const card = createBmwCard(vehicle);
-        container.appendChild(card);
-      });
-
-      block.appendChild(container);
-      createCarouselArrows(container, block);
-
-      // Update filter buttons active state
-      block.querySelectorAll('.bmw-filter-btn').forEach((btn) => {
-        const btnCategory = btn.textContent === 'All Models' ? 'all' : btn.textContent;
-        btn.classList.toggle('active', btnCategory === category);
-      });
-    };
-
-    // Create and add filter
-    const categories = ['all', 'SUV', 'Sedan', 'Electric'];
-    const filter = createCategoryFilter(categories, activeCategory, (cat) => {
-      activeCategory = cat;
-      renderModels(cat);
+    allModels.forEach((vehicle) => {
+      const card = createBmwCard(vehicle);
+      container.appendChild(card);
     });
-    block.appendChild(filter);
 
-    // Initial render
-    renderModels(activeCategory);
+    block.appendChild(container);
+    createCarouselArrows(container, block);
   }).catch((error) => {
     block.textContent = 'Error loading BMW models';
     console.error('Error loading BMW models:', error);
