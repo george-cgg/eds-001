@@ -274,14 +274,15 @@ export default async function decorate(block, onDataLoaded, onThemeChanged) {
   onDataLoaded.then((data) => {
     block.textContent = '';
 
-    if (!data || !data.structuredContent || !data.structuredContent.models
-        || !Array.isArray(data.structuredContent.models)
-        || data.structuredContent.models.length === 0) {
+    // Handle both data structures: direct and wrapped in structuredContent
+    const modelsData = data?.structuredContent?.models || data?.models;
+
+    if (!modelsData || !Array.isArray(modelsData) || modelsData.length === 0) {
       block.innerHTML = '<p class="bmw-no-models">No BMW models available at this time.</p>';
       return;
     }
 
-    const allModels = data.structuredContent.models;
+    const allModels = modelsData;
 
     // Create carousel container
     const container = document.createElement('div');
