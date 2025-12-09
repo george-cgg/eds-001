@@ -267,8 +267,8 @@ export default async function decorate(block, onDataLoaded, onThemeChanged) {
   //   structuredContent: {
   //     models: MOCK_BMW_MODELS,
   //     category: 'all',
-  //     totalCount: MOCK_BMW_MODELS.length
-  //   }
+  //     totalCount: MOCK_BMW_MODELS.length,
+  //   },
   // });
 
   onDataLoaded.then((data) => {

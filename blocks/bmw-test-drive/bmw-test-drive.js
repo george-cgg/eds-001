@@ -518,46 +518,46 @@ export default async function decorate(block, onDataLoaded, onThemeChanged) {
     block.setAttribute('data-theme', 'light');
   }
 
-  // Mock data for testing purposes
-  const MOCK_TEST_DRIVE_DATA = {
-    vehicle: {
-      model: 'X5 xDrive40i',
-      year: 2026,
-    },
-    dealership: {
-      name: 'BMW of Manhattan',
-      address: '555 West 57th Street, New York, NY 10019',
-    },
-    availableDays: [
-      {
-        day: 'Mon', date: '9', month: 'Dec', year: '2024', available: true,
-      },
-      {
-        day: 'Tue', date: '10', month: 'Dec', year: '2024', available: true,
-      },
-      {
-        day: 'Wed', date: '11', month: 'Dec', year: '2024', available: false,
-      },
-      {
-        day: 'Thu', date: '12', month: 'Dec', year: '2024', available: true,
-      },
-      {
-        day: 'Fri', date: '13', month: 'Dec', year: '2024', available: true,
-      },
-      {
-        day: 'Sat', date: '14', month: 'Dec', year: '2024', available: true,
-      },
-      {
-        day: 'Sun', date: '15', month: 'Dec', year: '2024', available: false,
-      },
-    ],
-    timeSlots: ['9:00 AM', '10:00 AM', '11:00 AM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM'],
-  };
+  // Mock data for testing purposes - COMMENTED OUT FOR PRODUCTION
+  // const MOCK_TEST_DRIVE_DATA = {
+  //   vehicle: {
+  //     model: 'X5 xDrive40i',
+  //     year: 2026,
+  //   },
+  //   dealership: {
+  //     name: 'BMW of Manhattan',
+  //     address: '555 West 57th Street, New York, NY 10019',
+  //   },
+  //   availableDays: [
+  //     {
+  //       day: 'Mon', date: '9', month: 'Dec', year: '2024', available: true,
+  //     },
+  //     {
+  //       day: 'Tue', date: '10', month: 'Dec', year: '2024', available: true,
+  //     },
+  //     {
+  //       day: 'Wed', date: '11', month: 'Dec', year: '2024', available: false,
+  //     },
+  //     {
+  //       day: 'Thu', date: '12', month: 'Dec', year: '2024', available: true,
+  //     },
+  //     {
+  //       day: 'Fri', date: '13', month: 'Dec', year: '2024', available: true,
+  //     },
+  //     {
+  //       day: 'Sat', date: '14', month: 'Dec', year: '2024', available: true,
+  //     },
+  //     {
+  //       day: 'Sun', date: '15', month: 'Dec', year: '2024', available: false,
+  //     },
+  //   ],
+  //   timeSlots: ['9:00 AM', '10:00 AM', '11:00 AM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM'],
+  // };
 
   // Use mock data for testing
-  const dataPromise = Promise.resolve(MOCK_TEST_DRIVE_DATA);
+  // const dataPromise = Promise.resolve(MOCK_TEST_DRIVE_DATA);
 
-  dataPromise.then((data) => {
+  onDataLoaded.then((data) => {
     if (!data) {
       block.innerHTML = '<p class="error-message">Unable to load test drive booking.</p>';
       return;
