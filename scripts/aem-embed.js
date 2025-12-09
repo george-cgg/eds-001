@@ -59,9 +59,30 @@ export class AEMEmbed extends HTMLElement {
           }
         });
 
-        // Call decorate immediately with the callback
+        // Create callback for theme changes
+        const onThemeChanged = (callback) => {
+          // Check for theme query parameter for testing (e.g., ?theme=dark)
+          const urlParams = new URLSearchParams(window.location.search);
+          const themeParam = urlParams.get('theme');
+
+          // Call immediately with current theme
+          // Priority: query param > window.openai.theme > default 'light'
+          const currentTheme = themeParam || window.openai?.theme || 'light';
+          callback(currentTheme);
+
+          // Listen for theme changes (only if not using query param override)
+          if (!themeParam) {
+            window.addEventListener('openai:set_globals', (event) => {
+              if (event.detail?.globals?.theme) {
+                callback(event.detail.globals.theme);
+              }
+            });
+          }
+        };
+
+        // Call decorate immediately with the callbacks
         // eslint-disable-next-line no-await-in-loop
-        await decorateBlock.default(block, onDataLoaded);
+        await decorateBlock.default(block, onDataLoaded, onThemeChanged);
       }
     } catch (e) {
       // eslint-disable-next-line no-console

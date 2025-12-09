@@ -18,14 +18,20 @@ let selectedDay = null;
 let selectedTime = null;
 let currentStep = 1;
 
+// eslint-disable-next-line no-unused-vars
 function formatCurrency(amount) {
   return `$${amount.toLocaleString()}`;
 }
 
 function formatFullDate(day) {
   const dayNames = {
-    Mon: 'Monday', Tue: 'Tuesday', Wed: 'Wednesday',
-    Thu: 'Thursday', Fri: 'Friday', Sat: 'Saturday', Sun: 'Sunday'
+    Mon: 'Monday',
+    Tue: 'Tuesday',
+    Wed: 'Wednesday',
+    Thu: 'Thursday',
+    Fri: 'Friday',
+    Sat: 'Saturday',
+    Sun: 'Sunday',
   };
   return `${dayNames[day.day]} ${day.month} ${day.date}th, ${day.year}`;
 }
@@ -34,7 +40,7 @@ function generateRandomAvailability(timeSlots) {
   // Generate random availability for time slots (70% chance of being available)
   return timeSlots.map((slot) => ({
     time: slot,
-    available: Math.random() > 0.3
+    available: Math.random() > 0.3,
   }));
 }
 
@@ -419,7 +425,7 @@ function createStep2(data, onBack, block) {
     { id: 'firstName', label: 'First Name', type: 'text' },
     { id: 'lastName', label: 'Last Name', type: 'text' },
     { id: 'email', label: 'Email Address', type: 'email' },
-    { id: 'phone', label: 'Phone', type: 'tel' }
+    { id: 'phone', label: 'Phone', type: 'tel' },
   ];
 
   fields.forEach((field) => {
@@ -456,7 +462,7 @@ function createStep2(data, onBack, block) {
       firstName: form.querySelector('#firstName').value || 'Guest',
       lastName: form.querySelector('#lastName').value || '',
       email: form.querySelector('#email').value || '',
-      phone: form.querySelector('#phone').value || ''
+      phone: form.querySelector('#phone').value || '',
     };
 
     // Show loading spinner
@@ -520,4 +526,3 @@ export default async function decorate(block, onDataLoaded) {
     console.error('Error loading test drive booking:', error);
   });
 }
-

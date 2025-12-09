@@ -108,7 +108,7 @@ export default async function decorate(block, onDataLoaded) {
     createCarouselArrows(container, block);
   }).catch((error) => {
     block.textContent = 'Error loading coffees';
+    // eslint-disable-next-line no-console
     console.error('Error loading Frescopa coffees:', error);
   });
 }
-

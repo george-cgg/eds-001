@@ -88,7 +88,7 @@ export default async function decorate(block, onDataLoaded) {
     block.appendChild(detailView);
   }).catch((error) => {
     block.textContent = 'Error loading coffee details';
+    // eslint-disable-next-line no-console
     console.error('Error loading coffee details:', error);
   });
 }
-

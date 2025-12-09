@@ -13,7 +13,89 @@
  * from Adobe.
  */
 
+/* Theme Support - CSS Custom Properties */
 .bmw-models {
+  /* Light theme (default) */
+  --bmw-bg: transparent;
+  --bmw-card-bg: #fff;
+  --bmw-text-primary: #262626;
+  --bmw-text-secondary: #666;
+  --bmw-button-bg: #262626;
+  --bmw-button-text: #fff;
+  --bmw-button-hover-bg: #fff;
+  --bmw-button-hover-text: #262626;
+  --bmw-button-border: #262626;
+  --bmw-card-shadow: rgb(0 0 0 / 8%);
+  --bmw-card-shadow-hover: rgb(0 0 0 / 12%);
+  --bmw-arrow-bg: #262626;
+  --bmw-arrow-text: #fff;
+  --bmw-arrow-bg-hover: #1a1a1a;
+  --bmw-arrow-shadow: rgb(0 0 0 / 25%);
+  --bmw-arrow-shadow-hover: rgb(0 0 0 / 35%);
+}
+
+/* Dark theme support - via system preference */
+@media (prefers-color-scheme: dark) {
+  .bmw-models {
+    --bmw-bg: transparent;
+    --bmw-card-bg: #2a2a2a;
+    --bmw-text-primary: #e8e8e8;
+    --bmw-text-secondary: #b3b3b3;
+    --bmw-button-bg: #e8e8e8;
+    --bmw-button-text: #1a1a1a;
+    --bmw-button-hover-bg: #fff;
+    --bmw-button-hover-text: #1a1a1a;
+    --bmw-button-border: #e8e8e8;
+    --bmw-card-shadow: rgb(0 0 0 / 30%);
+    --bmw-card-shadow-hover: rgb(0 0 0 / 50%);
+    --bmw-arrow-bg: #e8e8e8;
+    --bmw-arrow-text: #1a1a1a;
+    --bmw-arrow-bg-hover: #fff;
+    --bmw-arrow-shadow: rgb(255 255 255 / 20%);
+    --bmw-arrow-shadow-hover: rgb(255 255 255 / 30%);
+  }
+}
+
+/* Dark theme support - explicit override from ChatGPT */
+.bmw-models[data-theme="dark"] {
+  --bmw-bg: transparent;
+  --bmw-card-bg: #2a2a2a;
+  --bmw-text-primary: #e8e8e8;
+  --bmw-text-secondary: #b3b3b3;
+  --bmw-button-bg: #e8e8e8;
+  --bmw-button-text: #1a1a1a;
+  --bmw-button-hover-bg: #fff;
+  --bmw-button-hover-text: #1a1a1a;
+  --bmw-button-border: #e8e8e8;
+  --bmw-card-shadow: rgb(0 0 0 / 30%);
+  --bmw-card-shadow-hover: rgb(0 0 0 / 50%);
+  --bmw-arrow-bg: #e8e8e8;
+  --bmw-arrow-text: #1a1a1a;
+  --bmw-arrow-bg-hover: #fff;
+  --bmw-arrow-shadow: rgb(255 255 255 / 20%);
+  --bmw-arrow-shadow-hover: rgb(255 255 255 / 30%);
+}
+
+/* Light theme - explicit override from ChatGPT */
+.bmw-models[data-theme="light"] {
+  --bmw-bg: transparent;
+  --bmw-card-bg: #fff;
+  --bmw-text-primary: #262626;
+  --bmw-text-secondary: #666;
+  --bmw-button-bg: #262626;
+  --bmw-button-text: #fff;
+  --bmw-button-hover-bg: #fff;
+  --bmw-button-hover-text: #262626;
+  --bmw-button-border: #262626;
+  --bmw-card-shadow: rgb(0 0 0 / 8%);
+  --bmw-card-shadow-hover: rgb(0 0 0 / 12%);
+  --bmw-arrow-bg: #262626;
+  --bmw-arrow-text: #fff;
+  --bmw-arrow-bg-hover: #1a1a1a;
+  --bmw-arrow-shadow: rgb(0 0 0 / 25%);
+  --bmw-arrow-shadow-hover: rgb(0 0 0 / 35%);
+
+  /* Base styles */
   width: 100%;
   max-width: 100%;
   margin: 0;
@@ -22,7 +104,7 @@
   overflow: visible;
   box-sizing: border-box;
   font-family: "BMW Type Next", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  background: #f5f5f5;
+  background: var(--bmw-bg);
 }
 
 /* Carousel Container */
@@ -41,10 +123,10 @@
   display: none;
 }
 
-/* Card Styling - Matching bmwusa.com homepage */
+/* Card Styling - Theme-aware */
 .bmw-card {
   position: relative;
-  background: #fff;
+  background: var(--bmw-card-bg);
   border-radius: 0;
   padding: 0;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -55,12 +137,12 @@
   flex-shrink: 0;
   box-sizing: border-box;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgb(0 0 0 / 8%);
+  box-shadow: 0 2px 8px var(--bmw-card-shadow);
 }
 
 .bmw-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgb(0 0 0 / 12%);
+  box-shadow: 0 8px 24px var(--bmw-card-shadow-hover);
 }
 
 /* Card Image Area */
@@ -114,7 +196,7 @@
 .bmw-model-name {
   font-size: 22px;
   font-weight: 400;
-  color: #262626;
+  color: var(--bmw-text-primary);
   margin: 0;
   line-height: 1.3;
 }
@@ -122,7 +204,7 @@
 /* Lease Price */
 .bmw-lease-price {
   font-size: 16px;
-  color: #262626;
+  color: var(--bmw-text-primary);
   margin: 0;
   line-height: 1.4;
 }
@@ -134,17 +216,17 @@
 /* Terms Text */
 .bmw-terms {
   font-size: 14px;
-  color: #666;
+  color: var(--bmw-text-secondary);
   margin: 0;
   line-height: 1.5;
   flex-grow: 1;
 }
 
-/* CTA Button - Black with white text, full width */
+/* CTA Button - Theme-aware */
 .bmw-cta-button {
-  background: #262626;
-  border: 1px solid #262626;
-  color: #fff;
+  background: var(--bmw-button-bg);
+  border: 1px solid var(--bmw-button-border);
+  color: var(--bmw-button-text);
   padding: 14px 24px;
   font-size: 14px;
   font-weight: 500;
@@ -157,60 +239,62 @@
 }
 
 .bmw-cta-button:hover {
-  background: #fff;
-  color: #262626;
+  background: var(--bmw-button-hover-bg);
+  color: var(--bmw-button-hover-text);
+  border-color: var(--bmw-button-border);
 }
 
 /* No models message */
 .bmw-no-models {
   text-align: center;
   padding: 40px;
-  color: #666;
+  color: var(--bmw-text-secondary);
   font-size: 16px;
 }
 
-/* Carousel Arrows - Subtle, on top of cards */
+/* Carousel Arrows - Theme-aware */
 .bmw-carousel-arrow {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgb(255 255 255 / 85%);
+  background: var(--bmw-arrow-bg);
   border: none;
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  min-width: 40px;
-  min-height: 40px;
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  min-height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   z-index: 100;
-  box-shadow: 0 2px 8px rgb(0 0 0 / 15%);
+  box-shadow: 0 4px 12px var(--bmw-arrow-shadow);
   transition: all 0.2s ease;
   padding: 0;
   flex-shrink: 0;
-  font-size: 20px;
-  font-weight: 300;
+  font-size: 24px;
+  font-weight: 700;
   line-height: 1;
-  color: #262626;
+  color: var(--bmw-arrow-text);
   outline: none;
   -webkit-tap-highlight-color: transparent;
 }
 
-.bmw-carousel-arrow:hover {
-  background: rgb(255 255 255 / 95%);
-  box-shadow: 0 4px 12px rgb(0 0 0 / 20%);
-}
-
 .bmw-carousel-arrow:focus {
   outline: none;
-  background: rgb(255 255 255 / 85%);
+  box-shadow: 0 4px 12px var(--bmw-arrow-shadow), 0 0 0 3px rgb(59 130 246 / 50%);
 }
 
-.bmw-carousel-arrow:active {
+.bmw-carousel-arrow:hover:not(.disabled) {
+  background: var(--bmw-arrow-bg-hover);
+  box-shadow: 0 6px 16px var(--bmw-arrow-shadow-hover);
+  transform: translateY(-50%) scale(1.05);
+}
+
+.bmw-carousel-arrow:active:not(.disabled) {
   transform: translateY(-50%) scale(0.95);
-  background: rgb(255 255 255 / 90%);
+  background: var(--bmw-arrow-bg);
 }
 
 .bmw-carousel-arrow.disabled {
@@ -220,11 +304,11 @@
 }
 
 .bmw-carousel-arrow-left {
-  left: 65px;
+  left: 10px;
 }
 
 .bmw-carousel-arrow-right {
-  right: 65px;
+  right: 10px;
 }
 
 /* Responsive Design */
@@ -269,24 +353,24 @@
   }
 
   .bmw-carousel-arrow {
-    width: 36px;
-    height: 36px;
-    min-width: 36px;
-    min-height: 36px;
-    font-size: 18px;
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    min-height: 40px;
+    font-size: 20px;
   }
 
   .bmw-carousel-arrow-left {
-    left: 40px;
+    left: 8px;
   }
 
   .bmw-carousel-arrow-right {
-    right: 40px;
+    right: 8px;
   }
 }
 
-/* Ensure widget background is appropriate */
+/* Ensure widget background is transparent for ChatGPT integration */
 aem-embed body {
-  background-color: #f5f5f5;
+  background-color: transparent;
 }
 
