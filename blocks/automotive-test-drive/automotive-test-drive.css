@@ -15,22 +15,22 @@
 
 /* Theme Support - CSS Custom Properties */
 .automotive-test-drive {
-  /* Light theme (default) */
+  /* Light theme (default) - Blueish stylish theme */
   --td-bg: transparent;
-  --td-card-bg: #f8f8f8;
-  --td-text-primary: #262626;
-  --td-text-secondary: #666;
-  --td-text-tertiary: #999;
-  --td-border: #e0e0e0;
-  --td-button-bg: #262626;
+  --td-card-bg: #dbeafe;
+  --td-text-primary: #1e293b;
+  --td-text-secondary: #475569;
+  --td-text-tertiary: #64748b;
+  --td-border: #bfdbfe;
+  --td-button-bg: #1e40af;
   --td-button-text: #fff;
-  --td-button-hover-bg: #000;
-  --td-button-selected-bg: #262626;
+  --td-button-hover-bg: #1e3a8a;
+  --td-button-selected-bg: #1e40af;
   --td-button-selected-text: #fff;
   --td-button-disabled-bg: #e0e0e0;
   --td-button-disabled-text: #999;
   --td-input-bg: #fff;
-  --td-input-border: #ddd;
+  --td-input-border: #bfdbfe;
 
   /* Base styles */
   width: 100%;
@@ -46,59 +46,59 @@
 @media (prefers-color-scheme: dark) {
   .automotive-test-drive {
     --td-bg: transparent;
-    --td-card-bg: #2a2a2a;
+    --td-card-bg: #1e293b;
     --td-text-primary: #e8e8e8;
     --td-text-secondary: #b3b3b3;
     --td-text-tertiary: #888;
-    --td-border: #404040;
-    --td-button-bg: #e8e8e8;
-    --td-button-text: #1a1a1a;
-    --td-button-hover-bg: #fff;
-    --td-button-selected-bg: #e8e8e8;
-    --td-button-selected-text: #1a1a1a;
+    --td-border: #334155;
+    --td-button-bg: #3b82f6;
+    --td-button-text: #fff;
+    --td-button-hover-bg: #60a5fa;
+    --td-button-selected-bg: #3b82f6;
+    --td-button-selected-text: #fff;
     --td-button-disabled-bg: #404040;
     --td-button-disabled-text: #666;
     --td-input-bg: #1a1a1a;
-    --td-input-border: #404040;
+    --td-input-border: #334155;
   }
 }
 
 /* Dark theme - explicit override from ChatGPT */
 .automotive-test-drive[data-theme="dark"] {
   --td-bg: transparent;
-  --td-card-bg: #2a2a2a;
+  --td-card-bg: #1e293b;
   --td-text-primary: #e8e8e8;
   --td-text-secondary: #b3b3b3;
   --td-text-tertiary: #888;
-  --td-border: #404040;
-  --td-button-bg: #e8e8e8;
-  --td-button-text: #1a1a1a;
-  --td-button-hover-bg: #fff;
-  --td-button-selected-bg: #e8e8e8;
-  --td-button-selected-text: #1a1a1a;
+  --td-border: #334155;
+  --td-button-bg: #3b82f6;
+  --td-button-text: #fff;
+  --td-button-hover-bg: #60a5fa;
+  --td-button-selected-bg: #3b82f6;
+  --td-button-selected-text: #fff;
   --td-button-disabled-bg: #404040;
   --td-button-disabled-text: #666;
   --td-input-bg: #1a1a1a;
-  --td-input-border: #404040;
+  --td-input-border: #334155;
 }
 
 /* Light theme - explicit override from ChatGPT */
 .automotive-test-drive[data-theme="light"] {
   --td-bg: transparent;
-  --td-card-bg: #f8f8f8;
-  --td-text-primary: #262626;
-  --td-text-secondary: #666;
-  --td-text-tertiary: #999;
-  --td-border: #e0e0e0;
-  --td-button-bg: #262626;
+  --td-card-bg: #dbeafe;
+  --td-text-primary: #1e293b;
+  --td-text-secondary: #475569;
+  --td-text-tertiary: #64748b;
+  --td-border: #bfdbfe;
+  --td-button-bg: #1e40af;
   --td-button-text: #fff;
-  --td-button-hover-bg: #000;
-  --td-button-selected-bg: #262626;
+  --td-button-hover-bg: #1e3a8a;
+  --td-button-selected-bg: #1e40af;
   --td-button-selected-text: #fff;
   --td-button-disabled-bg: #e0e0e0;
   --td-button-disabled-text: #999;
   --td-input-bg: #fff;
-  --td-input-border: #ddd;
+  --td-input-border: #bfdbfe;
 }
 
 /* Vehicle Header */
@@ -286,7 +286,7 @@
 .date-line {
   width: 100%;
   height: 3px;
-  background: #1c69d4;
+  background: #2563eb;
   margin-bottom: 20px;
 }
 
@@ -381,7 +381,7 @@
 }
 
 .back-btn:hover {
-  color: var(--td-button-hover-bg);
+  color: #1e40af;
 }
 
 /* Details Card */
@@ -457,7 +457,7 @@
 .form-field input:focus {
   outline: none;
   border-color: var(--td-button-bg);
-  box-shadow: 0 0 0 2px rgb(28 105 212 / 20%);
+  box-shadow: 0 0 0 2px rgb(30 64 175 / 20%);
 }
 
 /* Error Message */

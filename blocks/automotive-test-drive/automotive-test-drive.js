@@ -521,11 +521,11 @@ export default async function decorate(block, onDataLoaded, onThemeChanged) {
   // Mock data for testing purposes - COMMENTED OUT FOR PRODUCTION
   // const MOCK_TEST_DRIVE_DATA = {
   //   vehicle: {
-  //     model: 'X5 xDrive40i',
+  //     model: 'Sport A SMA-300',
   //     year: 2026,
   //   },
   //   dealership: {
-  //     name: 'BMW of Manhattan',
+  //     name: 'Downtown Auto Gallery',
   //     address: '555 West 57th Street, New York, NY 10019',
   //   },
   //   availableDays: [
