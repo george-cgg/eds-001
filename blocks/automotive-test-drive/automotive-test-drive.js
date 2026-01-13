@@ -260,7 +260,7 @@ function createStep1(data, onNext) {
 
 function generateConfirmationId() {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-  let id = 'BMW-';
+  let id = 'CONF-';
   for (let i = 0; i < 8; i += 1) {
     id += chars.charAt(Math.floor(Math.random() * chars.length));
   }
@@ -506,7 +506,7 @@ function renderWizard(block, data) {
 
 export default async function decorate(block, onDataLoaded, onThemeChanged) {
   block.textContent = 'Loading test drive booking...';
-  block.className = 'bmw-test-drive';
+  block.className = 'automotive-test-drive';
 
   // Set up theme change handler
   if (onThemeChanged) {

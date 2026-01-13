@@ -14,7 +14,7 @@
  */
 
 /* Theme Support - CSS Custom Properties */
-.bmw-test-drive {
+.automotive-test-drive {
   /* Light theme (default) */
   --td-bg: transparent;
   --td-card-bg: #f8f8f8;
@@ -44,7 +44,7 @@
 
 /* Dark theme support */
 @media (prefers-color-scheme: dark) {
-  .bmw-test-drive {
+  .automotive-test-drive {
     --td-bg: transparent;
     --td-card-bg: #2a2a2a;
     --td-text-primary: #e8e8e8;
@@ -64,7 +64,7 @@
 }
 
 /* Dark theme - explicit override from ChatGPT */
-.bmw-test-drive[data-theme="dark"] {
+.automotive-test-drive[data-theme="dark"] {
   --td-bg: transparent;
   --td-card-bg: #2a2a2a;
   --td-text-primary: #e8e8e8;
@@ -83,7 +83,7 @@
 }
 
 /* Light theme - explicit override from ChatGPT */
-.bmw-test-drive[data-theme="light"] {
+.automotive-test-drive[data-theme="light"] {
   --td-bg: transparent;
   --td-card-bg: #f8f8f8;
   --td-text-primary: #262626;
@@ -574,7 +574,7 @@
 
 /* Responsive */
 @media (width <= 600px) {
-  .bmw-test-drive {
+  .automotive-test-drive {
     padding: 20px 16px;
   }
 
