@@ -15,23 +15,23 @@
 
 /* Theme Support - CSS Custom Properties */
 .automotive-car-models {
-  /* Light theme (default) */
+  /* Light theme (default) - Blueish stylish theme */
   --automotive-bg: transparent;
   --automotive-card-bg: #fff;
   --automotive-text-primary: #262626;
   --automotive-text-secondary: #666;
-  --automotive-button-bg: #262626;
+  --automotive-button-bg: #1e40af;
   --automotive-button-text: #fff;
-  --automotive-button-hover-bg: #fff;
-  --automotive-button-hover-text: #262626;
-  --automotive-button-border: #262626;
+  --automotive-button-hover-bg: #1e3a8a;
+  --automotive-button-hover-text: #fff;
+  --automotive-button-border: #1e40af;
   --automotive-card-shadow: rgb(0 0 0 / 8%);
-  --automotive-card-shadow-hover: rgb(0 0 0 / 12%);
-  --automotive-arrow-bg: #262626;
+  --automotive-card-shadow-hover: rgb(30 64 175 / 15%);
+  --automotive-arrow-bg: #2563eb;
   --automotive-arrow-text: #fff;
-  --automotive-arrow-bg-hover: #1a1a1a;
-  --automotive-arrow-shadow: rgb(0 0 0 / 25%);
-  --automotive-arrow-shadow-hover: rgb(0 0 0 / 35%);
+  --automotive-arrow-bg-hover: #1d4ed8;
+  --automotive-arrow-shadow: rgb(37 99 235 / 25%);
+  --automotive-arrow-shadow-hover: rgb(37 99 235 / 35%);
 }
 
 /* Dark theme support - via system preference */
@@ -41,18 +41,18 @@
     --automotive-card-bg: #2a2a2a;
     --automotive-text-primary: #e8e8e8;
     --automotive-text-secondary: #b3b3b3;
-    --automotive-button-bg: #e8e8e8;
-    --automotive-button-text: #1a1a1a;
-    --automotive-button-hover-bg: #fff;
-    --automotive-button-hover-text: #1a1a1a;
-    --automotive-button-border: #e8e8e8;
+    --automotive-button-bg: #3b82f6;
+    --automotive-button-text: #fff;
+    --automotive-button-hover-bg: #60a5fa;
+    --automotive-button-hover-text: #fff;
+    --automotive-button-border: #3b82f6;
     --automotive-card-shadow: rgb(0 0 0 / 30%);
-    --automotive-card-shadow-hover: rgb(0 0 0 / 50%);
-    --automotive-arrow-bg: #e8e8e8;
-    --automotive-arrow-text: #1a1a1a;
-    --automotive-arrow-bg-hover: #fff;
-    --automotive-arrow-shadow: rgb(255 255 255 / 20%);
-    --automotive-arrow-shadow-hover: rgb(255 255 255 / 30%);
+    --automotive-card-shadow-hover: rgb(59 130 246 / 20%);
+    --automotive-arrow-bg: #3b82f6;
+    --automotive-arrow-text: #fff;
+    --automotive-arrow-bg-hover: #60a5fa;
+    --automotive-arrow-shadow: rgb(59 130 246 / 25%);
+    --automotive-arrow-shadow-hover: rgb(59 130 246 / 35%);
   }
 }
 
@@ -62,18 +62,18 @@
   --automotive-card-bg: #2a2a2a;
   --automotive-text-primary: #e8e8e8;
   --automotive-text-secondary: #b3b3b3;
-  --automotive-button-bg: #e8e8e8;
-  --automotive-button-text: #1a1a1a;
-  --automotive-button-hover-bg: #fff;
-  --automotive-button-hover-text: #1a1a1a;
-  --automotive-button-border: #e8e8e8;
+  --automotive-button-bg: #3b82f6;
+  --automotive-button-text: #fff;
+  --automotive-button-hover-bg: #60a5fa;
+  --automotive-button-hover-text: #fff;
+  --automotive-button-border: #3b82f6;
   --automotive-card-shadow: rgb(0 0 0 / 30%);
-  --automotive-card-shadow-hover: rgb(0 0 0 / 50%);
-  --automotive-arrow-bg: #e8e8e8;
-  --automotive-arrow-text: #1a1a1a;
-  --automotive-arrow-bg-hover: #fff;
-  --automotive-arrow-shadow: rgb(255 255 255 / 20%);
-  --automotive-arrow-shadow-hover: rgb(255 255 255 / 30%);
+  --automotive-card-shadow-hover: rgb(59 130 246 / 20%);
+  --automotive-arrow-bg: #3b82f6;
+  --automotive-arrow-text: #fff;
+  --automotive-arrow-bg-hover: #60a5fa;
+  --automotive-arrow-shadow: rgb(59 130 246 / 25%);
+  --automotive-arrow-shadow-hover: rgb(59 130 246 / 35%);
 }
 
 /* Light theme - explicit override from ChatGPT */
@@ -82,18 +82,18 @@
   --automotive-card-bg: #fff;
   --automotive-text-primary: #262626;
   --automotive-text-secondary: #666;
-  --automotive-button-bg: #262626;
+  --automotive-button-bg: #1e40af;
   --automotive-button-text: #fff;
-  --automotive-button-hover-bg: #fff;
-  --automotive-button-hover-text: #262626;
-  --automotive-button-border: #262626;
+  --automotive-button-hover-bg: #1e3a8a;
+  --automotive-button-hover-text: #fff;
+  --automotive-button-border: #1e40af;
   --automotive-card-shadow: rgb(0 0 0 / 8%);
-  --automotive-card-shadow-hover: rgb(0 0 0 / 12%);
-  --automotive-arrow-bg: #262626;
+  --automotive-card-shadow-hover: rgb(30 64 175 / 15%);
+  --automotive-arrow-bg: #2563eb;
   --automotive-arrow-text: #fff;
-  --automotive-arrow-bg-hover: #1a1a1a;
-  --automotive-arrow-shadow: rgb(0 0 0 / 25%);
-  --automotive-arrow-shadow-hover: rgb(0 0 0 / 35%);
+  --automotive-arrow-bg-hover: #1d4ed8;
+  --automotive-arrow-shadow: rgb(37 99 235 / 25%);
+  --automotive-arrow-shadow-hover: rgb(37 99 235 / 35%);
 
   /* Base styles */
   width: 100%;
@@ -158,11 +158,44 @@
   border-radius: 12px 12px 0 0;
 }
 
+/* Loading placeholder animation */
+.automotive-card-image::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 100%
+  );
+  animation: shimmer 2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.automotive-card-image img.loaded ~ .automotive-card-image::before {
+  display: none;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
 .automotive-card-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  opacity: 0;
+}
+
+.automotive-card-image img.loaded {
+  opacity: 1;
 }
 
 .automotive-card:hover .automotive-card-image img {

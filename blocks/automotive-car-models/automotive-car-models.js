@@ -26,9 +26,17 @@ function createCarCard(vehicle) {
   imageContainer.className = 'automotive-card-image';
 
   const img = document.createElement('img');
-  img.src = vehicle.imageUrl;
+  // Optimize image: server-side resize, WebP format, medium quality
+  img.src = `${vehicle.imageUrl}?width=760&format=webply&optimize=medium`;
+  img.srcset = `${vehicle.imageUrl}?width=380&format=webply&optimize=medium 1x, ${vehicle.imageUrl}?width=760&format=webply&optimize=medium 2x, ${vehicle.imageUrl}?width=1140&format=webply&optimize=medium 3x`;
+  img.sizes = '(max-width: 768px) 300px, 380px';
   img.alt = vehicle.model;
   img.loading = 'lazy';
+  
+  // Add loaded class when image loads for smooth fade-in
+  img.addEventListener('load', () => {
+    img.classList.add('loaded');
+  });
 
   // Year badge
   const yearBadge = document.createElement('span');
