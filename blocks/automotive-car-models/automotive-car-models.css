@@ -224,6 +224,8 @@
   gap: 12px;
   text-align: left;
   flex-grow: 1;
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  border-radius: 0 0 12px 12px;
 }
 
 /* Model Name */
