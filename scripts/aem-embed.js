@@ -22,6 +22,16 @@ export class AEMEmbed extends HTMLElement {
   }
 
   // eslint-disable-next-line class-methods-use-this
+  detectEnvironment() {
+    // Check if OpenAI environment
+    if (typeof window !== 'undefined' && window.openai) {
+      return 'openai';
+    }
+    // MCP Apps SDK environment (no window.openai)
+    return 'mcp';
+  }
+
+  // eslint-disable-next-line class-methods-use-this
   async loadBlock(body, block, blockName, origin) {
     const blockCss = `${origin}${window.hlx.codeBasePath}/blocks/${blockName}/${blockName}.css`;
     if (!body.querySelector(`link[href="${blockCss}"]`)) {
@@ -44,39 +54,98 @@ export class AEMEmbed extends HTMLElement {
       // eslint-disable-next-line no-await-in-loop
       const decorateBlock = await import(blockScriptUrl);
       if (decorateBlock.default) {
-        // Create callback for when data loads
+        const env = this.detectEnvironment();
+
+        // Create callback for when data loads - supports both OpenAI and MCP Apps SDK
         const onDataLoaded = new Promise((resolve) => {
-          if (window.openai?.toolOutput) {
-            // Already available
-            resolve(window.openai.toolOutput);
-          } else {
-            // Wait for the event
-            window.addEventListener('openai:set_globals', () => {
-              // eslint-disable-next-line no-console
-              console.log('OpenAI tool output', window.openai.toolOutput);
+          if (env === 'openai') {
+            // OpenAI/ChatGPT Apps environment
+            if (window.openai?.toolOutput) {
+              // Already available
               resolve(window.openai.toolOutput);
-            }, { once: true });
+            } else {
+              // Wait for the event
+              window.addEventListener('openai:set_globals', () => {
+                // eslint-disable-next-line no-console
+                console.log('OpenAI tool output', window.openai.toolOutput);
+                resolve(window.openai.toolOutput);
+              }, { once: true });
+            }
+          } else {
+            // MCP Apps SDK environment
+            // Check if App instance already exists (set by widget initialization)
+            if (window.mcpApp) {
+              // Use existing App instance
+              window.mcpApp.ontoolresult = (params) => {
+                // eslint-disable-next-line no-console
+                console.log('MCP Apps tool result', params);
+                resolve(params);
+              };
+            } else {
+              // Import and create App instance
+              import('https://cdn.jsdelivr.net/npm/@modelcontextprotocol/ext-apps@1.0.1/+esm').then(({ App }) => {
+                const app = new App({ name: 'AEMEmbed', version: '1.0.0' });
+                window.mcpApp = app;
+
+                app.ontoolresult = (params) => {
+                  // eslint-disable-next-line no-console
+                  console.log('MCP Apps tool result', params);
+                  resolve(params);
+                };
+
+                app.connect().catch((err) => {
+                  // eslint-disable-next-line no-console
+                  console.error('Failed to connect MCP App:', err);
+                });
+              }).catch((err) => {
+                // eslint-disable-next-line no-console
+                console.error('Failed to load MCP Apps SDK:', err);
+                // Fallback: provide empty data
+                resolve({ structuredContent: {} });
+              });
+            }
           }
         });
 
-        // Create callback for theme changes
+        // Create callback for theme changes - supports both OpenAI and MCP Apps SDK
         const onThemeChanged = (callback) => {
           // Check for theme query parameter for testing (e.g., ?theme=dark)
           const urlParams = new URLSearchParams(window.location.search);
           const themeParam = urlParams.get('theme');
 
-          // Call immediately with current theme
-          // Priority: query param > window.openai.theme > default 'light'
-          const currentTheme = themeParam || window.openai?.theme || 'light';
-          callback(currentTheme);
+          if (env === 'openai') {
+            // OpenAI environment
+            // Priority: query param > window.openai.theme > default 'light'
+            const currentTheme = themeParam || window.openai?.theme || 'light';
+            callback(currentTheme);
 
-          // Listen for theme changes (only if not using query param override)
-          if (!themeParam) {
-            window.addEventListener('openai:set_globals', (event) => {
-              if (event.detail?.globals?.theme) {
-                callback(event.detail.globals.theme);
+            // Listen for theme changes (only if not using query param override)
+            if (!themeParam) {
+              window.addEventListener('openai:set_globals', (event) => {
+                if (event.detail?.globals?.theme) {
+                  callback(event.detail.globals.theme);
+                }
+              });
+            }
+          } else {
+            // MCP Apps SDK environment
+            const app = window.mcpApp;
+            if (app) {
+              const hostContext = app.getHostContext();
+              const currentTheme = themeParam || hostContext?.theme || 'light';
+              callback(currentTheme);
+
+              if (!themeParam) {
+                app.onhostcontextchanged = (context) => {
+                  if (context?.theme) {
+                    callback(context.theme);
+                  }
+                };
               }
-            });
+            } else {
+              // Fallback: default theme
+              callback(themeParam || 'light');
+            }
           }
         };
 
