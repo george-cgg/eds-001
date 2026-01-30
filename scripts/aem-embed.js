@@ -77,39 +77,38 @@ export class AEMEmbed extends HTMLElement {
                 resolve(toolOutput);
               }, { once: true });
             }
+          } else if (window.mcpApp) {
+            // MCP Apps SDK environment
+            // Use existing App instance
+            window.mcpApp.ontoolresult = (params) => {
+              // eslint-disable-next-line no-console
+              console.log('MCP Apps tool result', params);
+              resolve(params);
+            };
           } else {
             // MCP Apps SDK environment
-            // Check if App instance already exists (set by widget initialization)
-            if (window.mcpApp) {
-              // Use existing App instance
-              window.mcpApp.ontoolresult = (params) => {
+            // Import and create App instance
+            // eslint-disable-next-line import/no-unresolved
+            import('https://cdn.jsdelivr.net/npm/@modelcontextprotocol/ext-apps@1.0.1/+esm').then(({ App }) => {
+              const app = new App({ name: 'AEMEmbed', version: '1.0.0' });
+              window.mcpApp = app;
+
+              app.ontoolresult = (params) => {
                 // eslint-disable-next-line no-console
                 console.log('MCP Apps tool result', params);
                 resolve(params);
               };
-            } else {
-              // Import and create App instance
-              import('https://cdn.jsdelivr.net/npm/@modelcontextprotocol/ext-apps@1.0.1/+esm').then(({ App }) => {
-                const app = new App({ name: 'AEMEmbed', version: '1.0.0' });
-                window.mcpApp = app;
 
-                app.ontoolresult = (params) => {
-                  // eslint-disable-next-line no-console
-                  console.log('MCP Apps tool result', params);
-                  resolve(params);
-                };
-
-                app.connect().catch((err) => {
-                  // eslint-disable-next-line no-console
-                  console.error('Failed to connect MCP App:', err);
-                });
-              }).catch((err) => {
+              app.connect().catch((err) => {
                 // eslint-disable-next-line no-console
-                console.error('Failed to load MCP Apps SDK:', err);
-                // Fallback: provide empty data
-                resolve({ structuredContent: {} });
+                console.error('Failed to connect MCP App:', err);
               });
-            }
+            }).catch((err) => {
+              // eslint-disable-next-line no-console
+              console.error('Failed to load MCP Apps SDK:', err);
+              // Fallback: provide empty data
+              resolve({ structuredContent: {} });
+            });
           }
         });
 

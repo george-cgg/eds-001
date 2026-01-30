@@ -32,7 +32,7 @@ function createCarCard(vehicle) {
   img.sizes = '(max-width: 768px) 300px, 380px';
   img.alt = vehicle.model;
   img.loading = 'lazy';
-  
+
   // Add loaded class when image loads for smooth fade-in
   img.addEventListener('load', () => {
     img.classList.add('loaded');
