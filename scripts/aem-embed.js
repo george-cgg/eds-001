@@ -65,10 +65,16 @@ export class AEMEmbed extends HTMLElement {
               resolve(window.openai.toolOutput);
             } else {
               // Wait for the event
-              window.addEventListener('openai:set_globals', () => {
+              window.addEventListener('openai:set_globals', (event) => {
                 // eslint-disable-next-line no-console
-                console.log('OpenAI tool output', window.openai.toolOutput);
-                resolve(window.openai.toolOutput);
+                console.log('openai:set_globals event received', {
+                  eventDetail: event.detail,
+                  windowOpenai: window.openai,
+                  toolOutputFromEvent: event.detail?.globals?.toolOutput,
+                  toolOutputFromWindow: window.openai?.toolOutput,
+                });
+                const toolOutput = event.detail?.globals?.toolOutput || window.openai?.toolOutput;
+                resolve(toolOutput);
               }, { once: true });
             }
           } else {
