@@ -195,6 +195,7 @@ export default async function decorate(block, llmContext) {
 
   // Load and render data using event pattern
   llmContext.on('toolOutput', (data) => {
+    console.log('data', data);
     if (!data) {
       block.textContent = 'Error loading car models';
       // eslint-disable-next-line no-console
