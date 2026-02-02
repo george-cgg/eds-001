@@ -13,14 +13,17 @@
  * from Adobe.
  */
 
+import { formatCurrency as formatCurrencyLocale, createStateManager } from '../../scripts/llm-helpers.js';
+
 // State management
 let selectedDay = null;
 let selectedTime = null;
 let currentStep = 1;
+let stateManager = null;
 
 // eslint-disable-next-line no-unused-vars
-function formatCurrency(amount) {
-  return `$${amount.toLocaleString()}`;
+function formatCurrency(amount, locale = 'en-US') {
+  return formatCurrencyLocale(amount, locale, 'USD');
 }
 
 function formatFullDate(day) {
@@ -504,71 +507,68 @@ function renderWizard(block, data) {
   }
 }
 
-export default async function decorate(block, onDataLoaded, onThemeChanged) {
+export default async function decorate(block, llmContext) {
   block.textContent = 'Loading test drive booking...';
   block.className = 'bmw-test-drive';
 
-  // Set up theme change handler
-  if (onThemeChanged) {
-    onThemeChanged((theme) => {
-      block.setAttribute('data-theme', theme);
+  // Create state manager for widget state persistence
+  stateManager = createStateManager(llmContext);
+
+  // Get current theme and set it
+  const currentTheme = llmContext.theme || 'light';
+  block.setAttribute('data-theme', currentTheme);
+
+  // Subscribe to theme changes
+  llmContext.on('theme', (theme) => {
+    block.setAttribute('data-theme', theme);
+  });
+
+  // Function to save current state
+  const saveState = async () => {
+    await stateManager.set({
+      selectedDay,
+      selectedTime,
+      currentStep,
+      timestamp: Date.now(),
     });
-  } else {
-    // Fallback for non-ChatGPT environments
-    block.setAttribute('data-theme', 'light');
-  }
+  };
 
-  // Mock data for testing purposes - COMMENTED OUT FOR PRODUCTION
-  // const MOCK_TEST_DRIVE_DATA = {
-  //   vehicle: {
-  //     model: 'X5 xDrive40i',
-  //     year: 2026,
-  //   },
-  //   dealership: {
-  //     name: 'BMW of Manhattan',
-  //     address: '555 West 57th Street, New York, NY 10019',
-  //   },
-  //   availableDays: [
-  //     {
-  //       day: 'Mon', date: '9', month: 'Dec', year: '2024', available: true,
-  //     },
-  //     {
-  //       day: 'Tue', date: '10', month: 'Dec', year: '2024', available: true,
-  //     },
-  //     {
-  //       day: 'Wed', date: '11', month: 'Dec', year: '2024', available: false,
-  //     },
-  //     {
-  //       day: 'Thu', date: '12', month: 'Dec', year: '2024', available: true,
-  //     },
-  //     {
-  //       day: 'Fri', date: '13', month: 'Dec', year: '2024', available: true,
-  //     },
-  //     {
-  //       day: 'Sat', date: '14', month: 'Dec', year: '2024', available: true,
-  //     },
-  //     {
-  //       day: 'Sun', date: '15', month: 'Dec', year: '2024', available: false,
-  //     },
-  //   ],
-  //   timeSlots: ['9:00 AM', '10:00 AM', '11:00 AM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM'],
-  // };
+  // Function to restore previous state
+  const restoreState = () => {
+    const savedState = stateManager.get();
+    if (savedState) {
+      selectedDay = savedState.selectedDay || null;
+      selectedTime = savedState.selectedTime || null;
+      currentStep = savedState.currentStep || 1;
+      return true;
+    }
+    return false;
+  };
 
-  // Use mock data for testing
-  // const dataPromise = Promise.resolve(MOCK_TEST_DRIVE_DATA);
-
-  onDataLoaded.then((data) => {
+  llmContext.on('toolOutput', async (data) => {
     if (!data) {
       block.innerHTML = '<p class="error-message">Unable to load test drive booking.</p>';
       return;
     }
 
-    // Reset state
-    selectedDay = null;
-    selectedTime = null;
-    currentStep = 1;
+    // Try to restore previous state
+    const stateRestored = restoreState();
 
-    renderWizard(block, data);
+    if (!stateRestored) {
+      // Reset state if no saved state
+      selectedDay = null;
+      selectedTime = null;
+      currentStep = 1;
+    }
+
+    // Wrap renderWizard to save state after each render
+    const originalRenderWizard = renderWizard;
+    const renderWizardWithStateSave = (blockEl, dataObj) => {
+      originalRenderWizard(blockEl, dataObj);
+      saveState();
+    };
+
+    renderWizardWithStateSave(block, data);
   }).catch((error) => {
     block.textContent = 'Error loading test drive booking';
     // eslint-disable-next-line no-console

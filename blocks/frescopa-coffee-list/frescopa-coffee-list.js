@@ -79,11 +79,19 @@ function createCarouselArrows(container, block) {
   block.appendChild(rightArrow);
 }
 
-export default async function decorate(block, onDataLoaded) {
+export default async function decorate(block, llmContext) {
   block.textContent = 'Loading Frescopa coffees...';
   block.className = 'frescopa-coffee-list';
 
-  onDataLoaded.then((data) => {
+  // Set theme
+  block.setAttribute('data-theme', llmContext.theme || 'light');
+
+  // Subscribe to theme changes
+  llmContext.on('theme', (theme) => {
+    block.setAttribute('data-theme', theme);
+  });
+
+  llmContext.on('toolOutput', (data) => {
     // Clear the loading message
     block.textContent = '';
 

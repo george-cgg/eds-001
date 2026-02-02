@@ -13,11 +13,13 @@
  * from Adobe.
  */
 
-function formatCurrency(amount) {
-  return `$${amount.toLocaleString()}`;
+import { formatCurrency as formatCurrencyLocale } from '../../scripts/llm-helpers.js';
+
+function formatCurrency(amount, locale = 'en-US') {
+  return formatCurrencyLocale(amount, locale, 'USD');
 }
 
-function createBmwCard(vehicle) {
+function createBmwCard(vehicle, locale = 'en-US') {
   const card = document.createElement('div');
   card.className = 'bmw-card';
 
@@ -51,13 +53,13 @@ function createBmwCard(vehicle) {
   // Lease price headline
   const leasePrice = document.createElement('p');
   leasePrice.className = 'bmw-lease-price';
-  leasePrice.innerHTML = `Lease for <strong>${formatCurrency(vehicle.leasePrice)}/month.</strong>`;
+  leasePrice.innerHTML = `Lease for <strong>${formatCurrency(vehicle.leasePrice, locale)}/month.</strong>`;
 
   // Terms text
   const terms = document.createElement('p');
   terms.className = 'bmw-terms';
-  terms.textContent = `${vehicle.leaseTerm} months with ${formatCurrency(vehicle.dueAtSigning)} due at signing, `
-    + `plus loyalty credit up to ${formatCurrency(vehicle.loyaltyCredit)} for qualified buyers. `
+  terms.textContent = `${vehicle.leaseTerm} months with ${formatCurrency(vehicle.dueAtSigning, locale)} due at signing, `
+    + `plus loyalty credit up to ${formatCurrency(vehicle.loyaltyCredit, locale)} for qualified buyers. `
     + `Now through ${vehicle.offerExpiry}.`;
 
   // CTA button - Explore link
@@ -113,21 +115,24 @@ function createCarouselArrows(container, block) {
   block.appendChild(rightArrow);
 }
 
-export default async function decorate(block, onDataLoaded, onThemeChanged) {
+export default async function decorate(block, llmContext) {
   block.textContent = 'Loading BMW models...';
   block.className = 'bmw-models';
 
-  // Set up theme change handler
-  if (onThemeChanged) {
-    onThemeChanged((theme) => {
-      block.setAttribute('data-theme', theme);
-    });
-  } else {
-    // Fallback for non-ChatGPT environments
-    block.setAttribute('data-theme', 'light');
-  }
+  // Get current locale and theme
+  const currentLocale = llmContext.locale || 'en-US';
+  const currentTheme = llmContext.theme || 'light';
 
-  onDataLoaded.then((data) => {
+  // Set initial theme
+  block.setAttribute('data-theme', currentTheme);
+
+  // Subscribe to theme changes
+  llmContext.on('theme', (theme) => {
+    block.setAttribute('data-theme', theme);
+  });
+
+  // Function to render models with current locale
+  const renderModels = (data, locale) => {
     block.textContent = '';
 
     // Handle both data structures: direct and wrapped in structuredContent
@@ -145,15 +150,31 @@ export default async function decorate(block, onDataLoaded, onThemeChanged) {
     container.className = 'bmw-container';
 
     allModels.forEach((vehicle) => {
-      const card = createBmwCard(vehicle);
+      const card = createBmwCard(vehicle, locale);
       container.appendChild(card);
     });
 
     block.appendChild(container);
     createCarouselArrows(container, block);
-  }).catch((error) => {
-    block.textContent = 'Error loading BMW models';
-    // eslint-disable-next-line no-console
-    console.error('Error loading BMW models:', error);
+  };
+
+  // Subscribe to locale changes and re-render
+  let currentData = null;
+  llmContext.on('locale', (locale) => {
+    if (currentData) {
+      renderModels(currentData, locale);
+    }
+  });
+
+  // Load and render data using event pattern
+  llmContext.on('toolOutput', (data) => {
+    if (!data) {
+      block.textContent = 'Error loading BMW models';
+      // eslint-disable-next-line no-console
+      console.error('Error loading BMW models: no data received');
+      return;
+    }
+    currentData = data;
+    renderModels(data, currentLocale);
   });
 }

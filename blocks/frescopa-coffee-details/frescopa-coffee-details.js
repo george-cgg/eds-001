@@ -72,11 +72,19 @@ function createDetailView(coffee) {
   return container;
 }
 
-export default async function decorate(block, onDataLoaded) {
+export default async function decorate(block, llmContext) {
   block.textContent = 'Loading coffee details...';
   block.className = 'frescopa-coffee-details';
 
-  onDataLoaded.then((data) => {
+  // Set theme
+  block.setAttribute('data-theme', llmContext.theme || 'light');
+
+  // Subscribe to theme changes
+  llmContext.on('theme', (theme) => {
+    block.setAttribute('data-theme', theme);
+  });
+
+  llmContext.on('toolOutput', (data) => {
     block.textContent = '';
 
     if (!data || !data.coffee) {
@@ -84,11 +92,13 @@ export default async function decorate(block, onDataLoaded) {
       return;
     }
 
-    const detailView = createDetailView(data.coffee);
-    block.appendChild(detailView);
-  }).catch((error) => {
-    block.textContent = 'Error loading coffee details';
-    // eslint-disable-next-line no-console
-    console.error('Error loading coffee details:', error);
+    try {
+      const detailView = createDetailView(data.coffee);
+      block.appendChild(detailView);
+    } catch (error) {
+      block.textContent = 'Error loading coffee details';
+      // eslint-disable-next-line no-console
+      console.error('Error loading coffee details:', error);
+    }
   });
 }

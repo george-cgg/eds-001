@@ -8,18 +8,21 @@
  * and technical concepts contained herein are proprietary to Adobe
  * and its suppliers and are protected by all applicable intellectual
  * property laws, including trade secret and copyright laws.
-  *  Dissemination of this information or reproduction of this material
+ *  Dissemination of this information or reproduction of this material
  * is strictly forbidden unless prior written permission is obtained
  * from Adobe.
  */
 
-function formatCurrency(amount) {
-  return `$${amount.toLocaleString()}`;
+import { formatCurrency as formatCurrencyLocale } from '../../scripts/llm-helpers.js';
+
+function formatCurrency(amount, locale = 'en-US') {
+  return formatCurrencyLocale(amount, locale, 'USD');
 }
 
-function createCarCard(vehicle) {
+function createCarCard(vehicle, locale = 'en-US', context = null) {
   const card = document.createElement('div');
   card.className = 'automotive-card';
+  card.dataset.vehicleId = vehicle.id;
 
   // Image container with vehicle image
   const imageContainer = document.createElement('div');
@@ -59,13 +62,13 @@ function createCarCard(vehicle) {
   // Lease price headline
   const leasePrice = document.createElement('p');
   leasePrice.className = 'automotive-lease-price';
-  leasePrice.innerHTML = `Lease for <strong>${formatCurrency(vehicle.leasePrice)}/month.</strong>`;
+  leasePrice.innerHTML = `Lease for <strong>${formatCurrency(vehicle.leasePrice, locale)}/month.</strong>`;
 
   // Terms text
   const terms = document.createElement('p');
   terms.className = 'automotive-terms';
-  terms.textContent = `${vehicle.leaseTerm} months with ${formatCurrency(vehicle.dueAtSigning)} due at signing, `
-    + `plus loyalty credit up to ${formatCurrency(vehicle.loyaltyCredit)} for qualified buyers. `
+  terms.textContent = `${vehicle.leaseTerm} months with ${formatCurrency(vehicle.dueAtSigning, locale)} due at signing, `
+    + `plus loyalty credit up to ${formatCurrency(vehicle.loyaltyCredit, locale)} for qualified buyers. `
     + `Now through ${vehicle.offerExpiry}.`;
 
   // CTA button - Explore link
@@ -75,6 +78,19 @@ function createCarCard(vehicle) {
   button.addEventListener('click', () => {
     window.open(vehicle.exploreUrl, '_blank');
   });
+
+  // Add interactive follow-up button if context available
+  if (context) {
+    const followUpButton = document.createElement('button');
+    followUpButton.className = 'automotive-followup-button';
+    followUpButton.textContent = 'Ask about this model';
+    followUpButton.addEventListener('click', () => {
+      context.sendFollowUpMessage({
+        prompt: `Tell me more about the ${vehicle.model}`,
+      });
+    });
+    body.appendChild(followUpButton);
+  }
 
   body.appendChild(modelName);
   body.appendChild(leasePrice);
@@ -121,21 +137,29 @@ function createCarouselArrows(container, block) {
   block.appendChild(rightArrow);
 }
 
-export default async function decorate(block, onDataLoaded, onThemeChanged) {
+export default async function decorate(block, llmContext) {
   block.textContent = 'Loading car models...';
   block.className = 'automotive-car-models';
 
-  // Set up theme change handler
-  if (onThemeChanged) {
-    onThemeChanged((theme) => {
-      block.setAttribute('data-theme', theme);
-    });
-  } else {
-    // Fallback for non-ChatGPT environments
-    block.setAttribute('data-theme', 'light');
-  }
+  // Get current locale and theme from context
+  const currentLocale = llmContext.locale || 'en-US';
+  const currentTheme = llmContext.theme || 'light';
 
-  onDataLoaded.then((data) => {
+  // Set initial theme
+  block.setAttribute('data-theme', currentTheme);
+
+  // Subscribe to theme changes
+  llmContext.on('theme', (theme) => {
+    block.setAttribute('data-theme', theme);
+  });
+
+  // Subscribe to display mode changes
+  llmContext.on('displayMode', (displayMode) => {
+    block.setAttribute('data-display-mode', displayMode);
+  });
+
+  // Function to render models with current locale
+  const renderModels = (data, locale) => {
     block.textContent = '';
 
     // Handle both data structures: direct and wrapped in structuredContent
@@ -153,15 +177,31 @@ export default async function decorate(block, onDataLoaded, onThemeChanged) {
     container.className = 'automotive-container';
 
     allModels.forEach((vehicle) => {
-      const card = createCarCard(vehicle);
+      const card = createCarCard(vehicle, locale, llmContext);
       container.appendChild(card);
     });
 
     block.appendChild(container);
     createCarouselArrows(container, block);
-  }).catch((error) => {
-    block.textContent = 'Error loading car models';
-    // eslint-disable-next-line no-console
-    console.error('Error loading car models:', error);
+  };
+
+  // Subscribe to locale changes and re-render
+  let currentData = null;
+  llmContext.on('locale', (locale) => {
+    if (currentData) {
+      renderModels(currentData, locale);
+    }
+  });
+
+  // Load and render data using event pattern
+  llmContext.on('toolOutput', (data) => {
+    if (!data) {
+      block.textContent = 'Error loading car models';
+      // eslint-disable-next-line no-console
+      console.error('Error loading car models: no data received');
+      return;
+    }
+    currentData = data;
+    renderModels(data, currentLocale);
   });
 }

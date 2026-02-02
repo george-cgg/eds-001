@@ -4,6 +4,8 @@
  * https://www.hlx.live/developer/block-collection/TBD
  */
 
+import { createLLMContext } from './llm-helpers.js';
+
 // eslint-disable-next-line import/prefer-default-export
 export class AEMEmbed extends HTMLElement {
   constructor() {
@@ -56,107 +58,12 @@ export class AEMEmbed extends HTMLElement {
       if (decorateBlock.default) {
         const env = this.detectEnvironment();
 
-        // Create callback for when data loads - supports both OpenAI and MCP Apps SDK
-        const onDataLoaded = new Promise((resolve) => {
-          if (env === 'openai') {
-            // OpenAI/ChatGPT Apps environment
-            if (window.openai?.toolOutput) {
-              // Already available
-              resolve(window.openai.toolOutput);
-            } else {
-              // Wait for the event
-              window.addEventListener('openai:set_globals', (event) => {
-                // eslint-disable-next-line no-console
-                console.log('openai:set_globals event received', {
-                  eventDetail: event.detail,
-                  windowOpenai: window.openai,
-                  toolOutputFromEvent: event.detail?.globals?.toolOutput,
-                  toolOutputFromWindow: window.openai?.toolOutput,
-                });
-                const toolOutput = event.detail?.globals?.toolOutput || window.openai?.toolOutput;
-                resolve(toolOutput);
-              }, { once: true });
-            }
-          } else if (window.mcpApp) {
-            // MCP Apps SDK environment
-            // Use existing App instance
-            window.mcpApp.ontoolresult = (params) => {
-              // eslint-disable-next-line no-console
-              console.log('MCP Apps tool result', params);
-              resolve(params);
-            };
-          } else {
-            // MCP Apps SDK environment
-            // Import and create App instance
-            // eslint-disable-next-line import/no-unresolved
-            import('https://cdn.jsdelivr.net/npm/@modelcontextprotocol/ext-apps@1.0.1/+esm').then(({ App }) => {
-              const app = new App({ name: 'AEMEmbed', version: '1.0.0' });
-              window.mcpApp = app;
+        // Create LLM Context with all properties, methods, and data loading
+        const llmContext = createLLMContext(env);
 
-              app.ontoolresult = (params) => {
-                // eslint-disable-next-line no-console
-                console.log('MCP Apps tool result', params);
-                resolve(params);
-              };
-
-              app.connect().catch((err) => {
-                // eslint-disable-next-line no-console
-                console.error('Failed to connect MCP App:', err);
-              });
-            }).catch((err) => {
-              // eslint-disable-next-line no-console
-              console.error('Failed to load MCP Apps SDK:', err);
-              // Fallback: provide empty data
-              resolve({ structuredContent: {} });
-            });
-          }
-        });
-
-        // Create callback for theme changes - supports both OpenAI and MCP Apps SDK
-        const onThemeChanged = (callback) => {
-          // Check for theme query parameter for testing (e.g., ?theme=dark)
-          const urlParams = new URLSearchParams(window.location.search);
-          const themeParam = urlParams.get('theme');
-
-          if (env === 'openai') {
-            // OpenAI environment
-            // Priority: query param > window.openai.theme > default 'light'
-            const currentTheme = themeParam || window.openai?.theme || 'light';
-            callback(currentTheme);
-
-            // Listen for theme changes (only if not using query param override)
-            if (!themeParam) {
-              window.addEventListener('openai:set_globals', (event) => {
-                if (event.detail?.globals?.theme) {
-                  callback(event.detail.globals.theme);
-                }
-              });
-            }
-          } else {
-            // MCP Apps SDK environment
-            const app = window.mcpApp;
-            if (app) {
-              const hostContext = app.getHostContext();
-              const currentTheme = themeParam || hostContext?.theme || 'light';
-              callback(currentTheme);
-
-              if (!themeParam) {
-                app.onhostcontextchanged = (context) => {
-                  if (context?.theme) {
-                    callback(context.theme);
-                  }
-                };
-              }
-            } else {
-              // Fallback: default theme
-              callback(themeParam || 'light');
-            }
-          }
-        };
-
-        // Call decorate immediately with the callbacks
+        // Call decorate with the new LLM Context API
         // eslint-disable-next-line no-await-in-loop
-        await decorateBlock.default(block, onDataLoaded, onThemeChanged);
+        await decorateBlock.default(block, llmContext);
       }
     } catch (e) {
       // eslint-disable-next-line no-console
