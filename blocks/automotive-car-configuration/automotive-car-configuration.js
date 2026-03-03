@@ -181,6 +181,32 @@ function createSummaryBar(config, state) {
   bar.appendChild(label);
   bar.appendChild(total);
   bar.update = update;
+  bar.calculateTotal = calculateTotal;
+  return bar;
+}
+
+function createCtaBar(config, summaryBar) {
+  const bar = document.createElement('div');
+  bar.className = 'config-cta-bar';
+
+  const btn = document.createElement('button');
+  btn.className = 'config-cta-btn';
+  btn.textContent = 'Get Price Quote';
+
+  btn.addEventListener('click', () => {
+    const total = summaryBar.calculateTotal();
+    const objective = window.openai?.toolInput?.objective || '';
+    const objectiveParam = objective ? ` and objective=${objective}` : '';
+    const prompt = `I've finished configuring my ${config.model}. `
+      + `My estimated total is ${formatCurrency(total)}. `
+      + `Get me a detailed price quote for modelId=${config.modelId}${objectiveParam}.`;
+
+    if (window.openai?.sendFollowUpMessage) {
+      window.openai.sendFollowUpMessage({ prompt });
+    }
+  });
+
+  bar.appendChild(btn);
   return bar;
 }
 
@@ -234,6 +260,9 @@ export default async function decorate(block, onDataLoaded, onThemeChanged) {
     wrapper.appendChild(createOptionGroup('Packages', config.packages, 'packages', state, onUpdate));
     wrapper.appendChild(createOptionGroup('Interior Trim', config.interiorTrims, 'interiorTrims', state, onUpdate));
     wrapper.appendChild(createAccessoriesGroup(config.accessories, state, onUpdate));
+
+    // CTA button to trigger next step in flow
+    wrapper.appendChild(createCtaBar(config, summaryBar));
 
     block.appendChild(wrapper);
   }).catch((error) => {

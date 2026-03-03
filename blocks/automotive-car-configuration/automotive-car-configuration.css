@@ -233,6 +233,43 @@
   color: var(--config-price-color);
 }
 
+/* CTA Bar */
+.config-cta-bar {
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.config-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 400px;
+  padding: 16px 32px;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  letter-spacing: 0.02em;
+}
+
+.config-cta-btn:hover {
+  background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgb(30 64 175 / 35%);
+}
+
+.config-cta-btn:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
 /* Error */
 .config-error {
   text-align: center;
