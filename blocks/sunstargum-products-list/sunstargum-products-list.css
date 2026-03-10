@@ -35,17 +35,6 @@
   background: transparent;
 }
 
-@media (prefers-color-scheme: dark) {
-  .sunstargum-products-list {
-    --gum-text-dark: #f1f5f9;
-    --gum-text-muted: #94a3b8;
-    --gum-bg: #1a1a2e;
-    --gum-card-bg: #1e293b;
-    --gum-border: #334155;
-    --gum-star-empty: #475569;
-  }
-}
-
 .sunstargum-products-list[data-theme="dark"] {
   --gum-text-dark: #f1f5f9;
   --gum-text-muted: #94a3b8;
