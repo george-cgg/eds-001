@@ -56,8 +56,13 @@ function createProductCard(product) {
   ratingWrap.appendChild(stars);
   ratingWrap.appendChild(ratingText);
 
+  const cta = document.createElement('button');
+  cta.className = 'gum-product-cta';
+  cta.textContent = 'More Details';
+
   info.appendChild(name);
   info.appendChild(ratingWrap);
+  info.appendChild(cta);
 
   card.appendChild(imgWrap);
   card.appendChild(info);
