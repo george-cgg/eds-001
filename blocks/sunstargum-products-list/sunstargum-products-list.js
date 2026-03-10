@@ -17,7 +17,7 @@ function createStarsSVG(rating) {
   const stars = [];
   for (let i = 1; i <= 5; i += 1) {
     const filled = i <= Math.round(rating);
-    const color = filled ? '#e8a030' : '#d1d5db';
+    const color = filled ? '#2bb573' : '#d1d5db';
     stars.push(`<svg class="gum-star" viewBox="0 0 20 20" fill="${color}"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.957a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.37 2.448a1 1 0 00-.364 1.118l1.287 3.957c.3.921-.755 1.688-1.54 1.118l-3.37-2.448a1 1 0 00-1.176 0l-3.37 2.448c-.784.57-1.838-.197-1.539-1.118l1.287-3.957a1 1 0 00-.364-1.118L2.063 9.384c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.957z"/></svg>`);
   }
   return stars.join('');
@@ -27,6 +27,7 @@ function createProductCard(product) {
   const card = document.createElement('div');
   card.className = 'gum-product-card';
 
+  // Image
   const imgWrap = document.createElement('div');
   imgWrap.className = 'gum-product-image-wrap';
   const img = document.createElement('img');
@@ -36,12 +37,9 @@ function createProductCard(product) {
   img.addEventListener('load', () => img.classList.add('loaded'));
   imgWrap.appendChild(img);
 
+  // Info: name + stars
   const info = document.createElement('div');
   info.className = 'gum-product-info';
-
-  const category = document.createElement('span');
-  category.className = 'gum-product-category';
-  category.textContent = product.subcategory || product.category;
 
   const name = document.createElement('h3');
   name.className = 'gum-product-name';
@@ -58,33 +56,13 @@ function createProductCard(product) {
   ratingWrap.appendChild(stars);
   ratingWrap.appendChild(ratingText);
 
-  const desc = document.createElement('p');
-  desc.className = 'gum-product-desc';
-  desc.textContent = product.shortDescription || '';
-
-  info.appendChild(category);
   info.appendChild(name);
   info.appendChild(ratingWrap);
-  info.appendChild(desc);
-
-  const ctaWrap = document.createElement('div');
-  ctaWrap.className = 'gum-product-cta';
-  const btn = document.createElement('button');
-  btn.className = 'gum-btn';
-  btn.textContent = 'View Details';
-  btn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    const prompt = `Show me the full details for product ${product.productId} (${product.name}).`;
-    if (window.openai?.sendFollowUpMessage) {
-      window.openai.sendFollowUpMessage({ prompt });
-    }
-  });
-  ctaWrap.appendChild(btn);
 
   card.appendChild(imgWrap);
   card.appendChild(info);
-  card.appendChild(ctaWrap);
 
+  // Whole card is clickable
   card.addEventListener('click', () => {
     const prompt = `Show me the full details for product ${product.productId} (${product.name}).`;
     if (window.openai?.sendFollowUpMessage) {
@@ -140,7 +118,7 @@ export default async function decorate(block, onDataLoaded, onThemeChanged) {
     rightArrow.innerHTML = '\u203A';
     rightArrow.setAttribute('aria-label', 'Next');
 
-    const scrollAmount = 240;
+    const scrollAmount = 250;
 
     leftArrow.addEventListener('click', () => {
       carousel.scrollBy({ left: -scrollAmount, behavior: 'smooth' });

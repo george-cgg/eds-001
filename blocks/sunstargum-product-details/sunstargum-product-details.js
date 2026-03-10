@@ -13,11 +13,11 @@
  * from Adobe.
  */
 
-function createStarsSVG(rating, size = 18) {
+function createStarsSVG(rating, size = 16) {
   const stars = [];
   for (let i = 1; i <= 5; i += 1) {
     const filled = i <= Math.round(rating);
-    const color = filled ? '#e8a030' : '#d1d5db';
+    const color = filled ? '#2bb573' : '#d1d5db';
     stars.push(`<svg class="gum-detail-star" width="${size}" height="${size}" viewBox="0 0 20 20" fill="${color}"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.957a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.37 2.448a1 1 0 00-.364 1.118l1.287 3.957c.3.921-.755 1.688-1.54 1.118l-3.37-2.448a1 1 0 00-1.176 0l-3.37 2.448c-.784.57-1.838-.197-1.539-1.118l1.287-3.957a1 1 0 00-.364-1.118L2.063 9.384c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.957z"/></svg>`);
   }
   return stars.join('');
@@ -45,8 +45,8 @@ export default async function decorate(block, onDataLoaded, onThemeChanged) {
       return;
     }
 
-    const wrapper = document.createElement('div');
-    wrapper.className = 'gum-detail-wrapper';
+    const card = document.createElement('div');
+    card.className = 'gum-detail-card';
 
     // Hero section
     const hero = document.createElement('div');
@@ -96,7 +96,7 @@ export default async function decorate(block, onDataLoaded, onThemeChanged) {
     desc.className = 'gum-detail-description';
     desc.textContent = product.description;
 
-    // Features list
+    // Features
     const featuresList = document.createElement('ul');
     featuresList.className = 'gum-detail-features';
     (product.features || []).forEach((f) => {
@@ -114,7 +114,7 @@ export default async function decorate(block, onDataLoaded, onThemeChanged) {
 
     hero.appendChild(imageWrap);
     hero.appendChild(info);
-    wrapper.appendChild(hero);
+    card.appendChild(hero);
 
     // Highlights
     if (product.highlights && product.highlights.length > 0) {
@@ -143,39 +143,7 @@ export default async function decorate(block, onDataLoaded, onThemeChanged) {
         highlights.appendChild(item);
       });
 
-      wrapper.appendChild(highlights);
-    }
-
-    // Ratings breakdown
-    if (product.ratings) {
-      const ratingsGrid = document.createElement('div');
-      ratingsGrid.className = 'gum-detail-ratings-grid';
-
-      const labels = {
-        quality: 'Quality',
-        value: 'Value',
-        purchase: 'Purchase',
-        performance: 'Performance',
-      };
-
-      Object.entries(product.ratings).forEach(([key, value]) => {
-        const item = document.createElement('div');
-        item.className = 'gum-rating-item';
-
-        const itemLabel = document.createElement('div');
-        itemLabel.className = 'gum-rating-item-label';
-        itemLabel.textContent = labels[key] || key;
-
-        const itemValue = document.createElement('div');
-        itemValue.className = 'gum-rating-item-value';
-        itemValue.textContent = `${value}/5`;
-
-        item.appendChild(itemLabel);
-        item.appendChild(itemValue);
-        ratingsGrid.appendChild(item);
-      });
-
-      wrapper.appendChild(ratingsGrid);
+      card.appendChild(highlights);
     }
 
     // CTAs
@@ -203,9 +171,9 @@ export default async function decorate(block, onDataLoaded, onThemeChanged) {
 
     ctaWrap.appendChild(findStoresBtn);
     ctaWrap.appendChild(visitBtn);
-    wrapper.appendChild(ctaWrap);
+    card.appendChild(ctaWrap);
 
-    block.appendChild(wrapper);
+    block.appendChild(card);
   }).catch((error) => {
     block.textContent = 'Error loading product details';
     // eslint-disable-next-line no-console
