@@ -13,7 +13,6 @@
  * from Adobe.
  */
 
-/* Sunstar GUM Design System — Clean Card Style */
 .sunstargum-product-details {
   --gum-green: #009257;
   --gum-green-accent: #2bb573;
@@ -22,9 +21,9 @@
   --gum-text-dark: #272b29;
   --gum-text-body: #464c4e;
   --gum-text-muted: #6b7280;
-  --gum-bg: #f6f7f7;
+  --gum-bg: #f9fafb;
   --gum-card-bg: #fff;
-  --gum-border: #e2e8f0;
+  --gum-border: #e5e7eb;
   --gum-star: #2bb573;
   --gum-star-empty: #d1d5db;
   --gum-font: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -53,8 +52,9 @@
 .gum-detail-card {
   background: var(--gum-card-bg);
   border: 1px solid var(--gum-border);
-  border-top: 3px solid var(--gum-green-accent);
+  border-radius: 12px;
   overflow: hidden;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 6%);
 }
 
 /* Hero: image left, info right */
@@ -71,6 +71,7 @@
   justify-content: center;
   padding: 24px;
   min-height: 280px;
+  border-radius: 12px 0 0 0;
 }
 
 .gum-detail-image img {
@@ -221,11 +222,12 @@
   font-weight: 600;
   font-family: var(--gum-font);
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background 0.2s, box-shadow 0.2s;
 }
 
 .gum-btn:hover {
   background: var(--gum-green-dark);
+  box-shadow: 0 2px 8px rgb(0 146 87 / 30%);
 }
 
 .gum-btn-outline {
@@ -258,6 +260,10 @@
 @media (max-width: 600px) {
   .gum-detail-hero {
     grid-template-columns: 1fr;
+  }
+
+  .gum-detail-image {
+    border-radius: 12px 12px 0 0;
   }
 
   .gum-detail-cta {
