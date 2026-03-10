@@ -164,7 +164,16 @@
   text-align: center;
   text-decoration: none;
   transition: background 0.2s, box-shadow 0.2s;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.gum-store-btn-icon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
 }
 
 .gum-store-btn:hover {

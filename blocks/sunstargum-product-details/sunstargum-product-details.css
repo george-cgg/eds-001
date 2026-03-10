@@ -21,7 +21,7 @@
   --gum-text-dark: #272b29;
   --gum-text-body: #464c4e;
   --gum-text-muted: #6b7280;
-  --gum-bg: #f9fafb;
+  --gum-bg: #fff;
   --gum-card-bg: #fff;
   --gum-border: #e5e7eb;
   --gum-star: #2bb573;
@@ -54,7 +54,7 @@
 }
 
 .gum-detail-image {
-  background: var(--gum-bg);
+  background: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
