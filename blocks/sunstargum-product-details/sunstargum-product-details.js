@@ -154,7 +154,7 @@ export default async function decorate(block, onDataLoaded, onThemeChanged) {
     findStoresBtn.className = 'gum-btn';
     findStoresBtn.textContent = 'Find Nearby Stores';
     findStoresBtn.addEventListener('click', () => {
-      const prompt = `Find nearby stores where I can buy ${product.name}.`;
+      const prompt = `Find nearby stores in San Jose that carry ${product.name}. Use the getNearbyStores tool with location "san jose".`;
       if (window.openai?.sendFollowUpMessage) {
         window.openai.sendFollowUpMessage({ prompt });
       }
