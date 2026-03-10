@@ -1,0 +1,245 @@
+/*
+ * ADOBE CONFIDENTIAL
+ * ___________________
+ * Copyright 2026 Adobe
+ * All Rights Reserved.
+ * NOTICE: All information contained herein is, and remains
+ * the property of Adobe and its suppliers, if any. The intellectual
+ * and technical concepts contained herein are proprietary to Adobe
+ * and its suppliers and are protected by all applicable intellectual
+ * property laws, including trade secret and copyright laws.
+ *  Dissemination of this information or reproduction of this material
+ * is strictly forbidden unless prior written permission is obtained
+ * from Adobe.
+ */
+
+/* Sunstar GUM Design System */
+.sunstargum-get-nearby-stores {
+  --gum-green: #009257;
+  --gum-green-accent: #2bb573;
+  --gum-green-dark: #007a49;
+  --gum-green-light: #e6f5ee;
+  --gum-text-dark: #272b29;
+  --gum-text-body: #464c4e;
+  --gum-text-muted: #6b7280;
+  --gum-bg: #f6f7f7;
+  --gum-card-bg: #fff;
+  --gum-border: #e5e7eb;
+  --gum-shadow: 0 1px 3px rgb(0 0 0 / 8%);
+  --gum-shadow-hover: 0 4px 12px rgb(0 0 0 / 12%);
+  --gum-radius: 10px;
+  --gum-font: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--gum-font);
+  background: transparent;
+}
+
+@media (prefers-color-scheme: dark) {
+  .sunstargum-get-nearby-stores {
+    --gum-text-dark: #f1f5f9;
+    --gum-text-body: #cbd5e1;
+    --gum-text-muted: #94a3b8;
+    --gum-bg: #0f172a;
+    --gum-card-bg: #1e293b;
+    --gum-border: #334155;
+    --gum-green-light: #0d3320;
+    --gum-shadow: 0 1px 3px rgb(0 0 0 / 20%);
+    --gum-shadow-hover: 0 4px 12px rgb(0 0 0 / 30%);
+  }
+}
+
+.sunstargum-get-nearby-stores[data-theme="dark"] {
+  --gum-text-dark: #f1f5f9;
+  --gum-text-body: #cbd5e1;
+  --gum-text-muted: #94a3b8;
+  --gum-bg: #0f172a;
+  --gum-card-bg: #1e293b;
+  --gum-border: #334155;
+  --gum-green-light: #0d3320;
+  --gum-shadow: 0 1px 3px rgb(0 0 0 / 20%);
+  --gum-shadow-hover: 0 4px 12px rgb(0 0 0 / 30%);
+}
+
+.gum-stores-wrapper {
+  max-width: 100%;
+}
+
+/* Location header */
+.gum-stores-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.gum-stores-pin-icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.gum-stores-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--gum-text-dark);
+  margin: 0;
+}
+
+.gum-stores-count {
+  font-size: 13px;
+  color: var(--gum-text-muted);
+  margin-left: auto;
+}
+
+/* Store cards grid */
+.gum-stores-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.gum-store-card {
+  background: var(--gum-card-bg);
+  border: 1px solid var(--gum-border);
+  border-left: 4px solid var(--gum-green-accent);
+  border-radius: var(--gum-radius);
+  padding: 16px;
+  box-shadow: var(--gum-shadow);
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.gum-store-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--gum-shadow-hover);
+}
+
+.gum-store-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.gum-store-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--gum-text-dark);
+  margin: 0;
+}
+
+.gum-store-distance {
+  flex-shrink: 0;
+  padding: 3px 10px;
+  background: var(--gum-green-light);
+  color: var(--gum-green);
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 12px;
+  white-space: nowrap;
+}
+
+.gum-store-address {
+  font-size: 13px;
+  color: var(--gum-text-body);
+  line-height: 1.4;
+  margin: 0;
+}
+
+.gum-store-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.gum-store-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--gum-text-muted);
+}
+
+.gum-store-meta-icon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  opacity: 0.6;
+}
+
+.gum-store-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 4px;
+}
+
+.gum-store-btn {
+  flex: 1;
+  padding: 8px 12px;
+  background: var(--gum-green);
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: var(--gum-font);
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.1s;
+  display: inline-block;
+}
+
+.gum-store-btn:hover {
+  background: var(--gum-green-dark);
+  transform: translateY(-1px);
+}
+
+.gum-store-btn:active {
+  transform: translateY(0);
+}
+
+.gum-store-btn-outline {
+  flex: 1;
+  padding: 8px 12px;
+  background: transparent;
+  color: var(--gum-green);
+  border: 1.5px solid var(--gum-green);
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: var(--gum-font);
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s;
+  display: inline-block;
+}
+
+.gum-store-btn-outline:hover {
+  background: var(--gum-green);
+  color: #fff;
+}
+
+/* Empty */
+.gum-stores-empty {
+  padding: 32px;
+  text-align: center;
+  color: var(--gum-text-muted);
+  font-size: 14px;
+}
+
+/* Responsive */
+@media (max-width: 560px) {
+  .gum-stores-grid {
+    grid-template-columns: 1fr;
+  }
+}
