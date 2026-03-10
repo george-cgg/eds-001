@@ -13,7 +13,7 @@
  * from Adobe.
  */
 
-/* Sunstar GUM Design System */
+/* Sunstar GUM Design System — Clean Card Style */
 .sunstargum-get-nearby-stores {
   --gum-green: #009257;
   --gum-green-accent: #2bb573;
@@ -24,10 +24,7 @@
   --gum-text-muted: #6b7280;
   --gum-bg: #f6f7f7;
   --gum-card-bg: #fff;
-  --gum-border: #e5e7eb;
-  --gum-shadow: 0 1px 3px rgb(0 0 0 / 8%);
-  --gum-shadow-hover: 0 4px 12px rgb(0 0 0 / 12%);
-  --gum-radius: 10px;
+  --gum-border: #e2e8f0;
   --gum-font: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
   width: 100%;
@@ -44,12 +41,10 @@
     --gum-text-dark: #f1f5f9;
     --gum-text-body: #cbd5e1;
     --gum-text-muted: #94a3b8;
-    --gum-bg: #0f172a;
+    --gum-bg: #1a1a2e;
     --gum-card-bg: #1e293b;
     --gum-border: #334155;
     --gum-green-light: #0d3320;
-    --gum-shadow: 0 1px 3px rgb(0 0 0 / 20%);
-    --gum-shadow-hover: 0 4px 12px rgb(0 0 0 / 30%);
   }
 }
 
@@ -57,12 +52,10 @@
   --gum-text-dark: #f1f5f9;
   --gum-text-body: #cbd5e1;
   --gum-text-muted: #94a3b8;
-  --gum-bg: #0f172a;
+  --gum-bg: #1a1a2e;
   --gum-card-bg: #1e293b;
   --gum-border: #334155;
   --gum-green-light: #0d3320;
-  --gum-shadow: 0 1px 3px rgb(0 0 0 / 20%);
-  --gum-shadow-hover: 0 4px 12px rgb(0 0 0 / 30%);
 }
 
 .gum-stores-wrapper {
@@ -106,19 +99,16 @@
 .gum-store-card {
   background: var(--gum-card-bg);
   border: 1px solid var(--gum-border);
-  border-left: 4px solid var(--gum-green-accent);
-  border-radius: var(--gum-radius);
+  border-top: 3px solid var(--gum-green-accent);
   padding: 16px;
-  box-shadow: var(--gum-shadow);
-  transition: transform 0.2s, box-shadow 0.2s;
   display: flex;
   flex-direction: column;
   gap: 10px;
+  transition: box-shadow 0.2s;
 }
 
 .gum-store-card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--gum-shadow-hover);
+  box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
 }
 
 .gum-store-top {
@@ -142,7 +132,6 @@
   color: var(--gum-green);
   font-size: 11px;
   font-weight: 700;
-  border-radius: 12px;
   white-space: nowrap;
 }
 
@@ -187,24 +176,19 @@
   background: var(--gum-green);
   color: #fff;
   border: none;
-  border-radius: 20px;
+  border-radius: 24px;
   font-size: 12px;
   font-weight: 600;
   font-family: var(--gum-font);
   cursor: pointer;
   text-align: center;
   text-decoration: none;
-  transition: background 0.2s, transform 0.1s;
+  transition: background 0.2s;
   display: inline-block;
 }
 
 .gum-store-btn:hover {
   background: var(--gum-green-dark);
-  transform: translateY(-1px);
-}
-
-.gum-store-btn:active {
-  transform: translateY(0);
 }
 
 .gum-store-btn-outline {
@@ -213,7 +197,7 @@
   background: transparent;
   color: var(--gum-green);
   border: 1.5px solid var(--gum-green);
-  border-radius: 20px;
+  border-radius: 24px;
   font-size: 12px;
   font-weight: 600;
   font-family: var(--gum-font);
@@ -241,5 +225,11 @@
 @media (max-width: 560px) {
   .gum-stores-grid {
     grid-template-columns: 1fr;
+  }
+
+  .gum-store-btn,
+  .gum-store-btn-outline {
+    width: 100%;
+    text-align: center;
   }
 }
