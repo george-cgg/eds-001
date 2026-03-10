@@ -150,7 +150,9 @@
   padding-top: 4px;
 }
 
-.gum-store-btn {
+.gum-store-btn,
+.gum-store-btn:visited,
+.gum-store-btn:link {
   flex: 1;
   padding: 8px 12px;
   background: var(--gum-green);

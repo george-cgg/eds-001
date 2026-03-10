@@ -62,10 +62,11 @@ function createProductCard(product) {
   card.appendChild(imgWrap);
   card.appendChild(info);
 
-  // Whole card is clickable — directly invoke the getProductDetails tool
+  // Whole card is clickable
   card.addEventListener('click', () => {
-    if (window.openai?.callTool) {
-      window.openai.callTool('getProductDetails', { productId: product.productId });
+    const prompt = `Show me the full details for product ${product.productId} (${product.name}).`;
+    if (window.openai?.sendFollowUpMessage) {
+      window.openai.sendFollowUpMessage({ prompt });
     }
   });
 
