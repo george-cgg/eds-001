@@ -144,6 +144,7 @@
   align-items: center;
   gap: 8px;
   text-align: center;
+  flex: 1;
 }
 
 .gum-product-name {
@@ -189,7 +190,7 @@
   font-family: var(--gum-font);
   cursor: pointer;
   transition: background 0.2s, box-shadow 0.2s;
-  margin-top: 4px;
+  margin-top: auto;
 }
 
 .gum-product-cta:hover {
