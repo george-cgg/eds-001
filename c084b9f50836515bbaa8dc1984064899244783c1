@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0.0",
+  "mode": "full",
+  "commit_sha": "c084b9f50836515bbaa8dc1984064899244783c1",
+  "author": "chiriac@adobe.com",
+  "timestamp": "2026-03-18T10:32:57+02:00",
+  "detection": {
+    "ai_assisted": false,
+    "method": "none",
+    "tool": "unknown",
+    "model": "",
+    "confidence": 0.0
+  },
+  "stats": {
+    "total_additions": 250,
+    "total_deletions": 244,
+    "ai_additions": 0,
+    "ai_deletions": 0,
+    "human_additions": 250,
+    "human_deletions": 244
+  },
+  "files": {
+    "blocks/sunstargum-get-nearby-stores/sunstargum-get-nearby-stores.js": {
+      "ai_additions": 0,
+      "human_additions": 48,
+      "ai_deletions": 0,
+      "human_deletions": 44
+    },
+    "blocks/sunstargum-product-details/sunstargum-product-details.js": {
+      "ai_additions": 0,
+      "human_additions": 144,
+      "ai_deletions": 0,
+      "human_deletions": 143
+    },
+    "blocks/sunstargum-products-list/sunstargum-products-list.js": {
+      "ai_additions": 0,
+      "human_additions": 58,
+      "ai_deletions": 0,
+      "human_deletions": 57
+    }
+  }
+}
