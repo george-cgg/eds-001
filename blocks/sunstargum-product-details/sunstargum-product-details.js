@@ -23,160 +23,161 @@ function createStarsSVG(rating, size = 16) {
   return stars.join('');
 }
 
-export default async function decorate(block, onDataLoaded, onThemeChanged) {
-  block.textContent = 'Loading product details...';
+export default async function decorate(block, bridge) {
+  block.textContent = '';
   block.className = 'sunstargum-product-details';
 
-  if (onThemeChanged) {
-    onThemeChanged((theme) => {
-      block.setAttribute('data-theme', theme);
-    });
-  } else {
-    block.setAttribute('data-theme', 'light');
+  const loading = document.createElement('div');
+  loading.className = 'loading';
+  loading.textContent = 'Loading product details\u2026';
+  block.appendChild(loading);
+
+  let product;
+
+  try {
+    if (bridge && bridge.toolResult) {
+      const result = await bridge.toolResult;
+      const sc = result?.structuredContent || result;
+      product = sc?.product;
+    }
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.warn('[sunstargum-product-details] Could not get tool data', e);
   }
 
-  onDataLoaded.then((data) => {
+  if (!product) {
     block.textContent = '';
+    block.innerHTML = '<p class="gum-detail-error">Product details not available.</p>';
+    return;
+  }
 
-    const product = data?.structuredContent?.product || data?.product;
+  block.textContent = '';
 
-    if (!product) {
-      block.innerHTML = '<p class="gum-detail-error">Product details not available.</p>';
-      return;
-    }
+  const card = document.createElement('div');
+  card.className = 'gum-detail-card';
 
-    const card = document.createElement('div');
-    card.className = 'gum-detail-card';
+  // Hero section
+  const hero = document.createElement('div');
+  hero.className = 'gum-detail-hero';
 
-    // Hero section
-    const hero = document.createElement('div');
-    hero.className = 'gum-detail-hero';
+  // Image
+  const imageWrap = document.createElement('div');
+  imageWrap.className = 'gum-detail-image';
+  const img = document.createElement('img');
+  img.src = product.imageUrl;
+  img.alt = product.name;
+  img.loading = 'eager';
+  img.addEventListener('load', () => img.classList.add('loaded'));
+  imageWrap.appendChild(img);
 
-    // Image
-    const imageWrap = document.createElement('div');
-    imageWrap.className = 'gum-detail-image';
-    const img = document.createElement('img');
-    img.src = product.imageUrl;
-    img.alt = product.name;
-    img.loading = 'eager';
-    img.addEventListener('load', () => img.classList.add('loaded'));
-    imageWrap.appendChild(img);
+  // Info
+  const info = document.createElement('div');
+  info.className = 'gum-detail-info';
 
-    // Info
-    const info = document.createElement('div');
-    info.className = 'gum-detail-info';
+  const category = document.createElement('span');
+  category.className = 'gum-detail-category';
+  category.textContent = `${product.category} / ${product.subcategory}`;
 
-    const category = document.createElement('span');
-    category.className = 'gum-detail-category';
-    category.textContent = `${product.category} / ${product.subcategory}`;
+  const name = document.createElement('h2');
+  name.className = 'gum-detail-name';
+  name.textContent = product.name;
 
-    const name = document.createElement('h2');
-    name.className = 'gum-detail-name';
-    name.textContent = product.name;
+  const ratingWrap = document.createElement('div');
+  ratingWrap.className = 'gum-detail-rating';
+  const stars = document.createElement('span');
+  stars.className = 'gum-detail-stars';
+  stars.innerHTML = createStarsSVG(product.rating);
+  const ratingText = document.createElement('span');
+  ratingText.className = 'gum-detail-rating-text';
+  ratingText.textContent = `${product.rating}/5 (${product.reviewCount} reviews)`;
+  if (product.recommendPercent) {
+    ratingText.textContent += ` \u2022 ${product.recommendPercent}% recommend`;
+  }
+  ratingWrap.appendChild(stars);
+  ratingWrap.appendChild(ratingText);
 
-    const ratingWrap = document.createElement('div');
-    ratingWrap.className = 'gum-detail-rating';
-    const stars = document.createElement('span');
-    stars.className = 'gum-detail-stars';
-    stars.innerHTML = createStarsSVG(product.rating);
-    const ratingText = document.createElement('span');
-    ratingText.className = 'gum-detail-rating-text';
-    ratingText.textContent = `${product.rating}/5 (${product.reviewCount} reviews)`;
-    if (product.recommendPercent) {
-      ratingText.textContent += ` \u2022 ${product.recommendPercent}% recommend`;
-    }
-    ratingWrap.appendChild(stars);
-    ratingWrap.appendChild(ratingText);
+  const sku = document.createElement('span');
+  sku.className = 'gum-detail-sku';
+  sku.textContent = `SKU: ${product.sku}`;
 
-    const sku = document.createElement('span');
-    sku.className = 'gum-detail-sku';
-    sku.textContent = `SKU: ${product.sku}`;
+  const desc = document.createElement('p');
+  desc.className = 'gum-detail-description';
+  desc.textContent = product.description;
 
-    const desc = document.createElement('p');
-    desc.className = 'gum-detail-description';
-    desc.textContent = product.description;
-
-    // Features
-    const featuresList = document.createElement('ul');
-    featuresList.className = 'gum-detail-features';
-    (product.features || []).forEach((f) => {
-      const li = document.createElement('li');
-      li.textContent = f;
-      featuresList.appendChild(li);
-    });
-
-    info.appendChild(category);
-    info.appendChild(name);
-    info.appendChild(ratingWrap);
-    info.appendChild(sku);
-    info.appendChild(desc);
-    info.appendChild(featuresList);
-
-    hero.appendChild(imageWrap);
-    hero.appendChild(info);
-    card.appendChild(hero);
-
-    // Highlights
-    if (product.highlights && product.highlights.length > 0) {
-      const highlights = document.createElement('div');
-      highlights.className = 'gum-detail-highlights';
-
-      const hlTitle = document.createElement('h3');
-      hlTitle.className = 'gum-detail-highlights-title';
-      hlTitle.textContent = 'Product Highlights';
-      highlights.appendChild(hlTitle);
-
-      product.highlights.forEach((hl) => {
-        const item = document.createElement('div');
-        item.className = 'gum-highlight-item';
-
-        const label = document.createElement('div');
-        label.className = 'gum-highlight-label';
-        label.textContent = hl.label;
-
-        const text = document.createElement('div');
-        text.className = 'gum-highlight-text';
-        text.textContent = hl.text;
-
-        item.appendChild(label);
-        item.appendChild(text);
-        highlights.appendChild(item);
-      });
-
-      card.appendChild(highlights);
-    }
-
-    // CTAs
-    const ctaWrap = document.createElement('div');
-    ctaWrap.className = 'gum-detail-cta';
-
-    const findStoresBtn = document.createElement('button');
-    findStoresBtn.className = 'gum-btn';
-    findStoresBtn.textContent = 'Find Nearby Stores';
-    findStoresBtn.addEventListener('click', () => {
-      const prompt = `Find nearby stores in San Jose that carry ${product.name}. Use the getNearbyStores tool with location "san jose".`;
-      if (window.openai?.sendFollowUpMessage) {
-        window.openai.sendFollowUpMessage({ prompt });
-      }
-    });
-
-    const visitBtn = document.createElement('button');
-    visitBtn.className = 'gum-btn-outline';
-    visitBtn.textContent = 'View on GUM Website';
-    visitBtn.addEventListener('click', () => {
-      if (product.productUrl) {
-        window.open(product.productUrl, '_blank');
-      }
-    });
-
-    ctaWrap.appendChild(findStoresBtn);
-    ctaWrap.appendChild(visitBtn);
-    card.appendChild(ctaWrap);
-
-    block.appendChild(card);
-  }).catch((error) => {
-    block.textContent = 'Error loading product details';
-    // eslint-disable-next-line no-console
-    console.error('Error loading product details:', error);
+  // Features
+  const featuresList = document.createElement('ul');
+  featuresList.className = 'gum-detail-features';
+  (product.features || []).forEach((f) => {
+    const li = document.createElement('li');
+    li.textContent = f;
+    featuresList.appendChild(li);
   });
+
+  info.appendChild(category);
+  info.appendChild(name);
+  info.appendChild(ratingWrap);
+  info.appendChild(sku);
+  info.appendChild(desc);
+  info.appendChild(featuresList);
+
+  hero.appendChild(imageWrap);
+  hero.appendChild(info);
+  card.appendChild(hero);
+
+  // Highlights
+  if (product.highlights && product.highlights.length > 0) {
+    const highlights = document.createElement('div');
+    highlights.className = 'gum-detail-highlights';
+
+    const hlTitle = document.createElement('h3');
+    hlTitle.className = 'gum-detail-highlights-title';
+    hlTitle.textContent = 'Product Highlights';
+    highlights.appendChild(hlTitle);
+
+    product.highlights.forEach((hl) => {
+      const item = document.createElement('div');
+      item.className = 'gum-highlight-item';
+
+      const label = document.createElement('div');
+      label.className = 'gum-highlight-label';
+      label.textContent = hl.label;
+
+      const text = document.createElement('div');
+      text.className = 'gum-highlight-text';
+      text.textContent = hl.text;
+
+      item.appendChild(label);
+      item.appendChild(text);
+      highlights.appendChild(item);
+    });
+
+    card.appendChild(highlights);
+  }
+
+  // CTAs
+  const ctaWrap = document.createElement('div');
+  ctaWrap.className = 'gum-detail-cta';
+
+  const findStoresBtn = document.createElement('button');
+  findStoresBtn.className = 'gum-btn';
+  findStoresBtn.textContent = 'Find Nearby Stores';
+  findStoresBtn.addEventListener('click', () => {
+    const prompt = `Find nearby stores in San Jose that carry ${product.name}. Use the getNearbyStores tool with location "san jose".`;
+    bridge.sendMessage(prompt);
+  });
+
+  const visitBtn = document.createElement('button');
+  visitBtn.className = 'gum-btn-outline';
+  visitBtn.textContent = 'View on GUM Website';
+  visitBtn.addEventListener('click', () => {
+    if (product.productUrl) {
+      bridge.openLink(product.productUrl);
+    }
+  });
+
+  ctaWrap.appendChild(findStoresBtn);
+  ctaWrap.appendChild(visitBtn);
+  card.appendChild(ctaWrap);
+
+  block.appendChild(card);
 }

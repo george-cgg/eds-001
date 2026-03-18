@@ -85,62 +85,66 @@ function createStoreCard(store) {
   return card;
 }
 
-export default async function decorate(block, onDataLoaded, onThemeChanged) {
-  block.textContent = 'Finding nearby stores...';
+export default async function decorate(block, bridge) {
+  block.textContent = '';
   block.className = 'sunstargum-get-nearby-stores';
 
-  if (onThemeChanged) {
-    onThemeChanged((theme) => {
-      block.setAttribute('data-theme', theme);
-    });
-  } else {
-    block.setAttribute('data-theme', 'light');
+  const loading = document.createElement('div');
+  loading.className = 'loading';
+  loading.textContent = 'Finding nearby stores\u2026';
+  block.appendChild(loading);
+
+  let stores;
+  let location = 'your area';
+
+  try {
+    if (bridge && bridge.toolResult) {
+      const result = await bridge.toolResult;
+      const sc = result?.structuredContent || result;
+      stores = sc?.stores || [];
+      location = sc?.searchArea || result?.location || 'your area';
+    }
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.warn('[sunstargum-get-nearby-stores] Could not get tool data', e);
   }
 
-  onDataLoaded.then((data) => {
+  if (!stores || stores.length === 0) {
     block.textContent = '';
+    block.innerHTML = '<p class="gum-stores-empty">No stores found nearby.</p>';
+    return;
+  }
 
-    const stores = data?.structuredContent?.stores || data?.stores;
-    const location = data?.structuredContent?.searchArea || data?.location || 'your area';
+  block.textContent = '';
 
-    if (!stores || stores.length === 0) {
-      block.innerHTML = '<p class="gum-stores-empty">No stores found nearby.</p>';
-      return;
-    }
+  const wrapper = document.createElement('div');
+  wrapper.className = 'gum-stores-wrapper';
 
-    const wrapper = document.createElement('div');
-    wrapper.className = 'gum-stores-wrapper';
+  // Header
+  const header = document.createElement('div');
+  header.className = 'gum-stores-header';
+  header.innerHTML = PIN_SVG;
 
-    // Header
-    const header = document.createElement('div');
-    header.className = 'gum-stores-header';
-    header.innerHTML = PIN_SVG;
+  const title = document.createElement('h2');
+  title.className = 'gum-stores-title';
+  title.textContent = `Stores near ${location}`;
 
-    const title = document.createElement('h2');
-    title.className = 'gum-stores-title';
-    title.textContent = `Stores near ${location}`;
+  const count = document.createElement('span');
+  count.className = 'gum-stores-count';
+  count.textContent = `${stores.length} locations`;
 
-    const count = document.createElement('span');
-    count.className = 'gum-stores-count';
-    count.textContent = `${stores.length} locations`;
+  header.appendChild(title);
+  header.appendChild(count);
+  wrapper.appendChild(header);
 
-    header.appendChild(title);
-    header.appendChild(count);
-    wrapper.appendChild(header);
+  // Grid
+  const grid = document.createElement('div');
+  grid.className = 'gum-stores-grid';
 
-    // Grid
-    const grid = document.createElement('div');
-    grid.className = 'gum-stores-grid';
-
-    stores.forEach((store) => {
-      grid.appendChild(createStoreCard(store));
-    });
-
-    wrapper.appendChild(grid);
-    block.appendChild(wrapper);
-  }).catch((error) => {
-    block.textContent = 'Error finding stores';
-    // eslint-disable-next-line no-console
-    console.error('Error finding stores:', error);
+  stores.forEach((store) => {
+    grid.appendChild(createStoreCard(store));
   });
+
+  wrapper.appendChild(grid);
+  block.appendChild(wrapper);
 }

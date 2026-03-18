@@ -23,7 +23,7 @@ function createStarsSVG(rating) {
   return stars.join('');
 }
 
-function createProductCard(product) {
+function createProductCard(product, bridge) {
   const card = document.createElement('div');
   card.className = 'gum-product-card';
 
@@ -70,83 +70,84 @@ function createProductCard(product) {
   // Whole card is clickable
   card.addEventListener('click', () => {
     const prompt = `Show me the full details for product ${product.productId} (${product.name}).`;
-    if (window.openai?.sendFollowUpMessage) {
-      window.openai.sendFollowUpMessage({ prompt });
-    }
+    bridge.sendMessage(prompt);
   });
 
   return card;
 }
 
-export default async function decorate(block, onDataLoaded, onThemeChanged) {
-  block.textContent = 'Loading GUM products...';
+export default async function decorate(block, bridge) {
+  block.textContent = '';
   block.className = 'sunstargum-products-list';
 
-  if (onThemeChanged) {
-    onThemeChanged((theme) => {
-      block.setAttribute('data-theme', theme);
-    });
-  } else {
-    block.setAttribute('data-theme', 'light');
+  const loading = document.createElement('div');
+  loading.className = 'loading';
+  loading.textContent = 'Loading GUM products\u2026';
+  block.appendChild(loading);
+
+  let products;
+
+  try {
+    if (bridge && bridge.toolResult) {
+      const result = await bridge.toolResult;
+      const sc = result?.structuredContent || result;
+      products = sc?.products || [];
+    }
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.warn('[sunstargum-products-list] Could not get tool data', e);
   }
 
-  onDataLoaded.then((data) => {
+  if (!products || products.length === 0) {
     block.textContent = '';
+    block.innerHTML = '<p class="gum-products-empty">No products available.</p>';
+    return;
+  }
 
-    const products = data?.structuredContent?.products || data?.products;
+  block.textContent = '';
 
-    if (!products || products.length === 0) {
-      block.innerHTML = '<p class="gum-products-empty">No products available.</p>';
-      return;
-    }
+  const wrapper = document.createElement('div');
+  wrapper.className = 'gum-products-wrapper';
 
-    const wrapper = document.createElement('div');
-    wrapper.className = 'gum-products-wrapper';
+  const carousel = document.createElement('div');
+  carousel.className = 'gum-products-carousel';
 
-    const carousel = document.createElement('div');
-    carousel.className = 'gum-products-carousel';
-
-    products.forEach((product) => {
-      carousel.appendChild(createProductCard(product));
-    });
-
-    wrapper.appendChild(carousel);
-
-    // Navigation arrows
-    const leftArrow = document.createElement('button');
-    leftArrow.className = 'gum-carousel-arrow left';
-    leftArrow.innerHTML = '\u2039';
-    leftArrow.setAttribute('aria-label', 'Previous');
-
-    const rightArrow = document.createElement('button');
-    rightArrow.className = 'gum-carousel-arrow right';
-    rightArrow.innerHTML = '\u203A';
-    rightArrow.setAttribute('aria-label', 'Next');
-
-    const scrollAmount = 250;
-
-    leftArrow.addEventListener('click', () => {
-      carousel.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-    });
-
-    rightArrow.addEventListener('click', () => {
-      carousel.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-    });
-
-    const updateArrows = () => {
-      leftArrow.disabled = carousel.scrollLeft <= 0;
-      rightArrow.disabled = carousel.scrollLeft + carousel.clientWidth >= carousel.scrollWidth - 2;
-    };
-
-    carousel.addEventListener('scroll', updateArrows, { passive: true });
-    setTimeout(updateArrows, 100);
-
-    wrapper.appendChild(leftArrow);
-    wrapper.appendChild(rightArrow);
-    block.appendChild(wrapper);
-  }).catch((error) => {
-    block.textContent = 'Error loading products';
-    // eslint-disable-next-line no-console
-    console.error('Error loading products:', error);
+  products.forEach((product) => {
+    carousel.appendChild(createProductCard(product, bridge));
   });
+
+  wrapper.appendChild(carousel);
+
+  // Navigation arrows
+  const leftArrow = document.createElement('button');
+  leftArrow.className = 'gum-carousel-arrow left';
+  leftArrow.innerHTML = '\u2039';
+  leftArrow.setAttribute('aria-label', 'Previous');
+
+  const rightArrow = document.createElement('button');
+  rightArrow.className = 'gum-carousel-arrow right';
+  rightArrow.innerHTML = '\u203A';
+  rightArrow.setAttribute('aria-label', 'Next');
+
+  const scrollAmount = 250;
+
+  leftArrow.addEventListener('click', () => {
+    carousel.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+  });
+
+  rightArrow.addEventListener('click', () => {
+    carousel.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+  });
+
+  const updateArrows = () => {
+    leftArrow.disabled = carousel.scrollLeft <= 0;
+    rightArrow.disabled = carousel.scrollLeft + carousel.clientWidth >= carousel.scrollWidth - 2;
+  };
+
+  carousel.addEventListener('scroll', updateArrows, { passive: true });
+  setTimeout(updateArrows, 100);
+
+  wrapper.appendChild(leftArrow);
+  wrapper.appendChild(rightArrow);
+  block.appendChild(wrapper);
 }
