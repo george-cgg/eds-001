@@ -1,37 +1,48 @@
 /*
- * AEM Embed WebComponent
- * Include content from one Helix page in any other web surface.
- * https://www.hlx.live/developer/block-collection/TBD
+ * AEM Embed WebComponent — powered by LLMApps SDK
+ *
+ * Loads AEM EDS content into any MCP Apps host (ChatGPT, Claude, etc.)
+ * and passes an MCPBridge instance to each block for tool data and interaction.
+ *
+ * Block contract:  export default function decorate(block, bridge) { ... }
+ *   - bridge.toolResult              → Promise<params> (one-shot, first tool result)
+ *   - bridge.callTool(name, args)    → call another MCP tool from the UI
+ *   - bridge.sendMessage(text)       → post a follow-up message
+ *   - bridge.updateModelContext(text) → silently update model context
+ *   - bridge.openLink(url)           → open external link via host
+ *   - bridge.requestDisplayMode(mode)→ request inline/fullscreen/pip
+ *   - bridge.hostContext             → theme, locale, displayMode, styles, ...
+ *   - bridge.hostCapabilities        → openLinks, serverTools, logging, ...
+ *   - bridge.isEmbedded              → true if inside a host iframe
  */
+
+import { LLMApp } from './llmapps-sdk.js';
 
 // eslint-disable-next-line import/prefer-default-export
 export class AEMEmbed extends HTMLElement {
   constructor() {
     super();
 
-    // Attaches a shadow DOM tree to the element
-    // With mode open the shadow root elements are accessible from JavaScript outside the root
     this.attachShadow({ mode: 'open' });
-
-    // Keep track if we have rendered the fragment yet.
     this.initialized = false;
 
     window.hlx = window.hlx || {};
     window.hlx.suppressLoadPage = true;
     [window.hlx.codeBasePath] = new URL(import.meta.url).pathname.split('/scripts/');
+
+    // Create the bridge instance — shared by all blocks in this embed
+    this._bridge = new LLMApp({
+      appInfo: { name: 'AEMEmbed', version: '1.0.0' },
+      appCapabilities: {
+        availableDisplayModes: ['inline', 'fullscreen'],
+      },
+    });
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  detectEnvironment() {
-    // Check if OpenAI environment
-    if (typeof window !== 'undefined' && window.openai) {
-      return 'openai';
-    }
-    // MCP Apps SDK environment (no window.openai)
-    return 'mcp';
-  }
+  // ---------------------------------------------------------------
+  // Block loading — passes the bridge to block decorate()
+  // ---------------------------------------------------------------
 
-  // eslint-disable-next-line class-methods-use-this
   async loadBlock(body, block, blockName, origin) {
     const blockCss = `${origin}${window.hlx.codeBasePath}/blocks/${blockName}/${blockName}.css`;
     if (!body.querySelector(`link[href="${blockCss}"]`)) {
@@ -54,115 +65,18 @@ export class AEMEmbed extends HTMLElement {
       // eslint-disable-next-line no-await-in-loop
       const decorateBlock = await import(blockScriptUrl);
       if (decorateBlock.default) {
-        const env = this.detectEnvironment();
-
-        // Create callback for when data loads - supports both OpenAI and MCP Apps SDK
-        const onDataLoaded = new Promise((resolve) => {
-          if (env === 'openai') {
-            // OpenAI/ChatGPT Apps environment
-            if (window.openai?.toolOutput) {
-              // Already available
-              resolve(window.openai.toolOutput);
-            } else {
-              // Wait for the event
-              window.addEventListener('openai:set_globals', (event) => {
-                // eslint-disable-next-line no-console
-                console.log('openai:set_globals event received', {
-                  eventDetail: event.detail,
-                  windowOpenai: window.openai,
-                  toolOutputFromEvent: event.detail?.globals?.toolOutput,
-                  toolOutputFromWindow: window.openai?.toolOutput,
-                });
-                const toolOutput = event.detail?.globals?.toolOutput || window.openai?.toolOutput;
-                resolve(toolOutput);
-              }, { once: true });
-            }
-          } else if (window.mcpApp) {
-            // MCP Apps SDK environment
-            // Use existing App instance
-            window.mcpApp.ontoolresult = (params) => {
-              // eslint-disable-next-line no-console
-              console.log('MCP Apps tool result', params);
-              resolve(params);
-            };
-          } else {
-            // MCP Apps SDK environment
-            // Import and create App instance
-            // eslint-disable-next-line import/no-unresolved
-            import('https://cdn.jsdelivr.net/npm/@modelcontextprotocol/ext-apps@1.0.1/+esm').then(({ App }) => {
-              const app = new App({ name: 'AEMEmbed', version: '1.0.0' });
-              window.mcpApp = app;
-
-              app.ontoolresult = (params) => {
-                // eslint-disable-next-line no-console
-                console.log('MCP Apps tool result', params);
-                resolve(params);
-              };
-
-              app.connect().catch((err) => {
-                // eslint-disable-next-line no-console
-                console.error('Failed to connect MCP App:', err);
-              });
-            }).catch((err) => {
-              // eslint-disable-next-line no-console
-              console.error('Failed to load MCP Apps SDK:', err);
-              // Fallback: provide empty data
-              resolve({ structuredContent: {} });
-            });
-          }
-        });
-
-        // Create callback for theme changes - supports both OpenAI and MCP Apps SDK
-        const onThemeChanged = (callback) => {
-          // Check for theme query parameter for testing (e.g., ?theme=dark)
-          const urlParams = new URLSearchParams(window.location.search);
-          const themeParam = urlParams.get('theme');
-
-          if (env === 'openai') {
-            // OpenAI environment
-            // Priority: query param > window.openai.theme > default 'light'
-            const currentTheme = themeParam || window.openai?.theme || 'light';
-            callback(currentTheme);
-
-            // Listen for theme changes (only if not using query param override)
-            if (!themeParam) {
-              window.addEventListener('openai:set_globals', (event) => {
-                if (event.detail?.globals?.theme) {
-                  callback(event.detail.globals.theme);
-                }
-              });
-            }
-          } else {
-            // MCP Apps SDK environment
-            const app = window.mcpApp;
-            if (app) {
-              const hostContext = app.getHostContext();
-              const currentTheme = themeParam || hostContext?.theme || 'light';
-              callback(currentTheme);
-
-              if (!themeParam) {
-                app.onhostcontextchanged = (context) => {
-                  if (context?.theme) {
-                    callback(context.theme);
-                  }
-                };
-              }
-            } else {
-              // Fallback: default theme
-              callback(themeParam || 'light');
-            }
-          }
-        };
-
-        // Call decorate immediately with the callbacks
         // eslint-disable-next-line no-await-in-loop
-        await decorateBlock.default(block, onDataLoaded, onThemeChanged);
+        await decorateBlock.default(block, this._bridge);
       }
     } catch (e) {
       // eslint-disable-next-line no-console
-      console.log('An error occured while loading the content');
+      console.log('[AEM Embed] Error loading block:', blockName, e);
     }
   }
+
+  // ---------------------------------------------------------------
+  // Content handlers
+  // ---------------------------------------------------------------
 
   async handleHeader(htmlText, body, origin) {
     await this.pseudoDecorateMain(htmlText, body, origin);
@@ -183,7 +97,6 @@ export class AEMEmbed extends HTMLElement {
     await this.loadBlock(body, block, 'header', origin);
 
     block.dataset.blockStatus = 'loaded';
-
     body.style.height = 'var(--nav-height)';
     body.classList.add('appear');
   }
@@ -220,16 +133,11 @@ export class AEMEmbed extends HTMLElement {
       await decorateMain(main, true);
     }
 
-    // Query all the blocks in the aem content
-    // The blocks are in the first div inside the main tag
     const blockElements = main.querySelectorAll('.block');
 
-    // Did we find any blocks or all default content?
     if (blockElements.length > 0) {
-      // Get the block names
       const blocks = Array.from(blockElements).map((block) => block.classList.item(0));
 
-      // For each block in the embed load it's js/css
       for (let i = 0; i < blockElements.length; i += 1) {
         const blockName = blocks[i];
         const block = blockElements[i];
@@ -250,11 +158,10 @@ export class AEMEmbed extends HTMLElement {
     body.classList.add('appear');
   }
 
-  /**
-   * Invoked each time the custom element is appended into a document-connected element.
-   * This will happen each time the node is moved, and may happen before the element's contents
-   * have been fully parsed.
-   */
+  // ---------------------------------------------------------------
+  // Web Component lifecycle
+  // ---------------------------------------------------------------
+
   async connectedCallback() {
     if (!this.initialized) {
       try {
@@ -273,6 +180,9 @@ export class AEMEmbed extends HTMLElement {
         const plainUrl = url.endsWith('/') ? `${url}index.plain.html` : `${url}.plain.html`;
         const { href, origin } = new URL(plainUrl);
 
+        // Start bridge handshake in parallel with content fetch
+        const bridgeReady = this._bridge.connect();
+
         // Load fragment
         const resp = await fetch(href);
         if (!resp.ok) {
@@ -287,12 +197,13 @@ export class AEMEmbed extends HTMLElement {
         this.shadowRoot.appendChild(styles);
 
         let htmlText = await resp.text();
-        // Fix relative image urls
         const regex = /.\/media/g;
         htmlText = htmlText.replace(regex, `${origin}/media`);
 
-        // Set initialized to true so we don't run through this again
         this.initialized = true;
+
+        // Wait for bridge before loading blocks
+        await bridgeReady;
 
         if (type === 'main') await this.handleMain(htmlText, body, origin);
         if (type === 'header') await this.handleHeader(htmlText, body, origin);
@@ -304,16 +215,10 @@ export class AEMEmbed extends HTMLElement {
         this.shadowRoot.appendChild(fonts);
       } catch (err) {
         // eslint-disable-next-line no-console
-        console.log(err || 'An error occured while loading the content');
+        console.log(err || '[AEM Embed] An error occured while loading the content');
       }
     }
   }
-
-  /**
-   * Imports a script and appends to document body
-   * @param {*} url
-   * @returns
-   */
 
   // eslint-disable-next-line class-methods-use-this
   async importScript(url) {
@@ -324,7 +229,6 @@ export class AEMEmbed extends HTMLElement {
       script.type = 'module';
       script.onload = resolve;
       script.onerror = reject;
-
       document.body.appendChild(script);
     });
   }
