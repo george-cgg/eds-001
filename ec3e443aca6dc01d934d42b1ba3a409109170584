@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0.0",
+  "mode": "full",
+  "commit_sha": "ec3e443aca6dc01d934d42b1ba3a409109170584",
+  "author": "chiriac@adobe.com",
+  "timestamp": "2026-03-18T10:22:43+02:00",
+  "detection": {
+    "ai_assisted": false,
+    "method": "none",
+    "tool": "unknown",
+    "model": "",
+    "confidence": 0.0
+  },
+  "stats": {
+    "total_additions": 1085,
+    "total_deletions": 141,
+    "ai_additions": 0,
+    "ai_deletions": 0,
+    "human_additions": 1085,
+    "human_deletions": 141
+  },
+  "files": {
+    "scripts/aem-embed.js": {
+      "ai_additions": 0,
+      "human_additions": 45,
+      "ai_deletions": 0,
+      "human_deletions": 141
+    },
+    "scripts/llm-apps-docs.md": {
+      "ai_additions": 0,
+      "human_additions": 222,
+      "ai_deletions": 0,
+      "human_deletions": 0
+    },
+    "scripts/llmapps-sdk.js": {
+      "ai_additions": 0,
+      "human_additions": 818,
+      "ai_deletions": 0,
+      "human_deletions": 0
+    }
+  }
+}
