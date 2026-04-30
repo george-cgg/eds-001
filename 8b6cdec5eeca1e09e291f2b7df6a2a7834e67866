@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0.0",
+  "mode": "full",
+  "commit_sha": "8b6cdec5eeca1e09e291f2b7df6a2a7834e67866",
+  "author": "george.cgg@gmail.com",
+  "timestamp": "2026-04-30T13:24:35+03:00",
+  "detection": {
+    "ai_assisted": true,
+    "method": "editor_hook",
+    "tool": "claude-code",
+    "model": "",
+    "confidence": 1.0
+  },
+  "stats": {
+    "total_additions": 435,
+    "total_deletions": 0,
+    "ai_additions": 435,
+    "ai_deletions": 0,
+    "human_additions": 0,
+    "human_deletions": 0
+  },
+  "files": {
+    "blocks/sunstargum-get-promotions/sunstargum-get-promotions.css": {
+      "ai_additions": 257,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 0,
+      "ai_lines": "1-257",
+      "human_lines": ""
+    },
+    "blocks/sunstargum-get-promotions/sunstargum-get-promotions.js": {
+      "ai_additions": 178,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 0,
+      "ai_lines": "1-178",
+      "human_lines": ""
+    }
+  }
+}
