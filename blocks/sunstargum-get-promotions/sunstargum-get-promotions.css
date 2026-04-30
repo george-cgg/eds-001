@@ -1,0 +1,257 @@
+/*
+ * ADOBE CONFIDENTIAL
+ * ___________________
+ * Copyright 2026 Adobe
+ * All Rights Reserved.
+ * NOTICE: All information contained herein is, and remains
+ * the property of Adobe and its suppliers, if any. The intellectual
+ * and technical concepts contained herein are proprietary to Adobe
+ * and its suppliers and are protected by all applicable intellectual
+ * property laws, including trade secret and copyright laws.
+ *  Dissemination of this information or reproduction of this material
+ * is strictly forbidden unless prior written permission is obtained
+ * from Adobe.
+ */
+
+.sunstargum-get-promotions {
+  --gum-green: #009257;
+  --gum-green-accent: #2bb573;
+  --gum-promo-red: #e03e2d;
+  --gum-promo-red-bg: #ffecea;
+  --gum-text-dark: #272b29;
+  --gum-text-muted: #6b7280;
+  --gum-bg: #fff;
+  --gum-card-bg: #fff;
+  --gum-border: #e5e7eb;
+  --gum-font: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--gum-font);
+  background: transparent;
+}
+
+/* Reuse shared layout from products-list */
+.sunstargum-get-promotions .gum-products-wrapper {
+  position: relative;
+  max-width: 100%;
+}
+
+.sunstargum-get-promotions .gum-products-carousel {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  padding: 8px 4px 16px;
+}
+
+.sunstargum-get-promotions .gum-products-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+/* Navigation arrows */
+.sunstargum-get-promotions .gum-carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--gum-border);
+  background: var(--gum-card-bg);
+  color: var(--gum-text-dark);
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 12%);
+  z-index: 2;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+  padding: 0;
+  line-height: 1;
+}
+
+.sunstargum-get-promotions .gum-carousel-arrow:hover {
+  background: var(--gum-green);
+  color: #fff;
+  border-color: var(--gum-green);
+  transform: translateY(-50%) scale(1.05);
+  box-shadow: 0 4px 12px rgb(0 0 0 / 16%);
+}
+
+.sunstargum-get-promotions .gum-carousel-arrow.left { left: -6px; }
+.sunstargum-get-promotions .gum-carousel-arrow.right { right: -6px; }
+
+.sunstargum-get-promotions .gum-carousel-arrow:disabled {
+  opacity: 0.3;
+  cursor: default;
+  pointer-events: none;
+}
+
+/* Card */
+.sunstargum-get-promotions .gum-product-card {
+  flex: 0 0 230px;
+  scroll-snap-align: start;
+  background: var(--gum-card-bg);
+  border: 1px solid var(--gum-border);
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 6%);
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+  position: relative;
+}
+
+.sunstargum-get-promotions .gum-product-card:hover {
+  box-shadow: 0 8px 24px rgb(0 0 0 / 12%);
+  transform: translateY(-3px);
+}
+
+/* Promotion badge */
+.gum-promo-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: var(--gum-promo-red);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  font-family: var(--gum-font);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 3px 8px;
+  border-radius: 4px;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.sunstargum-get-promotions .gum-product-image-wrap {
+  width: 100%;
+  aspect-ratio: 1;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  border-radius: 12px 12px 0 0;
+  box-sizing: border-box;
+}
+
+.sunstargum-get-promotions .gum-product-image-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.sunstargum-get-promotions .gum-product-image-wrap img.loaded {
+  opacity: 1;
+}
+
+.sunstargum-get-promotions .gum-product-info {
+  padding: 16px 14px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+  flex: 1;
+}
+
+.sunstargum-get-promotions .gum-product-name {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--gum-text-dark);
+  text-transform: uppercase;
+  line-height: 1.4;
+  margin: 0;
+  letter-spacing: 0.02em;
+}
+
+.sunstargum-get-promotions .gum-product-rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.sunstargum-get-promotions .gum-stars {
+  display: flex;
+  gap: 1px;
+}
+
+.sunstargum-get-promotions .gum-star {
+  width: 16px;
+  height: 16px;
+}
+
+.sunstargum-get-promotions .gum-rating-text {
+  font-size: 11px;
+  color: var(--gum-text-muted);
+  margin-left: 2px;
+}
+
+/* Price row */
+.gum-promo-price {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.gum-price-original {
+  font-size: 11px;
+  color: var(--gum-text-muted);
+  text-decoration: line-through;
+}
+
+.gum-price-promo {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--gum-promo-red);
+}
+
+.sunstargum-get-promotions .gum-product-cta {
+  padding: 7px 20px;
+  background: var(--gum-promo-red);
+  color: #fff;
+  border: none;
+  border-radius: 24px;
+  font-size: 11px;
+  font-weight: 600;
+  font-family: var(--gum-font);
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+  margin-top: auto;
+}
+
+.sunstargum-get-promotions .gum-product-cta:hover {
+  background: #c0321f;
+  box-shadow: 0 2px 8px rgb(224 62 45 / 30%);
+}
+
+/* Empty state */
+.sunstargum-get-promotions .gum-products-empty {
+  padding: 32px;
+  text-align: center;
+  color: var(--gum-text-muted);
+  font-size: 14px;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .sunstargum-get-promotions .gum-product-card {
+    flex: 0 0 180px;
+  }
+
+  .sunstargum-get-promotions .gum-product-name {
+    font-size: 11px;
+  }
+}
