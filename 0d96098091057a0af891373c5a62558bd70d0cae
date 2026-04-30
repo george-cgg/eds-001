@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0.0",
+  "mode": "full",
+  "commit_sha": "0d96098091057a0af891373c5a62558bd70d0cae",
+  "author": "george.cgg@gmail.com",
+  "timestamp": "2026-04-30T13:51:10+03:00",
+  "detection": {
+    "ai_assisted": true,
+    "method": "editor_hook",
+    "tool": "claude-code",
+    "model": "",
+    "confidence": 1.0
+  },
+  "stats": {
+    "total_additions": 2,
+    "total_deletions": 0,
+    "ai_additions": 2,
+    "ai_deletions": 0,
+    "human_additions": 0,
+    "human_deletions": 0
+  },
+  "files": {
+    "blocks/get-promotions/get-promotions.css": {
+      "ai_additions": 1,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 0,
+      "ai_lines": "1",
+      "human_lines": ""
+    },
+    "blocks/get-promotions/get-promotions.js": {
+      "ai_additions": 1,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 0,
+      "ai_lines": "1",
+      "human_lines": ""
+    }
+  }
+}
