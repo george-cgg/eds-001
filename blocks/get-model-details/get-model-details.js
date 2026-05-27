@@ -60,10 +60,9 @@ export default async function decorate(block, bridge) {
     if (isPreview) {
       item = SAMPLE_DATA[0];
     } else {
-      // structuredContent.models — derived from actionName "get_model_details" (single object outputSchema)
+      // structuredContent.models is a single object (object outputSchema, not bare array)
       const { structuredContent } = await bridge.toolResult;
-      const items = structuredContent?.models || [];
-      item = items[0] || {};
+      item = structuredContent?.models || {};
     }
   } else {
     item = SAMPLE_DATA[0];
