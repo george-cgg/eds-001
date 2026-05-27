@@ -60,9 +60,10 @@ export default async function decorate(block, bridge) {
     if (isPreview) {
       item = SAMPLE_DATA[0];
     } else {
-      // structuredContent.models is a single object (object outputSchema, not bare array)
-      const { structuredContent } = await bridge.toolResult;
-      item = structuredContent?.models || {};
+      // bridge.toolResult may resolve to the full MCP result or to structuredContent directly
+      const result = await bridge.toolResult;
+      const sc = result?.structuredContent || result;
+      item = sc?.models || {};
     }
   } else {
     item = SAMPLE_DATA[0];
