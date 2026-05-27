@@ -6,12 +6,10 @@ main > .section,
 main > .section:first-of-type {
   margin: 0;
 }
-
 main > .section > div {
   max-width: none;
   padding: 0;
 }
-
 body {
   overflow: auto;
 }
@@ -19,35 +17,40 @@ body {
 main .get-model-details {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   padding: 8px;
-  box-sizing: border-box;
+  background: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-main .get-model-details .detail-card {
+main .get-model-details .model-detail-card {
   display: flex;
   flex-direction: row;
   max-width: 645px;
   height: 280px;
   border-radius: 12px;
   overflow: hidden;
-  box-sizing: border-box;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
-/* Left: Image section with CTA overlay */
-main .get-model-details .image-section {
+/* Left: Image container (fixed ~260px wide) */
+main .get-model-details .model-image-container {
   position: relative;
   flex: 0 0 260px;
   width: 260px;
   height: 100%;
+  overflow: hidden;
 }
 
-main .get-model-details .model-image {
+main .get-model-details .model-image-container img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
 
-main .get-model-details .cta-overlay {
+/* CTA button on image (bottom-center) */
+main .get-model-details .cta-on-image {
   position: absolute;
   bottom: 12px;
   left: 50%;
@@ -55,32 +58,31 @@ main .get-model-details .cta-overlay {
   padding: 8px 20px;
   border: none;
   border-radius: 6px;
-  background: #6699cc;
+  background: #646b52;
   color: #ffffff;
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
   transition: opacity 0.15s;
-  white-space: nowrap;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
-main .get-model-details .cta-overlay:hover {
+main .get-model-details .cta-on-image:hover {
   opacity: 0.9;
 }
 
-main .get-model-details .cta-overlay:focus-visible {
+main .get-model-details .cta-on-image:focus-visible {
   outline: 2px solid #ffffff;
   outline-offset: 2px;
 }
 
-/* Right: Content section with palette background (set via JS theme?.bg) */
-main .get-model-details .content-section {
+/* Right: Content section with darkened palette bg */
+main .get-model-details .model-content {
   flex: 1;
-  padding: 16px;
   display: flex;
   flex-direction: column;
+  padding: 16px;
   gap: 8px;
-  box-sizing: border-box;
   overflow-y: auto;
 }
 
@@ -101,49 +103,60 @@ main .get-model-details .model-description {
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  text-overflow: ellipsis;
   color: inherit;
 }
 
 main .get-model-details .model-price {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 700;
+  margin-top: 4px;
   color: inherit;
-  margin-top: auto;
 }
 
 main .get-model-details .category-badge {
   display: inline-block;
   padding: 4px 10px;
+  background: rgba(255,255,255,0.15);
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.15);
-  color: inherit;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
   align-self: flex-start;
+  color: inherit;
 }
 
-/* Dark mode — dim outer widget background only.
-   Content section background is already darkened palette (theme?.bg) and has correct contrast. */
+main .get-model-details .book-test-drive-btn {
+  margin-top: auto;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  background: #646b52;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  align-self: stretch;
+}
+
+main .get-model-details .book-test-drive-btn:hover {
+  opacity: 0.9;
+}
+
+main .get-model-details .book-test-drive-btn:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
+}
+
+/* Dark mode — dim outer widget background only */
 @media (prefers-color-scheme: dark) {
   main .get-model-details {
-    background: #111;
+    background: transparent;
   }
 }
 
 body.dark main .get-model-details {
-  background: #111;
-}
-
-/* Responsive: stack vertically on very narrow widths */
-@media (max-width: 480px) {
-  main .get-model-details .detail-card {
-    flex-direction: column;
-    height: auto;
-  }
-
-  main .get-model-details .image-section {
-    flex: 0 0 180px;
-    width: 100%;
-    height: 180px;
-  }
+  background: transparent;
 }
