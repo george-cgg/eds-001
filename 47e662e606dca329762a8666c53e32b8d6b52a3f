@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0.0",
+  "mode": "full",
+  "commit_sha": "47e662e606dca329762a8666c53e32b8d6b52a3f",
+  "author": "george.cgg@gmail.com",
+  "timestamp": "2026-05-27T15:43:23+03:00",
+  "detection": {
+    "ai_assisted": true,
+    "method": "editor_hook",
+    "tool": "claude-code",
+    "model": "",
+    "confidence": 1.0
+  },
+  "stats": {
+    "total_additions": 4,
+    "total_deletions": 0,
+    "ai_additions": 4,
+    "ai_deletions": 0,
+    "human_additions": 0,
+    "human_deletions": 0
+  },
+  "files": {
+    "blocks/get-model-details/get-model-details.js": {
+      "ai_additions": 4,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 0,
+      "ai_lines": "63-66",
+      "human_lines": ""
+    }
+  }
+}
