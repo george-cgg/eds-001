@@ -39,34 +39,24 @@ const SAMPLE_DATA = [
 ];
 
 // Brand palette from BuildWidgetRequest — used to derive card info-strip background.
-const PALETTE = ['#646b52', '#555555', '#6699cc'];
+const PALETTE = ['#646b52','#555555','#6699cc'];
 
-// Darkens palette[0] to luminance ≤ 0.12 for WCAG AA contrast with white text.
 function getThemedCardBg(palette) {
   if (!palette || !palette[0]) return null;
-  let hex = palette[0].replace('#', '');
-  if (hex.length === 3) hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
-  if (hex.length !== 6) return null;
-  let [r, g, b] = [parseInt(hex.slice(0,2),16), parseInt(hex.slice(2,4),16), parseInt(hex.slice(4,6),16)];
-  if (isNaN(r) || isNaN(g) || isNaN(b)) return null;
-  const lum = (c) => { const s=c/255; return s<=0.03928?s/12.92:Math.pow((s+0.055)/1.055,2.4); };
-  const relLum = (r,g,b) => 0.2126*lum(r)+0.7152*lum(g)+0.0722*lum(b);
-  if (relLum(r,g,b) <= 0.12) return { bg: `#${hex}`, fg: '#ffffff' };
-  let lo=0, hi=1;
-  for (let i=0; i<20; i++) {
-    const m=(lo+hi)/2;
-    if (relLum(Math.round(r*m),Math.round(g*m),Math.round(b*m)) > 0.12) hi=m; else lo=m;
-  }
-  const dr=Math.round(r*lo), dg=Math.round(g*lo), db=Math.round(b*lo);
-  return {
-    bg: `#${dr.toString(16).padStart(2,'0')}${dg.toString(16).padStart(2,'0')}${db.toString(16).padStart(2,'0')}`,
-    fg: '#ffffff'
-  };
+  let hex = palette[0].replace('#','');
+  if(hex.length===3)hex=hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
+  if(hex.length!==6)return null;
+  let [r,g,b]=[parseInt(hex.slice(0,2),16),parseInt(hex.slice(2,4),16),parseInt(hex.slice(4,6),16)];
+  if(isNaN(r)||isNaN(g)||isNaN(b))return null;
+  const lum=(c)=>{const s=c/255;return s<=0.03928?s/12.92:Math.pow((s+0.055)/1.055,2.4);};
+  const relLum=(r,g,b)=>0.2126*lum(r)+0.7152*lum(g)+0.0722*lum(b);
+  if(relLum(r,g,b)<=0.12)return{bg:`#${hex}`,fg:'#ffffff'};
+  let lo=0,hi=1;
+  for(let i=0;i<20;i++){const m=(lo+hi)/2;if(relLum(Math.round(r*m),Math.round(g*m),Math.round(b*m))>0.12)hi=m;else lo=m;}
+  const dr=Math.round(r*lo),dg=Math.round(g*lo),db=Math.round(b*lo);
+  return{bg:`#${dr.toString(16).padStart(2,'0')}${dg.toString(16).padStart(2,'0')}${db.toString(16).padStart(2,'0')}`,fg:'#ffffff'};
 }
-
 const theme = getThemedCardBg(PALETTE);
-
-const CARD_COLORS = ['#378ef0','#9256d9','#0fb5ae','#e68619','#d83790','#2dca72','#4046ca','#72b340'];
 
 export default async function decorate(block, bridge) {
   let items;
@@ -102,27 +92,19 @@ export default async function decorate(block, bridge) {
 
 function renderCarousel(block, items, bridge) {
   const wrapper = document.createElement('div');
-  wrapper.className = 'carousel-wrapper';
+  wrapper.className = 'list-models-wrapper';
 
-  // Left arrow
-  const leftArrow = document.createElement('button');
-  leftArrow.className = 'carousel-arrow carousel-arrow-left';
-  leftArrow.setAttribute('aria-label', 'Scroll left');
-  leftArrow.textContent = '◀';
-  leftArrow.style.display = 'none'; // hidden at start
-  wrapper.appendChild(leftArrow);
-
-  // Carousel container
   const carousel = document.createElement('div');
-  carousel.className = 'carousel-container';
+  carousel.className = 'list-models-carousel';
+
+  const CARD_COLORS = ['#378ef0','#9256d9','#0fb5ae','#e68619','#d83790','#2dca72','#4046ca','#72b340'];
 
   items.slice(0, 5).forEach((item, i) => {
     const card = document.createElement('div');
-    card.className = 'model-card';
+    card.className = 'list-models-card';
 
-    // Image container
     const imageContainer = document.createElement('div');
-    imageContainer.className = 'card-image';
+    imageContainer.className = 'list-models-card-image';
 
     const fallbackColor = CARD_COLORS[i % CARD_COLORS.length];
     const colorDiv = () => {
@@ -146,10 +128,10 @@ function renderCarousel(block, items, bridge) {
       imageContainer.appendChild(colorDiv());
     }
 
-    // CTA button on image
     const ctaBtn = document.createElement('button');
-    ctaBtn.className = 'card-cta';
+    ctaBtn.className = 'list-models-cta';
     ctaBtn.textContent = 'View Details';
+    ctaBtn.setAttribute('aria-label', `View details for ${item.name || 'this model'}`);
     if (bridge) {
       ctaBtn.addEventListener('click', () => {
         bridge.sendMessage(`Tell me more about the ${item.name}`);
@@ -159,28 +141,38 @@ function renderCarousel(block, items, bridge) {
 
     card.appendChild(imageContainer);
 
-    // Card content (info strip with darkened palette bg)
     const content = document.createElement('div');
-    content.className = 'card-content';
-    content.style.cssText = `background:${theme?.bg ?? '#1a1a1a'};color:${theme?.fg ?? '#fff'};`;
+    content.className = 'list-models-card-content';
+    content.style.cssText = `background:${theme?.bg ?? '#1a1a1a'};color:${theme?.fg ?? '#fff'}`;
 
     const name = document.createElement('div');
-    name.className = 'card-name';
+    name.className = 'list-models-card-name';
     name.textContent = item.name || '';
     content.appendChild(name);
 
-    const price = document.createElement('div');
-    price.className = 'card-price';
-    price.textContent = item.price || '';
-    content.appendChild(price);
+    if (item.description) {
+      const desc = document.createElement('div');
+      desc.className = 'list-models-card-desc';
+      desc.textContent = item.description;
+      content.appendChild(desc);
+    }
 
     const footer = document.createElement('div');
-    footer.className = 'card-footer';
+    footer.className = 'list-models-card-footer';
 
-    const category = document.createElement('span');
-    category.className = 'card-badge';
-    category.textContent = item.category || '';
-    footer.appendChild(category);
+    if (item.price) {
+      const price = document.createElement('span');
+      price.className = 'list-models-card-price';
+      price.textContent = item.price;
+      footer.appendChild(price);
+    }
+
+    if (item.category) {
+      const badge = document.createElement('span');
+      badge.className = 'list-models-card-badge';
+      badge.textContent = item.category;
+      footer.appendChild(badge);
+    }
 
     content.appendChild(footer);
     card.appendChild(content);
@@ -189,55 +181,59 @@ function renderCarousel(block, items, bridge) {
 
   wrapper.appendChild(carousel);
 
-  // Right arrow
-  const rightArrow = document.createElement('button');
-  rightArrow.className = 'carousel-arrow carousel-arrow-right';
-  rightArrow.setAttribute('aria-label', 'Scroll right');
-  rightArrow.textContent = '▶';
-  wrapper.appendChild(rightArrow);
-
   // Right fade gradient
-  const fade = document.createElement('div');
-  fade.className = 'carousel-fade';
-  fade.style.cssText = `position:absolute;top:0;right:0;height:100%;width:60px;background:linear-gradient(to right,transparent,${theme?.bg ?? '#1a1a1a'}cc);pointer-events:none;border-radius:0 10px 10px 0;`;
-  wrapper.appendChild(fade);
+  if (items.length > 3) {
+    const fade = document.createElement('div');
+    fade.className = 'list-models-fade';
+    fade.style.cssText = `position:absolute;top:0;right:0;height:100%;width:60px;background:linear-gradient(to right,transparent,${theme?.bg ?? '#1a1a1a'}cc);pointer-events:none;border-radius:0 10px 10px 0;`;
+    wrapper.appendChild(fade);
+  }
 
-  block.appendChild(wrapper);
+  // Navigation arrows
+  const leftArrow = document.createElement('button');
+  leftArrow.className = 'list-models-arrow list-models-arrow-left';
+  leftArrow.innerHTML = '◀';
+  leftArrow.setAttribute('aria-label', 'Scroll left');
+  leftArrow.style.display = 'none';
 
-  // Scroll handlers
-  const cardWidth = 220 + 16; // card width + gap
+  const rightArrow = document.createElement('button');
+  rightArrow.className = 'list-models-arrow list-models-arrow-right';
+  rightArrow.innerHTML = '▶';
+  rightArrow.setAttribute('aria-label', 'Scroll right');
+
   const updateArrows = () => {
-    const atStart = carousel.scrollLeft <= 1;
-    const atEnd = carousel.scrollLeft >= carousel.scrollWidth - carousel.clientWidth - 1;
-    leftArrow.style.display = atStart ? 'none' : 'flex';
-    rightArrow.style.display = atEnd ? 'none' : 'flex';
-    fade.style.display = atEnd ? 'none' : 'block';
+    const scrollLeft = carousel.scrollLeft;
+    const maxScroll = carousel.scrollWidth - carousel.clientWidth;
+    leftArrow.style.display = scrollLeft > 0 ? 'block' : 'none';
+    rightArrow.style.display = scrollLeft < maxScroll - 1 ? 'block' : 'none';
   };
 
-  const scrollLeft = () => {
-    carousel.scrollBy({ left: -cardWidth, behavior: 'smooth' });
-  };
-  const scrollRight = () => {
-    carousel.scrollBy({ left: cardWidth, behavior: 'smooth' });
+  const scrollByCard = (direction) => {
+    const cardWidth = 220 + 16; // card width + gap
+    carousel.scrollBy({ left: direction * cardWidth, behavior: 'smooth' });
   };
 
-  leftArrow.addEventListener('click', scrollLeft);
-  rightArrow.addEventListener('click', scrollRight);
+  leftArrow.addEventListener('click', () => scrollByCard(-1));
+  rightArrow.addEventListener('click', () => scrollByCard(1));
 
-  // Keyboard support
   leftArrow.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
-      scrollLeft();
+      scrollByCard(-1);
     }
   });
+
   rightArrow.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
-      scrollRight();
+      scrollByCard(1);
     }
   });
 
   carousel.addEventListener('scroll', updateArrows);
   updateArrows();
+
+  wrapper.appendChild(leftArrow);
+  wrapper.appendChild(rightArrow);
+  block.appendChild(wrapper);
 }
