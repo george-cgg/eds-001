@@ -19,6 +19,7 @@ main .list-models {
   padding: 8px;
   position: relative;
   box-sizing: border-box;
+  max-width: 780px;
 }
 
 main .list-models .carousel-wrapper {
@@ -35,21 +36,11 @@ main .list-models .carousel-container {
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
   padding-bottom: 4px;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(100,107,82,0.4) transparent;
+  scrollbar-width: none;
 }
 
 main .list-models .carousel-container::-webkit-scrollbar {
-  height: 6px;
-}
-
-main .list-models .carousel-container::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-main .list-models .carousel-container::-webkit-scrollbar-thumb {
-  background: rgba(100,107,82,0.4);
-  border-radius: 3px;
+  display: none;
 }
 
 main .list-models .model-card {
@@ -60,7 +51,7 @@ main .list-models .model-card {
   overflow: hidden;
   scroll-snap-align: start;
   box-sizing: border-box;
-  height: 280px;
+  height: 300px;
 }
 
 main .list-models .card-image-container {
