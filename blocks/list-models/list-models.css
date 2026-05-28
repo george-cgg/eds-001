@@ -17,12 +17,13 @@ body {
 main .list-models {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   padding: 8px;
+  position: relative;
   box-sizing: border-box;
 }
 
 main .list-models .carousel-wrapper {
   position: relative;
-  width: 100%;
+  overflow: hidden;
 }
 
 main .list-models .carousel-container {
@@ -30,10 +31,12 @@ main .list-models .carousel-container {
   flex-direction: row;
   gap: 16px;
   overflow-x: auto;
+  scroll-behavior: smooth;
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
-  scroll-behavior: smooth;
   padding-bottom: 4px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(100,107,82,0.4) transparent;
 }
 
 main .list-models .carousel-container::-webkit-scrollbar {
@@ -41,12 +44,11 @@ main .list-models .carousel-container::-webkit-scrollbar {
 }
 
 main .list-models .carousel-container::-webkit-scrollbar-track {
-  background: rgba(0,0,0,0.05);
-  border-radius: 3px;
+  background: transparent;
 }
 
 main .list-models .carousel-container::-webkit-scrollbar-thumb {
-  background: rgba(0,0,0,0.2);
+  background: rgba(100,107,82,0.4);
   border-radius: 3px;
 }
 
@@ -57,18 +59,18 @@ main .list-models .model-card {
   border-radius: 10px;
   overflow: hidden;
   scroll-snap-align: start;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-sizing: border-box;
+  height: 280px;
 }
 
-main .list-models .card-image {
+main .list-models .card-image-container {
   position: relative;
   flex: 6;
-  aspect-ratio: 16/9;
   overflow: hidden;
-  background: #f5f5f5;
+  background: #e5e7eb;
 }
 
-main .list-models .card-image img {
+main .list-models .card-image-container img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -77,19 +79,20 @@ main .list-models .card-image img {
 
 main .list-models .card-cta {
   position: absolute;
-  bottom: 12px;
+  bottom: 10px;
   left: 50%;
   transform: translateX(-50%);
-  padding: 6px 16px;
   background: #646b52;
   color: #ffffff;
   border: none;
   border-radius: 13px;
+  padding: 6px 16px;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 500;
   cursor: pointer;
-  transition: opacity 0.2s;
-  z-index: 2;
+  transition: opacity 0.15s;
+  font-family: inherit;
+  white-space: nowrap;
 }
 
 main .list-models .card-cta:hover {
@@ -97,7 +100,7 @@ main .list-models .card-cta:hover {
 }
 
 main .list-models .card-cta:focus-visible {
-  outline: 2px solid #ffffff;
+  outline: 2px solid #646b52;
   outline-offset: 2px;
 }
 
@@ -107,80 +110,104 @@ main .list-models .card-content {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  box-sizing: border-box;
 }
 
 main .list-models .card-name {
   font-size: 14px;
   font-weight: 700;
   line-height: 1.2;
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
+  margin: 0;
   overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-main .list-models .card-price {
+main .list-models .card-description {
   font-size: 11px;
+  line-height: 1.3;
+  margin: 0;
   opacity: 0.78;
+  overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-  overflow: hidden;
 }
 
 main .list-models .card-footer {
   display: flex;
   align-items: center;
-  margin-top: 4px;
+  justify-content: space-between;
+  margin-top: auto;
+}
+
+main .list-models .card-price {
+  font-size: 13px;
+  font-weight: 600;
+  margin: 0;
 }
 
 main .list-models .card-badge {
-  display: inline-block;
-  padding: 2px 8px;
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 10px;
   background: #646b52;
   color: #ffffff;
-  font-size: 10px;
-  font-weight: 600;
-  border-radius: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  font-weight: 500;
 }
 
-/* Navigation arrows */
-main .list-models .carousel-arrow {
+main .list-models .nav-arrow {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
+  background: rgba(255,255,255,0.95);
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 50%;
   width: 36px;
   height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255,255,255,0.95);
-  border: 1px solid rgba(0,0,0,0.1);
-  border-radius: 50%;
-  font-size: 14px;
   cursor: pointer;
+  font-size: 16px;
+  color: #333;
   z-index: 10;
-  transition: background 0.2s;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  transition: all 0.15s;
+  font-family: inherit;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
-main .list-models .carousel-arrow:hover {
+main .list-models .nav-arrow:hover {
   background: #ffffff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
-main .list-models .carousel-arrow:focus-visible {
+main .list-models .nav-arrow:focus-visible {
   outline: 2px solid #646b52;
   outline-offset: 2px;
 }
 
-main .list-models .carousel-arrow-left {
-  left: -12px;
+main .list-models .nav-arrow.hidden {
+  opacity: 0;
+  pointer-events: none;
 }
 
-main .list-models .carousel-arrow-right {
-  right: -12px;
+main .list-models .nav-arrow.left {
+  left: 8px;
+}
+
+main .list-models .nav-arrow.right {
+  right: 8px;
+}
+
+main .list-models .fade-overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 60px;
+  pointer-events: none;
+  border-radius: 0 10px 10px 0;
 }
 
 /* Dark mode */
@@ -188,27 +215,15 @@ main .list-models .carousel-arrow-right {
   main .list-models {
     background: transparent;
   }
-
-  main .list-models .model-card {
-    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
-  }
-
-  main .list-models .carousel-arrow {
-    background: rgba(40,40,40,0.95);
-    border-color: rgba(255,255,255,0.1);
+  
+  main .list-models .nav-arrow {
+    background: rgba(255,255,255,0.15);
+    border-color: rgba(255,255,255,0.2);
     color: #ffffff;
   }
-
-  main .list-models .carousel-arrow:hover {
-    background: #2a2a2a;
-  }
-
-  main .list-models .carousel-container::-webkit-scrollbar-track {
-    background: rgba(255,255,255,0.05);
-  }
-
-  main .list-models .carousel-container::-webkit-scrollbar-thumb {
-    background: rgba(255,255,255,0.2);
+  
+  main .list-models .nav-arrow:hover {
+    background: rgba(255,255,255,0.25);
   }
 }
 
@@ -216,24 +231,12 @@ body.dark main .list-models {
   background: transparent;
 }
 
-body.dark main .list-models .model-card {
-  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
-}
-
-body.dark main .list-models .carousel-arrow {
-  background: rgba(40,40,40,0.95);
-  border-color: rgba(255,255,255,0.1);
+body.dark main .list-models .nav-arrow {
+  background: rgba(255,255,255,0.15);
+  border-color: rgba(255,255,255,0.2);
   color: #ffffff;
 }
 
-body.dark main .list-models .carousel-arrow:hover {
-  background: #2a2a2a;
-}
-
-body.dark main .list-models .carousel-container::-webkit-scrollbar-track {
-  background: rgba(255,255,255,0.05);
-}
-
-body.dark main .list-models .carousel-container::-webkit-scrollbar-thumb {
-  background: rgba(255,255,255,0.2);
+body.dark main .list-models .nav-arrow:hover {
+  background: rgba(255,255,255,0.25);
 }
