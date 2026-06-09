@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 /* Required for correct iframe sizing — AEM section margins inflate shadow body */
 main > div,
@@ -15,25 +16,26 @@ body {
 
 main .get-model-details {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  padding: 8px;
-  background: transparent;
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 10px;
+  box-sizing: border-box;
 }
 
-main .get-model-details .model-detail-card {
+main .get-model-details .model-card {
   display: flex;
   flex-direction: row;
-  max-width: 645px;
+  max-height: 280px;
   height: 280px;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-sizing: border-box;
 }
 
-/* Left: Image container (fixed ~260px wide) */
-main .get-model-details .model-image-container {
+/* Left side: image with CTA */
+main .get-model-details .model-image {
   position: relative;
   flex: 0 0 260px;
   width: 260px;
@@ -41,121 +43,110 @@ main .get-model-details .model-image-container {
   overflow: hidden;
 }
 
-main .get-model-details .model-image-container img {
+main .get-model-details .model-image img,
+main .get-model-details .model-image > div {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
 
-/* CTA button on image (bottom-center) */
-main .get-model-details .cta-on-image {
+/* CTA button overlaid on image */
+main .get-model-details .cta-btn {
   position: absolute;
-  bottom: 12px;
+  bottom: 16px;
   left: 50%;
   transform: translateX(-50%);
-  padding: 8px 20px;
+  padding: 10px 20px;
+  background: #646b52;
+  color: #fff;
   border: none;
   border-radius: 6px;
-  background: #646b52;
-  color: #ffffff;
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
-  transition: opacity 0.15s;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  transition: opacity 0.2s;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  z-index: 1;
 }
 
-main .get-model-details .cta-on-image:hover {
+main .get-model-details .cta-btn:hover {
   opacity: 0.9;
 }
 
-main .get-model-details .cta-on-image:focus-visible {
-  outline: 2px solid #ffffff;
+main .get-model-details .cta-btn:focus-visible {
+  outline: 2px solid #fff;
   outline-offset: 2px;
 }
 
-/* Right: Content section with darkened palette bg */
+/* Right side: content with themed background */
 main .get-model-details .model-content {
   flex: 1;
+  padding: 16px;
   display: flex;
   flex-direction: column;
-  padding: 16px;
   gap: 8px;
-  overflow-y: auto;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 main .get-model-details .model-name {
   margin: 0;
   font-size: 18px;
   font-weight: 700;
-  line-height: 1.3;
+  line-height: 1.2;
   color: inherit;
 }
 
 main .get-model-details .model-description {
   margin: 0;
   font-size: 13px;
-  line-height: 1.5;
+  line-height: 1.4;
   opacity: 0.78;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  text-overflow: ellipsis;
-  color: inherit;
+  flex: 1;
+}
+
+main .get-model-details .model-price-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 main .get-model-details .model-price {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 700;
-  margin-top: 4px;
   color: inherit;
 }
 
-main .get-model-details .category-badge {
+main .get-model-details .model-category {
   display: inline-block;
   padding: 4px 10px;
-  background: rgba(255,255,255,0.15);
-  border-radius: 12px;
+  background: rgba(255,255,255,0.12);
+  color: inherit;
   font-size: 11px;
   font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  align-self: flex-start;
-  color: inherit;
+  border-radius: 10px;
 }
 
-main .get-model-details .book-test-drive-btn {
-  margin-top: auto;
-  padding: 10px 16px;
-  border: none;
-  border-radius: 6px;
-  background: #646b52;
-  color: #ffffff;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: opacity 0.15s;
-  align-self: stretch;
-}
-
-main .get-model-details .book-test-drive-btn:hover {
-  opacity: 0.9;
-}
-
-main .get-model-details .book-test-drive-btn:focus-visible {
-  outline: 2px solid #ffffff;
-  outline-offset: 2px;
-}
-
-/* Dark mode — dim outer widget background only */
+/* Dark mode */
 @media (prefers-color-scheme: dark) {
   main .get-model-details {
     background: transparent;
+  }
+  main .get-model-details .model-card {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
   }
 }
 
 body.dark main .get-model-details {
   background: transparent;
+}
+
+body.dark main .get-model-details .model-card {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
 }
