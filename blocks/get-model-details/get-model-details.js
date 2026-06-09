@@ -1,31 +1,15 @@
-// Sample data for standalone EDS preview (no bridge).
+// Sample data for standalone/preview mode.
 // In production, data comes dynamically from bridge.toolResult.
-const SAMPLE_DATA = [
-  {
-    "name": "Dacia Bigster",
-    "description": "Large SUV with hybrid-G 150 4x4 and 702L trunk capacity.",
-    "image_url": "https://cdn.group.renault.com/dac/master/dacia-vn/vehicules/bigster-db3l1-ph1/herozone/dacia-bigster-db3l1-ph1-hero-zone-background-desktop-001.jpg.ximg.largex2.webp/7caee35b86.webp",
-    "price": "from 23,350 EUR",
-    "category": "SUV"
-  },
-  {
-    "name": "Dacia Duster",
-    "description": "Compact SUV with hybrid-G 150 4x4 and 217mm ground clearance.",
-    "image_url": "https://cdn.group.renault.com/dac/master/dacia-vn/vehicules/duster-p1310/hero-zone/dacia-duster-p1310-hero-zone-background-desktop-003.jpg.ximg.largex2.webp/310f84027e.webp",
-    "price": "from 19,500 EUR",
-    "category": "SUV"
-  },
-  {
-    "name": "Dacia Logan",
-    "description": "Sedan with Eco-G 120 GPL engine and up to 1500km range.",
-    "image_url": "https://cdn.group.renault.com/dac/master/dacia-vn/vehicules/logan/logan-li1-ph2/herozone-banners/dacia-logan-li1-ph2-herozone-background-001-desktop.jpg.ximg.largex2.webp/f7b183dd4d.webp",
-    "price": "from 14,950 EUR",
-    "category": "Sedan"
-  }
-];
+const SAMPLE_DATA = {
+  "name": "Bigster",
+  "description": "The largest Dacia SUV with hybrid and LPG options for families and adventurers.",
+  "image_url": "https://cdn.group.renault.com/dac/master/dacia-vn/vehicules/bigster-db3l1-ph1/herozone/dacia-bigster-db3l1-ph1-hero-zone-background-desktop-001.jpg.ximg.large.jpg/7caee35b86.jpg",
+  "price": "de la 22.890 EUR",
+  "category": "SUV"
+};
 
-// Brand palette from BuildWidgetRequest
-const PALETTE = ['#646b52', '#555555', '#6699cc'];
+// Brand palette from BuildWidgetRequest.
+const PALETTE = ['#646b52','#555555','#6699cc','#0000ee'];
 
 function getThemedCardBg(palette) {
   if (!palette || !palette[0]) return null;
@@ -43,34 +27,31 @@ function getThemedCardBg(palette) {
     if (relLum(Math.round(r*m),Math.round(g*m),Math.round(b*m)) > 0.12) hi=m; else lo=m;
   }
   const dr=Math.round(r*lo), dg=Math.round(g*lo), db=Math.round(b*lo);
-  return {
-    bg:`#${dr.toString(16).padStart(2,'0')}${dg.toString(16).padStart(2,'0')}${db.toString(16).padStart(2,'0')}`,
-    fg:'#ffffff'
-  };
+  return { bg:`#${dr.toString(16).padStart(2,'0')}${dg.toString(16).padStart(2,'0')}${db.toString(16).padStart(2,'0')}`, fg:'#ffffff' };
 }
 
-const CARD_COLORS = ['#378ef0','#9256d9','#0fb5ae','#e68619','#d83790','#2dca72','#4046ca','#72b340'];
+const theme = getThemedCardBg(PALETTE);
 
 export default async function decorate(block, bridge) {
-  let item;
+  let model;
 
   if (bridge) {
     bridge.applyHostStyles();
     const isPreview = bridge.hostContext?.preview === true;
     if (isPreview) {
-      item = SAMPLE_DATA[0];
+      model = SAMPLE_DATA;
     } else {
-      // bridge.toolResult may resolve to the full MCP result or to structuredContent directly
-      const result = await bridge.toolResult;
-      const sc = result?.structuredContent || result;
-      item = sc?.models || {};
+      const _result = await bridge.toolResult;
+      const structuredContent = _result?.structuredContent || _result;
+      // outputSchema is a single object - use directly
+      model = structuredContent || SAMPLE_DATA;
     }
   } else {
-    item = SAMPLE_DATA[0];
+    model = SAMPLE_DATA;
   }
 
   block.textContent = '';
-  renderDetailCard(block, item, bridge);
+  renderModel(block, model, bridge);
 
   if (bridge) {
     bridge.reportSize(block.offsetWidth, block.offsetHeight);
@@ -83,91 +64,81 @@ export default async function decorate(block, bridge) {
   }
 }
 
-function renderDetailCard(block, item, bridge) {
-  const theme = getThemedCardBg(PALETTE);
-  const fallbackColor = CARD_COLORS[0];
-
+function renderModel(block, model, bridge) {
   const card = document.createElement('div');
-  card.className = 'model-detail-card';
+  card.className = 'model-card';
 
-  // Left: Image container with CTA
+  // Left side: image with CTA overlay
   const imageContainer = document.createElement('div');
-  imageContainer.className = 'model-image-container';
+  imageContainer.className = 'model-image';
 
-  if (item.image_url) {
+  if (model.image_url) {
     const img = document.createElement('img');
-    img.src = item.image_url;
-    img.alt = item.name || 'Vehicle';
+    img.src = model.image_url;
+    img.alt = model.name || 'Model image';
     img.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;';
+
+    const fallbackColor = '#646b52';
     img.onerror = () => {
       const colorDiv = document.createElement('div');
       colorDiv.style.cssText = `width:100%;height:100%;background-color:${fallbackColor};`;
       img.parentNode.replaceChild(colorDiv, img);
     };
+
     imageContainer.appendChild(img);
   } else {
     const colorDiv = document.createElement('div');
-    colorDiv.style.cssText = `width:100%;height:100%;background-color:${fallbackColor};`;
+    colorDiv.style.cssText = 'width:100%;height:100%;background-color:#646b52;';
     imageContainer.appendChild(colorDiv);
   }
 
-  // CTA button on image
+  // CTA button overlaid on image
   const ctaBtn = document.createElement('button');
-  ctaBtn.className = 'cta-on-image';
+  ctaBtn.className = 'cta-btn';
   ctaBtn.textContent = 'More Details';
-  ctaBtn.style.background = PALETTE[0] || '#646b52';
+  ctaBtn.setAttribute('aria-label', `View details for ${model.name || 'this model'}`);
+
   if (bridge) {
     ctaBtn.addEventListener('click', () => {
-      bridge.sendMessage(`Tell me more about the ${item.name || 'vehicle'}`);
+      bridge.sendMessage(`Tell me more about the ${model.name}`);
     });
   }
-  imageContainer.appendChild(ctaBtn);
 
+  imageContainer.appendChild(ctaBtn);
   card.appendChild(imageContainer);
 
-  // Right: Content section with darkened palette background
+  // Right side: content with themed background
   const content = document.createElement('div');
   content.className = 'model-content';
-  content.style.cssText = `background:${theme?.bg ?? '#1a1a1a'};color:${theme?.fg ?? '#fff'}`;
+  content.style.cssText = `background:${theme?.bg ?? '#3a4a3a'};color:${theme?.fg ?? '#fff'}`;
 
   const name = document.createElement('h2');
   name.className = 'model-name';
-  name.textContent = item.name || 'Model Name';
+  name.textContent = model.name || '';
   content.appendChild(name);
 
-  if (item.description) {
-    const desc = document.createElement('p');
-    desc.className = 'model-description';
-    desc.textContent = item.description;
-    content.appendChild(desc);
+  const description = document.createElement('p');
+  description.className = 'model-description';
+  description.textContent = model.description || '';
+  content.appendChild(description);
+
+  const priceRow = document.createElement('div');
+  priceRow.className = 'model-price-row';
+
+  const price = document.createElement('span');
+  price.className = 'model-price';
+  price.textContent = model.price || '';
+  priceRow.appendChild(price);
+
+  if (model.category) {
+    const categoryBadge = document.createElement('span');
+    categoryBadge.className = 'model-category';
+    categoryBadge.textContent = model.category;
+    priceRow.appendChild(categoryBadge);
   }
 
-  if (item.price) {
-    const price = document.createElement('div');
-    price.className = 'model-price';
-    price.textContent = item.price;
-    content.appendChild(price);
-  }
-
-  if (item.category) {
-    const badge = document.createElement('span');
-    badge.className = 'category-badge';
-    badge.textContent = item.category;
-    content.appendChild(badge);
-  }
-
-  // Book Test Drive button
-  const bookBtn = document.createElement('button');
-  bookBtn.className = 'book-test-drive-btn';
-  bookBtn.textContent = 'Book Test Drive';
-  bookBtn.style.background = PALETTE[0] || '#646b52';
-  if (bridge) {
-    bookBtn.addEventListener('click', () => {
-      bridge.sendMessage(`I'd like to book a test drive for the ${item.name || 'vehicle'}`);
-    });
-  }
-  content.appendChild(bookBtn);
-
+  content.appendChild(priceRow);
   card.appendChild(content);
+
   block.appendChild(card);
 }
