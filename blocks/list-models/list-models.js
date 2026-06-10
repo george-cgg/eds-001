@@ -2,54 +2,47 @@
 // In production, data comes dynamically from bridge.toolResult.
 const SAMPLE_DATA = [
   {
-    "name": "Bigster",
-    "description": "SUV hibrid cu GPL, cutie automată și tracțiune 4x4.",
-    "image_url": "https://cdn.group.renault.com/dac/master/dacia-vn/vehicules/bigster-db3l1-ph1/herozone/dacia-bigster-db3l1-ph1-hero-zone-background-desktop-001.jpg.ximg.large.jpg/7caee35b86.jpg",
-    "price": "de la 22.890 EUR",
-    "category": "SUV"
-  },
-  {
     "name": "Duster",
-    "description": "SUV cu motorizare hibridă GPL și tracțiune 4x4.",
-    "image_url": "https://cdn.group.renault.com/dac/master/dacia-vn/vehicules/duster-p1310/hero-zone/dacia-duster-p1310-hero-zone-background-desktop-003.jpg.ximg.large.jpg/310f84027e.jpg",
-    "price": "de la 19.100 EUR",
+    "description": "Versatile SUV with 4x4 capability, hybrid engine, and rugged design for on and off-road adventures.",
+    "image_url": "https://cdn.group.renault.com/dac/master/dacia-vn/vehicules/duster-p1310/hero-zone/dacia-duster-p1310-hero-zone-background-desktop-003.jpg.ximg.largex2.webp/310f84027e.webp",
+    "price": "from 17,100 EUR",
     "category": "SUV"
   },
   {
     "name": "Logan",
-    "description": "Berlină accesibilă cu motorizare GPL și habitaclu generos.",
-    "image_url": "https://cdn.group.renault.com/dac/master/dacia-vn/vehicules/logan/logan-li1-ph2/herozone-banners/dacia-logan-li1-ph2-herozone-background-001-desktop.jpg.ximg.large.jpg/f7b183dd4d.jpg",
-    "price": "de la 14.650 EUR",
+    "description": "Spacious and efficient sedan offering generous interior room and low running costs.",
+    "image_url": "https://cdn.group.renault.com/dac/master/dacia-vn/vehicules/logan/logan-li1-ph2/herozone-banners/dacia-logan-li1-ph2-herozone-background-001-desktop.jpg.ximg.largex2.webp/f7b183dd4d.webp",
+    "price": "from 12,741 EUR",
     "category": "Sedan"
   },
   {
-    "name": "Sandero Stepway",
-    "description": "Crossover compact cu design outdoor și motorizare GPL.",
-    "image_url": "https://cdn.group.renault.com/dac/master/dacia-vn/vehicules/sandero-stepway/sandero-stepway-bi1-ph2/herozone-banners/sandero-stepway-bi1-ph2-herozone-background-desktop-001.jpg.ximg.large.jpg/48eb89e802.jpg",
-    "price": "de la 15.650 EUR",
-    "category": "Crossover"
+    "name": "Jogger",
+    "description": "Family MPV with 5 or 7 seats and hybrid powertrain for versatile everyday use.",
+    "image_url": "https://cdn.group.renault.com/dac/master/dacia-vn/vehicules/rji/jogger-ri1-ph2/herozone-banners/jogger-ri1-ph2-herozone-background-001-desktop.jpg.ximg.largex2.webp/5224fc9270.webp",
+    "price": "from 16,741 EUR",
+    "category": "MPV"
   },
   {
     "name": "Spring",
-    "description": "Mașină electrică urbană accesibilă cu autonomie generoasă.",
-    "image_url": "https://cdn.group.renault.com/dac/master/dacia-vn/vehicules/dacia-bbg/spring-s2e-ph2-my26/overview/editorial/dacia-spring-s2e-ph2-hero-zone-background-desktop-001.jpg.ximg.large.jpg/1f111e4936.jpg",
-    "price": "de la 18.600 EUR",
-    "category": "Electric"
+    "description": "Compact electric city car with 225 km range and 100 CP motor for urban mobility.",
+    "image_url": "https://cdn.group.renault.com/dac/master/dacia-vn/vehicules/dacia-bbg/spring-s2e-ph2-my26/overview/editorial/dacia-spring-s2e-ph2-hero-zone-background-desktop-001.jpg.ximg.largex2.webp/1f111e4936.webp",
+    "price": "from 15,069 EUR",
+    "category": "Electric",
+    "is_deal": "true",
+    "original_price": "18,600 EUR",
+    "discount_percentage": "19% OFF"
   },
   {
-    "name": "Jogger",
-    "description": "Mașină familială cu 7 locuri și motorizare hibridă GPL.",
-    "image_url": "https://cdn.group.renault.com/dac/master/dacia-vn/vehicules/rji/jogger-ri1-ph2/herozone-banners/jogger-ri1-ph2-herozone-background-001-desktop.jpg.ximg.large.jpg/5224fc9270.jpg",
-    "price": "de la 18.650 EUR",
-    "category": "Family"
+    "name": "Sandero Stepway",
+    "description": "Elevated crossover with robust design, GPL engine option, and automatic transmission.",
+    "image_url": "https://cdn.group.renault.com/dac/master/dacia-vn/vehicules/sandero-stepway/sandero-stepway-bi1-ph2/herozone-banners/sandero-stepway-bi1-ph2-herozone-background-desktop-001.jpg.ximg.largex2.webp/48eb89e802.webp",
+    "price": "from 13,741 EUR",
+    "category": "Crossover"
   }
 ];
 
-// Brand palette from BuildWidgetRequest — used to derive card info-strip background.
+// Brand palette from BuildWidgetRequest
 const PALETTE = ['#646b52','#555555','#6699cc','#0000ee'];
-
-// Color fallbacks for broken images
-const CARD_COLORS = ['#378ef0','#9256d9','#0fb5ae','#e68619','#d83790','#2dca72','#4046ca','#72b340'];
 
 function getThemedCardBg(palette) {
   if (!palette || !palette[0]) return null;
@@ -68,6 +61,7 @@ function getThemedCardBg(palette) {
 }
 
 const theme = getThemedCardBg(PALETTE);
+const CARD_COLORS = ['#378ef0','#9256d9','#0fb5ae','#e68619','#d83790','#2dca72','#4046ca','#72b340'];
 
 export default async function decorate(block, bridge) {
   let items;
@@ -103,21 +97,20 @@ export default async function decorate(block, bridge) {
 
 function renderCarousel(block, items, bridge) {
   const wrapper = document.createElement('div');
-  wrapper.className = 'list-models-carousel-wrapper';
+  wrapper.className = 'carousel-wrapper';
 
   const carousel = document.createElement('div');
-  carousel.className = 'list-models-carousel';
+  carousel.className = 'carousel';
 
-  items.forEach((item, i) => {
+  items.slice(0, 5).forEach((item, i) => {
     const card = document.createElement('div');
-    card.className = 'list-models-card';
+    card.className = 'card';
 
-    // Image container
-    const imageWrapper = document.createElement('div');
-    imageWrapper.className = 'list-models-card-image';
+    const imageContainer = document.createElement('div');
+    imageContainer.className = 'card-image';
 
     const fallbackColor = CARD_COLORS[i % CARD_COLORS.length];
-    const createColorDiv = () => {
+    const colorDiv = () => {
       const d = document.createElement('div');
       d.style.cssText = `width:100%;height:100%;background-color:${fallbackColor};`;
       return d;
@@ -130,121 +123,108 @@ function renderCarousel(block, items, bridge) {
       img.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;';
       img.onerror = () => {
         if (img.parentNode) {
-          img.parentNode.replaceChild(createColorDiv(), img);
+          img.parentNode.replaceChild(colorDiv(), img);
         }
       };
-      imageWrapper.appendChild(img);
+      imageContainer.appendChild(img);
     } else {
-      imageWrapper.appendChild(createColorDiv());
+      imageContainer.appendChild(colorDiv());
     }
 
-    // CTA button on image
     const ctaBtn = document.createElement('button');
-    ctaBtn.className = 'list-models-cta';
-    ctaBtn.textContent = 'Descoperă';
-    ctaBtn.setAttribute('aria-label', `Descoperă ${item.name || 'model'}`);
+    ctaBtn.className = 'cta-on-image';
+    ctaBtn.textContent = 'View Details';
     if (bridge) {
       ctaBtn.addEventListener('click', () => {
-        bridge.sendMessage(`Tell me more about ${item.name}`);
+        bridge.sendMessage(`Tell me more about the ${item.name}`);
       });
     }
-    imageWrapper.appendChild(ctaBtn);
+    imageContainer.appendChild(ctaBtn);
 
-    card.appendChild(imageWrapper);
+    card.appendChild(imageContainer);
 
-    // Content section
     const content = document.createElement('div');
-    content.className = 'list-models-card-content';
+    content.className = 'card-content';
     content.style.cssText = `background:${theme?.bg ?? '#1a1a1a'};color:${theme?.fg ?? '#fff'}`;
 
-    // Category badge
-    if (item.category) {
-      const badge = document.createElement('span');
-      badge.className = 'list-models-category';
-      badge.textContent = item.category;
-      content.appendChild(badge);
-    }
-
-    // Name
     const name = document.createElement('h3');
-    name.className = 'list-models-name';
+    name.className = 'card-name';
     name.textContent = item.name || '';
     content.appendChild(name);
 
-    // Description
-    if (item.description) {
-      const desc = document.createElement('p');
-      desc.className = 'list-models-description';
-      desc.textContent = item.description;
-      content.appendChild(desc);
+    const description = document.createElement('p');
+    description.className = 'card-description';
+    description.textContent = item.description || '';
+    content.appendChild(description);
+
+    const footer = document.createElement('div');
+    footer.className = 'card-footer';
+
+    const price = document.createElement('span');
+    price.className = 'card-price';
+    price.textContent = item.price || '';
+    footer.appendChild(price);
+
+    if (item.category) {
+      const badge = document.createElement('span');
+      badge.className = 'card-badge';
+      badge.textContent = item.category;
+      footer.appendChild(badge);
     }
 
-    // Price
-    if (item.price) {
-      const price = document.createElement('div');
-      price.className = 'list-models-price';
-      price.textContent = item.price;
-      content.appendChild(price);
-    }
-
+    content.appendChild(footer);
     card.appendChild(content);
     carousel.appendChild(card);
   });
 
   wrapper.appendChild(carousel);
 
-  // Right fade gradient
   const fade = document.createElement('div');
-  fade.className = 'list-models-fade';
+  fade.className = 'fade-gradient';
   fade.style.cssText = `position:absolute;top:0;right:0;height:100%;width:60px;background:linear-gradient(to right,transparent,${theme?.bg ?? '#1a1a1a'}cc);pointer-events:none;border-radius:0 10px 10px 0;`;
   wrapper.appendChild(fade);
 
-  // Navigation arrows
   const leftArrow = document.createElement('button');
-  leftArrow.className = 'list-models-arrow list-models-arrow-left';
-  leftArrow.innerHTML = '&#9664;';
+  leftArrow.className = 'carousel-arrow left';
+  leftArrow.innerHTML = '◀';
   leftArrow.setAttribute('aria-label', 'Scroll left');
-  leftArrow.style.display = 'none';
+  wrapper.appendChild(leftArrow);
 
   const rightArrow = document.createElement('button');
-  rightArrow.className = 'list-models-arrow list-models-arrow-right';
-  rightArrow.innerHTML = '&#9654;';
+  rightArrow.className = 'carousel-arrow right';
+  rightArrow.innerHTML = '▶';
   rightArrow.setAttribute('aria-label', 'Scroll right');
+  wrapper.appendChild(rightArrow);
 
   const updateArrows = () => {
-    const scrollLeft = carousel.scrollLeft;
-    const maxScroll = carousel.scrollWidth - carousel.clientWidth;
-    leftArrow.style.display = scrollLeft > 5 ? 'flex' : 'none';
-    rightArrow.style.display = scrollLeft < maxScroll - 5 ? 'flex' : 'none';
+    leftArrow.style.display = carousel.scrollLeft <= 0 ? 'none' : 'flex';
+    rightArrow.style.display = carousel.scrollLeft + carousel.offsetWidth >= carousel.scrollWidth - 1 ? 'none' : 'flex';
   };
 
-  const scrollByCard = (direction) => {
-    const cardWidth = 220 + 16; // card width + gap
-    carousel.scrollBy({ left: direction * cardWidth, behavior: 'smooth' });
-  };
+  leftArrow.addEventListener('click', () => {
+    carousel.scrollBy({ left: -236, behavior: 'smooth' });
+  });
 
-  leftArrow.addEventListener('click', () => scrollByCard(-1));
-  rightArrow.addEventListener('click', () => scrollByCard(1));
+  rightArrow.addEventListener('click', () => {
+    carousel.scrollBy({ left: 236, behavior: 'smooth' });
+  });
 
   leftArrow.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
-      scrollByCard(-1);
+      carousel.scrollBy({ left: -236, behavior: 'smooth' });
     }
   });
 
   rightArrow.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
-      scrollByCard(1);
+      carousel.scrollBy({ left: 236, behavior: 'smooth' });
     }
   });
 
   carousel.addEventListener('scroll', updateArrows);
   updateArrows();
-
-  wrapper.appendChild(leftArrow);
-  wrapper.appendChild(rightArrow);
 
   block.appendChild(wrapper);
 }
