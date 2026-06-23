@@ -1,55 +1,56 @@
-// Sample data for standalone EDS preview (no bridge).
-// In production, data comes dynamically from bridge.toolResult.
 const SAMPLE_DATA = [
   {
-    "name": "Bigster",
-    "description": "SUV hibrid cu GPL, cutie automată și tracțiune 4x4.",
-    "image_url": "https://cdn.group.renault.com/dac/master/dacia-vn/vehicules/bigster-db3l1-ph1/herozone/dacia-bigster-db3l1-ph1-hero-zone-background-desktop-001.jpg.ximg.large.jpg/7caee35b86.jpg",
-    "price": "de la 22.890 EUR",
+    "name": "2026 IONIQ 9",
+    "description": "Three-row all-electric SUV with extended range.",
+    "image_url": "https://s7d1.scene7.com/is/image/hyundai/2026-ioniq-9-calligraphy-awd-cosmic-blue-pearl-profile?wid=800&fmt=webp",
+    "price": "$58,955",
+    "category": "Electric SUV"
+  },
+  {
+    "name": "2026 PALISADE Hybrid",
+    "description": "Flagship three-row hybrid SUV.",
+    "image_url": "https://s7d1.scene7.com/is/image/hyundai/2026-palisade-hev-calligraphy-fwd-ecotronic-gray-profile?wid=800&fmt=webp",
+    "price": "$44,160",
     "category": "SUV"
   },
   {
-    "name": "Duster",
-    "description": "SUV cu motorizare hibridă GPL și tracțiune 4x4.",
-    "image_url": "https://cdn.group.renault.com/dac/master/dacia-vn/vehicules/duster-p1310/hero-zone/dacia-duster-p1310-hero-zone-background-desktop-003.jpg.ximg.large.jpg/310f84027e.jpg",
-    "price": "de la 19.100 EUR",
+    "name": "2026 SANTA FE Hybrid",
+    "description": "Midsize hybrid SUV with rugged styling.",
+    "image_url": "https://s7d1.scene7.com/is/image/hyundai/2026-santa-fe-hev-calligraphy-fwd-ultimate-red-profile?wid=800&fmt=webp",
+    "price": "$36,400",
     "category": "SUV"
   },
   {
-    "name": "Logan",
-    "description": "Berlină accesibilă cu motorizare GPL și habitaclu generos.",
-    "image_url": "https://cdn.group.renault.com/dac/master/dacia-vn/vehicules/logan/logan-li1-ph2/herozone-banners/dacia-logan-li1-ph2-herozone-background-001-desktop.jpg.ximg.large.jpg/f7b183dd4d.jpg",
-    "price": "de la 14.650 EUR",
+    "name": "2025 IONIQ 6",
+    "description": "Aerodynamic all-electric sedan.",
+    "image_url": "https://s7d1.scene7.com/is/image/hyundai/2025-ioniq-6-limited-rwd-transmission-blue-pearl-profile?wid=800&fmt=webp",
+    "price": "$37,850",
+    "category": "Electric Sedan"
+  },
+  {
+    "name": "2026 IONIQ 5",
+    "description": "Award-winning all-electric crossover SUV.",
+    "image_url": "https://s7d1.scene7.com/is/image/hyundai/2026-ioniq-5-limited-rwd-gravity-gold-matte-profile?wid=800&fmt=webp",
+    "price": "$35,000",
+    "category": "Electric SUV"
+  },
+  {
+    "name": "2026 SONATA Hybrid",
+    "description": "Midsize hybrid sedan.",
+    "image_url": "https://s7d1.scene7.com/is/image/hyundai/2026-sonata-hev-limited-fwd-aero-silver-a-profile?wid=800&fmt=webp",
+    "price": "$29,200",
     "category": "Sedan"
   },
   {
-    "name": "Sandero Stepway",
-    "description": "Crossover compact cu design outdoor și motorizare GPL.",
-    "image_url": "https://cdn.group.renault.com/dac/master/dacia-vn/vehicules/sandero-stepway/sandero-stepway-bi1-ph2/herozone-banners/sandero-stepway-bi1-ph2-herozone-background-desktop-001.jpg.ximg.large.jpg/48eb89e802.jpg",
-    "price": "de la 15.650 EUR",
-    "category": "Crossover"
-  },
-  {
-    "name": "Spring",
-    "description": "Mașină electrică urbană accesibilă cu autonomie generoasă.",
-    "image_url": "https://cdn.group.renault.com/dac/master/dacia-vn/vehicules/dacia-bbg/spring-s2e-ph2-my26/overview/editorial/dacia-spring-s2e-ph2-hero-zone-background-desktop-001.jpg.ximg.large.jpg/1f111e4936.jpg",
-    "price": "de la 18.600 EUR",
-    "category": "Electric"
-  },
-  {
-    "name": "Jogger",
-    "description": "Mașină familială cu 7 locuri și motorizare hibridă GPL.",
-    "image_url": "https://cdn.group.renault.com/dac/master/dacia-vn/vehicules/rji/jogger-ri1-ph2/herozone-banners/jogger-ri1-ph2-herozone-background-001-desktop.jpg.ximg.large.jpg/5224fc9270.jpg",
-    "price": "de la 18.650 EUR",
-    "category": "Family"
+    "name": "2026 ELANTRA Hybrid",
+    "description": "Compact hybrid sedan.",
+    "image_url": "https://s7d1.scene7.com/is/image/hyundai/2026-elantra-hybrid-limited-fwd-ecotronic-gray-profile?wid=800&fmt=webp",
+    "price": "$25,450",
+    "category": "Sedan"
   }
 ];
 
-// Brand palette from BuildWidgetRequest — used to derive card info-strip background.
-const PALETTE = ['#646b52','#555555','#6699cc','#0000ee'];
-
-// Color fallbacks for broken images
-const CARD_COLORS = ['#378ef0','#9256d9','#0fb5ae','#e68619','#d83790','#2dca72','#4046ca','#72b340'];
+const PALETTE = ["#002c5e","#32f596"];
 
 function getThemedCardBg(palette) {
   if (!palette || !palette[0]) return null;
@@ -69,6 +70,8 @@ function getThemedCardBg(palette) {
 
 const theme = getThemedCardBg(PALETTE);
 
+const CARD_COLORS = ['#378ef0','#9256d9','#0fb5ae','#e68619','#d83790','#2dca72','#4046ca','#72b340'];
+
 export default async function decorate(block, bridge) {
   let items;
 
@@ -80,7 +83,6 @@ export default async function decorate(block, bridge) {
     } else {
       const _result = await bridge.toolResult;
       const structuredContent = _result?.structuredContent || _result;
-      // structuredContent.models — bare array outputSchema; key derived from actionName "list_models"
       items = structuredContent?.models || [];
     }
   } else {
@@ -88,36 +90,33 @@ export default async function decorate(block, bridge) {
   }
 
   block.textContent = '';
-  renderCarousel(block, items, bridge);
-
-  if (bridge) {
-    bridge.reportSize(block.offsetWidth, block.offsetHeight);
-    let resizeTimer;
-    const ro = new ResizeObserver(() => {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(() => bridge.reportSize(block.offsetWidth, block.offsetHeight), 150);
-    });
-    ro.observe(block);
-  }
-}
-
-function renderCarousel(block, items, bridge) {
   const wrapper = document.createElement('div');
-  wrapper.className = 'list-models-carousel-wrapper';
+  wrapper.className = 'carousel-wrapper';
+
+  const leftArrow = document.createElement('button');
+  leftArrow.className = 'carousel-arrow left';
+  leftArrow.setAttribute('aria-label', 'Scroll left');
+  leftArrow.textContent = '◀';
+  leftArrow.style.display = 'none';
 
   const carousel = document.createElement('div');
-  carousel.className = 'list-models-carousel';
+  carousel.className = 'carousel';
 
-  items.forEach((item, i) => {
+  const rightArrow = document.createElement('button');
+  rightArrow.className = 'carousel-arrow right';
+  rightArrow.setAttribute('aria-label', 'Scroll right');
+  rightArrow.textContent = '▶';
+
+  const maxItems = Math.min(items.length, 5);
+  items.slice(0, maxItems).forEach((item, i) => {
     const card = document.createElement('div');
-    card.className = 'list-models-card';
+    card.className = 'model-card';
 
-    // Image container
-    const imageWrapper = document.createElement('div');
-    imageWrapper.className = 'list-models-card-image';
+    const imageContainer = document.createElement('div');
+    imageContainer.className = 'image-container';
 
     const fallbackColor = CARD_COLORS[i % CARD_COLORS.length];
-    const createColorDiv = () => {
+    const colorDiv = () => {
       const d = document.createElement('div');
       d.style.cssText = `width:100%;height:100%;background-color:${fallbackColor};`;
       return d;
@@ -128,123 +127,100 @@ function renderCarousel(block, items, bridge) {
       img.src = item.image_url;
       img.alt = item.name || '';
       img.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;';
-      img.onerror = () => {
-        if (img.parentNode) {
-          img.parentNode.replaceChild(createColorDiv(), img);
-        }
-      };
-      imageWrapper.appendChild(img);
+      img.onerror = () => img.parentNode.replaceChild(colorDiv(), img);
+      imageContainer.appendChild(img);
     } else {
-      imageWrapper.appendChild(createColorDiv());
+      imageContainer.appendChild(colorDiv());
     }
 
-    // CTA button on image
     const ctaBtn = document.createElement('button');
-    ctaBtn.className = 'list-models-cta';
-    ctaBtn.textContent = 'Descoperă';
-    ctaBtn.setAttribute('aria-label', `Descoperă ${item.name || 'model'}`);
+    ctaBtn.className = 'cta-button';
+    ctaBtn.textContent = 'View Details';
     if (bridge) {
       ctaBtn.addEventListener('click', () => {
-        bridge.sendMessage(`Tell me more about ${item.name}`);
+        bridge.sendMessage(`Tell me more about the ${item.name}`);
       });
     }
-    imageWrapper.appendChild(ctaBtn);
+    imageContainer.appendChild(ctaBtn);
 
-    card.appendChild(imageWrapper);
+    card.appendChild(imageContainer);
 
-    // Content section
     const content = document.createElement('div');
-    content.className = 'list-models-card-content';
+    content.className = 'card-content';
     content.style.cssText = `background:${theme?.bg ?? '#1a1a1a'};color:${theme?.fg ?? '#fff'}`;
 
-    // Category badge
-    if (item.category) {
-      const badge = document.createElement('span');
-      badge.className = 'list-models-category';
-      badge.textContent = item.category;
-      content.appendChild(badge);
-    }
-
-    // Name
-    const name = document.createElement('h3');
-    name.className = 'list-models-name';
+    const name = document.createElement('div');
+    name.className = 'model-name';
     name.textContent = item.name || '';
     content.appendChild(name);
 
-    // Description
-    if (item.description) {
-      const desc = document.createElement('p');
-      desc.className = 'list-models-description';
-      desc.textContent = item.description;
-      content.appendChild(desc);
-    }
+    const description = document.createElement('div');
+    description.className = 'model-description';
+    description.textContent = item.description || '';
+    content.appendChild(description);
 
-    // Price
-    if (item.price) {
-      const price = document.createElement('div');
-      price.className = 'list-models-price';
-      price.textContent = item.price;
-      content.appendChild(price);
-    }
+    const footer = document.createElement('div');
+    footer.className = 'card-footer';
 
+    const price = document.createElement('span');
+    price.className = 'model-price';
+    price.textContent = item.price || '';
+    footer.appendChild(price);
+
+    const category = document.createElement('span');
+    category.className = 'model-category';
+    category.textContent = item.category || '';
+    footer.appendChild(category);
+
+    content.appendChild(footer);
     card.appendChild(content);
     carousel.appendChild(card);
   });
 
-  wrapper.appendChild(carousel);
-
-  // Right fade gradient
-  const fade = document.createElement('div');
-  fade.className = 'list-models-fade';
-  fade.style.cssText = `position:absolute;top:0;right:0;height:100%;width:60px;background:linear-gradient(to right,transparent,${theme?.bg ?? '#1a1a1a'}cc);pointer-events:none;border-radius:0 10px 10px 0;`;
-  wrapper.appendChild(fade);
-
-  // Navigation arrows
-  const leftArrow = document.createElement('button');
-  leftArrow.className = 'list-models-arrow list-models-arrow-left';
-  leftArrow.innerHTML = '&#9664;';
-  leftArrow.setAttribute('aria-label', 'Scroll left');
-  leftArrow.style.display = 'none';
-
-  const rightArrow = document.createElement('button');
-  rightArrow.className = 'list-models-arrow list-models-arrow-right';
-  rightArrow.innerHTML = '&#9654;';
-  rightArrow.setAttribute('aria-label', 'Scroll right');
-
   const updateArrows = () => {
-    const scrollLeft = carousel.scrollLeft;
-    const maxScroll = carousel.scrollWidth - carousel.clientWidth;
-    leftArrow.style.display = scrollLeft > 5 ? 'flex' : 'none';
-    rightArrow.style.display = scrollLeft < maxScroll - 5 ? 'flex' : 'none';
+    leftArrow.style.display = carousel.scrollLeft <= 10 ? 'none' : 'flex';
+    rightArrow.style.display = carousel.scrollLeft >= carousel.scrollWidth - carousel.clientWidth - 10 ? 'none' : 'flex';
   };
 
   const scrollByCard = (direction) => {
-    const cardWidth = 220 + 16; // card width + gap
+    const cardWidth = 220 + 16;
     carousel.scrollBy({ left: direction * cardWidth, behavior: 'smooth' });
+    setTimeout(updateArrows, 300);
   };
 
   leftArrow.addEventListener('click', () => scrollByCard(-1));
   rightArrow.addEventListener('click', () => scrollByCard(1));
 
-  leftArrow.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      scrollByCard(-1);
-    }
-  });
-
-  rightArrow.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      scrollByCard(1);
-    }
+  [leftArrow, rightArrow].forEach(arrow => {
+    arrow.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        arrow.click();
+      }
+    });
   });
 
   carousel.addEventListener('scroll', updateArrows);
-  updateArrows();
+
+  const fade = document.createElement('div');
+  fade.className = 'fade-gradient';
+  fade.style.cssText = `position:absolute;top:0;right:0;height:100%;width:60px;background:linear-gradient(to right,transparent,${theme?.bg ?? '#1a1a1a'}cc);pointer-events:none;border-radius:0 10px 10px 0;`;
 
   wrapper.appendChild(leftArrow);
+  wrapper.appendChild(carousel);
   wrapper.appendChild(rightArrow);
-
+  wrapper.appendChild(fade);
   block.appendChild(wrapper);
+
+  updateArrows();
+
+  if (bridge) {
+    bridge.reportSize(block.offsetWidth, block.offsetHeight);
+    let resizeTimer;
+    const ro = new ResizeObserver(() => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => bridge.reportSize(block.offsetWidth, block.offsetHeight), 150);
+    });
+    ro.observe(block);
+  }
 }
