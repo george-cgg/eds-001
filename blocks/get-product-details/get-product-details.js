@@ -1,51 +1,15 @@
 // Sample data for standalone EDS preview (no bridge).
 // In production, data comes dynamically from bridge.toolResult.
-const SAMPLE_DATA = [
-  {
-    "name": "Mortgages",
-    "description": "Explore and compare mortgage rates, or apply online or in the app, including a £5k deposit mortgage for first-time buyers.",
-    "image_url": "https://www.lloydsbank.com/assets/homepage/homepage-new/remortgage-desktop-lloyds.jpg",
-    "category": "Mortgage"
-  },
-  {
-    "name": "Current accounts",
-    "description": "From everyday banking to bank accounts with added rewards, find the current account that's right for you.",
-    "image_url": "https://www.lloydsbank.com/assets/homepage/homepage-new/lds-current-accounts-homepage-desktop-vertical.jpg",
-    "category": "Checking"
-  },
-  {
-    "name": "Investments",
-    "description": "Whether you're an experienced investor or just starting out, find an investment product to suit you.",
-    "image_url": "https://www.lloydsbank.com/assets/investing/tye/wheatfield-767x384.jpg",
-    "category": "Investment"
-  },
-  {
-    "name": "Personal loans",
-    "description": "For big ideas or smaller plans, see how much you could borrow before you apply. Rate depends on personal circumstances.",
-    "image_url": "https://www.lloydsbank.com/assets/homepage/homepage-new/personal-loan-desktop-lloyds.jpg",
-    "category": "Personal Loan"
-  },
-  {
-    "name": "Credit cards",
-    "description": "Check your eligibility before you apply in about 5 minutes without affecting your credit score.",
-    "image_url": "https://www.lloydsbank.com/assets/homepage/homepage-new/credit-card-desktop-lloyds.jpg",
-    "category": "Credit Card"
-  },
-  {
-    "name": "Savings",
-    "description": "Whatever you want to save for, a range of savings accounts can help you find the right account.",
-    "image_url": "https://www.lloydsbank.com/assets/adaptive-images/stock-images/214927303/214927303_c110_promo_vertical_desktop.jpg",
-    "category": "Savings"
-  },
-  {
-    "name": "Home insurance",
-    "description": "Straightforward home insurance with monthly payment options at no extra fee and a 24/7 emergency claims line.",
-    "image_url": "https://www.lloydsbank.com/assets/homepage/homepage-new/home-ins-hp-carousel-desktop.jpg",
-    "category": "Insurance"
-  }
-];
+const SAMPLE_DATA = {
+  "name": "Bank of America Customized Cash Rewards Credit Card",
+  "description": "Earn 3% cash back in the category of your choice plus 2% at grocery stores and wholesale clubs, with a 6% first-year offer in your choice category.",
+  "price": "$0 annual fee",
+  "category": "Credit Card",
+  "image_url": "https://www.bankofamerica.com/content/images/ContextualSiteGraphics/CreditCardArt/en_US/Approved_PCM/8ckn_cshsigcm_v_300x188.png"
+};
 
-const PALETTE = ['#11b67a'];
+// Brand palette from BuildWidgetRequest — getThemedCardBg() darkens palette[0] to lum ≤ 0.12.
+const PALETTE = ['#012169', '#e31837', '#a50e28'];
 
 function getThemedCardBg(palette) {
   if (!palette || !palette[0]) return null;
@@ -59,11 +23,14 @@ function getThemedCardBg(palette) {
   if (relLum(r,g,b) <= 0.12) return { bg: `#${hex}`, fg: '#ffffff' };
   let lo=0, hi=1;
   for (let i=0; i<20; i++) {
-    const mid=(lo+hi)/2;
-    if (relLum(Math.round(r*mid),Math.round(g*mid),Math.round(b*mid)) > 0.12) hi=mid; else lo=mid;
+    const m=(lo+hi)/2;
+    if (relLum(Math.round(r*m),Math.round(g*m),Math.round(b*m)) > 0.12) hi=m; else lo=m;
   }
   const dr=Math.round(r*lo), dg=Math.round(g*lo), db=Math.round(b*lo);
-  return { bg:`#${dr.toString(16).padStart(2,'0')}${dg.toString(16).padStart(2,'0')}${db.toString(16).padStart(2,'0')}`, fg:'#ffffff' };
+  return {
+    bg: `#${dr.toString(16).padStart(2,'0')}${dg.toString(16).padStart(2,'0')}${db.toString(16).padStart(2,'0')}`,
+    fg: '#ffffff'
+  };
 }
 
 const theme = getThemedCardBg(PALETTE);
@@ -75,14 +42,14 @@ export default async function decorate(block, bridge) {
     bridge.applyHostStyles();
     const isPreview = bridge.hostContext?.preview === true;
     if (isPreview) {
-      item = SAMPLE_DATA[0];
+      item = SAMPLE_DATA;
     } else {
-      // Detail concept — structuredContent IS the item (flat). Do NOT look for a wrapper key.
+      // Detail concept — structuredContent IS the item (flat). No wrapper key.
       const _result = await bridge.toolResult;
       item = (_result?.structuredContent || _result) || {};
     }
   } else {
-    item = SAMPLE_DATA[0];
+    item = SAMPLE_DATA;
   }
 
   block.textContent = '';
@@ -103,7 +70,7 @@ function renderDetail(block, item, bridge) {
   const card = document.createElement('div');
   card.className = 'detail-card';
 
-  // Image container LEFT
+  // Image container (left side)
   const imageContainer = document.createElement('div');
   imageContainer.className = 'detail-image';
 
@@ -112,21 +79,21 @@ function renderDetail(block, item, bridge) {
 
   const colorDiv = () => {
     const d = document.createElement('div');
-    d.style.cssText = `width:100%;height:100%;background-color:${fallbackColor};`;
+    d.style.cssText = `width:100%;height:100%;background-color:${fallbackColor};display:flex;align-items:center;justify-content:center;`;
     return d;
   };
 
   if (item.image_url) {
     const img = document.createElement('img');
     img.src = item.image_url;
-    img.alt = item.name || 'Product image';
-    img.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;';
+    img.alt = item.name || '';
+    img.style.cssText = 'width:100%;height:100%;object-fit:contain;display:block;';
     img.onerror = () => img.parentNode.replaceChild(colorDiv(), img);
     imageContainer.appendChild(img);
 
     // CTA button on image
     const ctaBtn = document.createElement('button');
-    ctaBtn.className = 'cta-on-image';
+    ctaBtn.className = 'image-cta';
     ctaBtn.textContent = 'Learn More';
     if (bridge) {
       ctaBtn.addEventListener('click', () => {
@@ -140,28 +107,39 @@ function renderDetail(block, item, bridge) {
 
   card.appendChild(imageContainer);
 
-  // Content RIGHT
-  const content = document.createElement('div');
-  content.className = 'detail-content';
-  content.style.cssText = `background:${theme?.bg ?? '#1a1a1a'};color:${theme?.fg ?? '#fff'}`;
+  // Content container (right side)
+  const contentContainer = document.createElement('div');
+  contentContainer.className = 'detail-content';
+  contentContainer.style.cssText = `background:${theme?.bg ?? '#001449'};color:${theme?.fg ?? '#fff'}`;
 
+  // Name
   const name = document.createElement('h2');
   name.className = 'detail-name';
   name.textContent = item.name || '';
-  content.appendChild(name);
+  contentContainer.appendChild(name);
 
+  // Category badge
   if (item.category) {
     const badge = document.createElement('span');
     badge.className = 'category-badge';
     badge.textContent = item.category;
-    content.appendChild(badge);
+    contentContainer.appendChild(badge);
   }
 
+  // Description
   const description = document.createElement('p');
   description.className = 'detail-description';
   description.textContent = item.description || '';
-  content.appendChild(description);
+  contentContainer.appendChild(description);
 
-  card.appendChild(content);
+  // Price
+  if (item.price) {
+    const price = document.createElement('div');
+    price.className = 'detail-price';
+    price.textContent = item.price;
+    contentContainer.appendChild(price);
+  }
+
+  card.appendChild(contentContainer);
   block.appendChild(card);
 }

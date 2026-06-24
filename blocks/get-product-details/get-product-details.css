@@ -16,20 +16,21 @@ body {
 
 main .get-product-details {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  padding: 8px;
+  padding: 16px;
   display: flex;
   justify-content: center;
   align-items: center;
+  min-height: 280px;
 }
 
 main .get-product-details .detail-card {
   display: flex;
   flex-direction: row;
-  width: 100%;
-  max-width: 640px;
-  height: 280px;
   border-radius: 12px;
   overflow: hidden;
+  max-width: 700px;
+  width: 100%;
+  height: 280px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
@@ -38,33 +39,37 @@ main .get-product-details .detail-image {
   flex: 0 0 260px;
   width: 260px;
   height: 100%;
+  background: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
 }
 
 main .get-product-details .detail-image img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  display: block;
+  object-fit: contain;
 }
 
-main .get-product-details .cta-on-image {
+main .get-product-details .image-cta {
   position: absolute;
-  bottom: 12px;
+  bottom: 16px;
   left: 50%;
   transform: translateX(-50%);
-  padding: 8px 20px;
-  background: #11b67a;
-  color: #fff;
+  padding: 10px 24px;
+  background: #012169;
+  color: #ffffff;
   border: none;
   border-radius: 6px;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   transition: opacity 0.15s;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
 }
 
-main .get-product-details .cta-on-image:hover {
+main .get-product-details .image-cta:hover {
   opacity: 0.9;
 }
 
@@ -74,7 +79,7 @@ main .get-product-details .detail-content {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  overflow: hidden;
+  overflow-y: auto;
 }
 
 main .get-product-details .detail-name {
@@ -82,6 +87,7 @@ main .get-product-details .detail-name {
   font-size: 18px;
   font-weight: 700;
   line-height: 1.3;
+  color: inherit;
 }
 
 main .get-product-details .category-badge {
@@ -92,7 +98,7 @@ main .get-product-details .category-badge {
   border-radius: 10px;
   font-size: 11px;
   font-weight: 600;
-  align-self: flex-start;
+  width: fit-content;
 }
 
 main .get-product-details .detail-description {
@@ -100,49 +106,59 @@ main .get-product-details .detail-description {
   font-size: 13px;
   line-height: 1.5;
   opacity: 0.78;
+  color: inherit;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
-/* Dark mode — dim outer widget background only.
-   Card content bg is already darkened palette color (lum ≤ 0.12) from getThemedCardBg. */
+main .get-product-details .detail-price {
+  margin-top: auto;
+  font-size: 15px;
+  font-weight: 700;
+  color: inherit;
+}
+
 @media (prefers-color-scheme: dark) {
   main .get-product-details {
-    background: transparent;
+    background: #111;
+  }
+  main .get-product-details .detail-image {
+    background: #2a2a2a;
   }
   main .get-product-details .category-badge {
-    background: rgba(55,142,240,0.2);
-    color: #67b3ff;
+    background: rgba(55,142,240,0.25);
+    color: #5ba3ff;
   }
 }
 
 body.dark main .get-product-details {
-  background: transparent;
+  background: #111;
+}
+
+body.dark main .get-product-details .detail-image {
+  background: #2a2a2a;
 }
 
 body.dark main .get-product-details .category-badge {
-  background: rgba(55,142,240,0.2);
-  color: #67b3ff;
+  background: rgba(55,142,240,0.25);
+  color: #5ba3ff;
 }
 
-/* Mobile responsive */
 @media (max-width: 576px) {
   main .get-product-details .detail-card {
     flex-direction: column;
     height: auto;
-    max-height: 480px;
   }
 
   main .get-product-details .detail-image {
-    flex: 0 0 180px;
+    flex: 0 0 200px;
     width: 100%;
-    height: 180px;
+    height: 200px;
   }
 
   main .get-product-details .detail-content {
-    flex: 1;
-    overflow-y: auto;
+    max-height: none;
   }
 }
