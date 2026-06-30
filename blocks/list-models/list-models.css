@@ -18,14 +18,13 @@ main .list-models {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   padding: 8px;
   max-width: 780px;
-  margin: 0 auto;
 }
 
-main .list-models .list-models-carousel-wrapper {
+main .list-models .list-models-wrapper {
   position: relative;
 }
 
-main .list-models .list-models-carousel {
+main .list-models .list-models-track {
   display: flex;
   flex-direction: row;
   gap: 16px;
@@ -33,10 +32,10 @@ main .list-models .list-models-carousel {
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
-  padding: 0;
+  padding: 2px;
 }
 
-main .list-models .list-models-carousel::-webkit-scrollbar {
+main .list-models .list-models-track::-webkit-scrollbar {
   display: none;
 }
 
@@ -48,65 +47,26 @@ main .list-models .list-models-card {
   display: flex;
   flex-direction: column;
   scroll-snap-align: start;
-  position: relative;
+  box-sizing: border-box;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
 }
 
-main .list-models .list-models-card-image {
+main .list-models .list-models-image {
   flex: 6;
-  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background: #e9eae4;
 }
 
-main .list-models .list-models-cta {
-  position: absolute;
-  bottom: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #646b52;
-  color: #ffffff;
-  border: none;
-  border-radius: 13px;
-  padding: 8px 20px;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: opacity 0.2s;
-  font-family: inherit;
-}
-
-main .list-models .list-models-cta:hover {
-  opacity: 0.9;
-}
-
-main .list-models .list-models-cta:focus-visible {
-  outline: 2px solid #ffffff;
-  outline-offset: 2px;
-}
-
-main .list-models .list-models-card-content {
+main .list-models .list-models-info {
   flex: 4;
-  padding: 10px 14px;
   display: flex;
   flex-direction: column;
   gap: 4px;
-  position: relative;
-}
-
-main .list-models .list-models-category {
-  position: absolute;
-  top: 10px;
-  right: 14px;
-  background: #646b52;
-  color: #ffffff;
-  font-size: 10px;
-  font-weight: 600;
-  padding: 4px 8px;
-  border-radius: 6px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  padding: 10px 14px;
+  box-sizing: border-box;
 }
 
 main .list-models .list-models-name {
@@ -114,14 +74,13 @@ main .list-models .list-models-name {
   font-size: 14px;
   font-weight: 700;
   line-height: 1.2;
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
+  white-space: nowrap;
   overflow: hidden;
+  text-overflow: ellipsis;
   color: inherit;
 }
 
-main .list-models .list-models-description {
+main .list-models .list-models-desc {
   margin: 0;
   font-size: 11px;
   line-height: 1.3;
@@ -133,35 +92,85 @@ main .list-models .list-models-description {
   color: inherit;
 }
 
+main .list-models .list-models-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 2px;
+}
+
 main .list-models .list-models-price {
   font-size: 13px;
   font-weight: 700;
-  margin-top: auto;
   color: inherit;
+}
+
+main .list-models .list-models-badge {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: #646b52;
+  color: #fff;
+  white-space: nowrap;
+}
+
+main .list-models .list-models-cta {
+  margin-top: auto;
+  width: 100%;
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  background: #646b52;
+  color: #fff;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 8px 0;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+main .list-models .list-models-cta:hover {
+  opacity: 0.88;
+}
+
+main .list-models .list-models-fade {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 60px;
+  pointer-events: none;
+  border-radius: 0 10px 10px 0;
+  transition: opacity 0.2s;
 }
 
 main .list-models .list-models-arrow {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(255, 255, 255, 0.95);
+  width: 30px;
+  height: 30px;
   border: none;
-  width: 36px;
-  height: 36px;
   border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  color: #333;
+  font-size: 11px;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  font-size: 14px;
-  color: #333;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  z-index: 10;
-  transition: background 0.2s;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+  z-index: 2;
 }
 
-main .list-models .list-models-arrow:hover {
-  background: rgba(255, 255, 255, 1);
+main .list-models .list-models-arrow-left {
+  left: 4px;
+}
+
+main .list-models .list-models-arrow-right {
+  right: 4px;
 }
 
 main .list-models .list-models-arrow:focus-visible {
@@ -169,37 +178,12 @@ main .list-models .list-models-arrow:focus-visible {
   outline-offset: 2px;
 }
 
-main .list-models .list-models-arrow-left {
-  left: 8px;
-}
-
-main .list-models .list-models-arrow-right {
-  right: 8px;
-}
-
-/* Dark mode */
 @media (prefers-color-scheme: dark) {
-  main .list-models {
-    background: transparent;
-  }
-  main .list-models .list-models-arrow {
-    background: rgba(50, 50, 50, 0.95);
-    color: #ffffff;
-  }
-  main .list-models .list-models-arrow:hover {
-    background: rgba(50, 50, 50, 1);
-  }
+  main .list-models { background: #111; }
+  main .list-models .list-models-card { background: #1b1b1b; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5); }
+  main .list-models .list-models-arrow { background: rgba(40, 40, 40, 0.92); color: #f0f0f0; }
 }
 
-body.dark main .list-models {
-  background: transparent;
-}
-
-body.dark main .list-models .list-models-arrow {
-  background: rgba(50, 50, 50, 0.95);
-  color: #ffffff;
-}
-
-body.dark main .list-models .list-models-arrow:hover {
-  background: rgba(50, 50, 50, 1);
-}
+body.dark main .list-models { background: #111; }
+body.dark main .list-models .list-models-card { background: #1b1b1b; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5); }
+body.dark main .list-models .list-models-arrow { background: rgba(40, 40, 40, 0.92); color: #f0f0f0; }
