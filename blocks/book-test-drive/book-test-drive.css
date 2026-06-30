@@ -1,0 +1,163 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* Required for correct iframe sizing — AEM section margins inflate shadow body */
+main > div,
+main > .section,
+main > .section:first-of-type {
+  margin: 0;
+}
+main > .section > div {
+  max-width: none;
+  padding: 0;
+}
+body {
+  overflow: auto;
+}
+
+main .book-test-drive {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  display: flex;
+  justify-content: center;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+main .book-test-drive .book-test-drive-card {
+  width: 100%;
+  max-width: 400px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+  box-sizing: border-box;
+}
+
+main .book-test-drive .book-test-drive-header {
+  position: relative;
+}
+
+main .book-test-drive .book-test-drive-hero {
+  width: 100%;
+  height: 110px;
+  overflow: hidden;
+}
+
+main .book-test-drive .book-test-drive-hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+main .book-test-drive .book-test-drive-titlebar {
+  padding: 10px 14px;
+}
+
+main .book-test-drive .book-test-drive-title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+main .book-test-drive .book-test-drive-desc {
+  margin: 4px 0 0;
+  font-size: 12px;
+  line-height: 1.35;
+  opacity: 0.78;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+main .book-test-drive .book-test-drive-form {
+  padding: 12px 14px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+main .book-test-drive .book-test-drive-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+main .book-test-drive .book-test-drive-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  opacity: 0.55;
+}
+
+main .book-test-drive .book-test-drive-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px 10px;
+  font-size: 12px;
+  font-family: inherit;
+  border: 1px solid #d2d6cf;
+  border-radius: 6px;
+  background: #fff;
+  color: #1a1a1a;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+main .book-test-drive .book-test-drive-input:focus {
+  outline: none;
+  border-color: #646b52;
+  box-shadow: 0 0 0 2px rgba(100, 107, 82, 0.25);
+}
+
+main .book-test-drive .book-test-drive-submit {
+  margin-top: 2px;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  background: #646b52;
+  color: #fff;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+main .book-test-drive .book-test-drive-submit:hover {
+  opacity: 0.9;
+}
+
+main .book-test-drive .book-test-drive-status {
+  margin: 0;
+  font-size: 11px;
+  min-height: 14px;
+}
+
+main .book-test-drive .book-test-drive-status.is-error {
+  color: #d83790;
+}
+
+main .book-test-drive .book-test-drive-status.is-success {
+  color: #646b52;
+}
+
+/* Dark mode — dim card surface and inputs, keep palette-colored header bar */
+@media (prefers-color-scheme: dark) {
+  main .book-test-drive .book-test-drive-card { background: #1a1a1a; }
+  main .book-test-drive .book-test-drive-input {
+    background: #1e1e1e;
+    color: #f2f2f2;
+    border-color: #3a3a3a;
+  }
+  main .book-test-drive .book-test-drive-status.is-success { color: #aab59a; }
+}
+body.dark main .book-test-drive .book-test-drive-card { background: #1a1a1a; }
+body.dark main .book-test-drive .book-test-drive-input {
+  background: #1e1e1e;
+  color: #f2f2f2;
+  border-color: #3a3a3a;
+}
+body.dark main .book-test-drive .book-test-drive-status.is-success { color: #aab59a; }
