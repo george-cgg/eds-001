@@ -18,14 +18,13 @@ main .list-models {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   padding: 8px;
   max-width: 780px;
-  margin: 0 auto;
 }
 
-main .list-models .list-models-carousel-wrapper {
+main .list-models .list-models-wrapper {
   position: relative;
 }
 
-main .list-models .list-models-carousel {
+main .list-models .list-models-track {
   display: flex;
   flex-direction: row;
   gap: 16px;
@@ -33,10 +32,10 @@ main .list-models .list-models-carousel {
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
-  padding: 0;
+  padding: 2px;
 }
 
-main .list-models .list-models-carousel::-webkit-scrollbar {
+main .list-models .list-models-track::-webkit-scrollbar {
   display: none;
 }
 
@@ -48,80 +47,55 @@ main .list-models .list-models-card {
   display: flex;
   flex-direction: column;
   scroll-snap-align: start;
-  position: relative;
+  box-sizing: border-box;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
 }
 
-main .list-models .list-models-card-image {
+main .list-models .list-models-image {
+  position: relative;
   flex: 6;
-  position: relative;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
-main .list-models .list-models-cta {
+main .list-models .list-models-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+main .list-models .list-models-badge {
   position: absolute;
-  bottom: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #646b52;
-  color: #ffffff;
-  border: none;
-  border-radius: 13px;
-  padding: 8px 20px;
-  font-size: 13px;
+  top: 8px;
+  left: 8px;
+  color: #fff;
+  font-size: 10px;
   font-weight: 600;
-  cursor: pointer;
-  transition: opacity 0.2s;
-  font-family: inherit;
+  padding: 3px 8px;
+  border-radius: 12px;
+  letter-spacing: 0.02em;
 }
 
-main .list-models .list-models-cta:hover {
-  opacity: 0.9;
-}
-
-main .list-models .list-models-cta:focus-visible {
-  outline: 2px solid #ffffff;
-  outline-offset: 2px;
-}
-
-main .list-models .list-models-card-content {
+main .list-models .list-models-info {
   flex: 4;
   padding: 10px 14px;
   display: flex;
   flex-direction: column;
   gap: 4px;
-  position: relative;
-}
-
-main .list-models .list-models-category {
-  position: absolute;
-  top: 10px;
-  right: 14px;
-  background: #646b52;
-  color: #ffffff;
-  font-size: 10px;
-  font-weight: 600;
-  padding: 4px 8px;
-  border-radius: 6px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  min-height: 0;
 }
 
 main .list-models .list-models-name {
   margin: 0;
   font-size: 14px;
   font-weight: 700;
-  line-height: 1.2;
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
+  white-space: nowrap;
   overflow: hidden;
-  color: inherit;
+  text-overflow: ellipsis;
 }
 
-main .list-models .list-models-description {
+main .list-models .list-models-desc {
   margin: 0;
   font-size: 11px;
   line-height: 1.3;
@@ -130,76 +104,81 @@ main .list-models .list-models-description {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  color: inherit;
 }
 
 main .list-models .list-models-price {
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+main .list-models .list-models-cta {
   margin-top: auto;
-  color: inherit;
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  width: 100%;
+  color: #fff;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 8px 0;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+main .list-models .list-models-cta:hover {
+  opacity: 0.88;
+}
+
+main .list-models .list-models-cta:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+main .list-models .list-models-fade {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 60px;
+  pointer-events: none;
+  border-radius: 0 10px 10px 0;
+  transition: opacity 0.2s;
 }
 
 main .list-models .list-models-arrow {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(255, 255, 255, 0.95);
-  border: none;
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
-  display: flex;
+  border: none;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  font-size: 12px;
+  cursor: pointer;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  font-size: 14px;
-  color: #333;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  z-index: 10;
-  transition: background 0.2s;
-}
-
-main .list-models .list-models-arrow:hover {
-  background: rgba(255, 255, 255, 1);
-}
-
-main .list-models .list-models-arrow:focus-visible {
-  outline: 2px solid #646b52;
-  outline-offset: 2px;
+  z-index: 2;
+  display: none;
 }
 
 main .list-models .list-models-arrow-left {
-  left: 8px;
+  left: 4px;
 }
 
 main .list-models .list-models-arrow-right {
-  right: 8px;
+  right: 4px;
 }
 
-/* Dark mode */
+main .list-models .list-models-arrow:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
 @media (prefers-color-scheme: dark) {
-  main .list-models {
-    background: transparent;
-  }
-  main .list-models .list-models-arrow {
-    background: rgba(50, 50, 50, 0.95);
-    color: #ffffff;
-  }
-  main .list-models .list-models-arrow:hover {
-    background: rgba(50, 50, 50, 1);
-  }
+  main .list-models { background: #111; }
 }
-
-body.dark main .list-models {
-  background: transparent;
-}
-
-body.dark main .list-models .list-models-arrow {
-  background: rgba(50, 50, 50, 0.95);
-  color: #ffffff;
-}
-
-body.dark main .list-models .list-models-arrow:hover {
-  background: rgba(50, 50, 50, 1);
-}
+body.dark main .list-models { background: #111; }
