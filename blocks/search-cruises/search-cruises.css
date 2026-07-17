@@ -1,0 +1,153 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* Required for correct iframe sizing — AEM section margins inflate shadow body */
+main > div,
+main > .section,
+main > .section:first-of-type {
+  margin: 0;
+}
+main > .section > div {
+  max-width: none;
+  padding: 0;
+}
+body {
+  overflow: auto;
+}
+
+main .search-cruises {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  padding: 8px;
+  max-width: 780px;
+}
+
+main .search-cruises .search-cruises-wrapper {
+  position: relative;
+}
+
+main .search-cruises .search-cruises-track {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: 4px;
+}
+
+main .search-cruises .search-cruises-track::-webkit-scrollbar {
+  display: none;
+}
+
+main .search-cruises .search-cruises-card {
+  flex: 0 0 220px;
+  height: 360px;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  scroll-snap-align: start;
+  box-sizing: border-box;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
+main .search-cruises .search-cruises-image {
+  width: 100%;
+  height: 150px;
+  flex: 0 0 auto;
+  background: #eee;
+}
+
+main .search-cruises .search-cruises-info {
+  padding: 12px 14px;
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+main .search-cruises .search-cruises-title {
+  margin: 0 !important;
+  font-size: 14px !important;
+  line-height: 1.2 !important;
+  font-weight: 700;
+  color: inherit;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+main .search-cruises .search-cruises-badge {
+  align-self: flex-start;
+  font-size: 10px;
+  font-weight: 600;
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+main .search-cruises .search-cruises-desc {
+  margin: 0 !important;
+  font-size: 11px !important;
+  line-height: 1.35 !important;
+  color: inherit;
+  opacity: 0.82;
+}
+
+main .search-cruises .search-cruises-cta {
+  margin-top: auto;
+  width: 100%;
+  padding: 8px;
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  color: #fff;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+main .search-cruises .search-cruises-cta:hover {
+  opacity: 0.88;
+}
+
+main .search-cruises .search-cruises-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  font-size: 12px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  z-index: 2;
+}
+
+main .search-cruises .search-cruises-arrow-left {
+  left: 4px;
+}
+
+main .search-cruises .search-cruises-arrow-right {
+  right: 4px;
+}
+
+main .search-cruises .search-cruises-arrow:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+@media (prefers-color-scheme: dark) {
+  main .search-cruises { background: #111; }
+}
+body.dark main .search-cruises { background: #111; }
