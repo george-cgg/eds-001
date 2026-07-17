@@ -1,0 +1,408 @@
+{
+  "schema_version": "1.0.0",
+  "mode": "full",
+  "commit_sha": "2bb6d3ead52d6ea9cf5c2259f283d9129710f693",
+  "author": "george.cgg@gmail.com",
+  "timestamp": "2026-07-17T14:57:07+03:00",
+  "detection": {
+    "ai_assisted": false,
+    "method": "editor_hook",
+    "tool": "unknown",
+    "model": "",
+    "confidence": 1.0
+  },
+  "stats": {
+    "total_additions": 0,
+    "total_deletions": 0,
+    "ai_additions": 0,
+    "ai_deletions": 0,
+    "human_additions": 0,
+    "human_deletions": 0
+  },
+  "files": {
+    "blocks/adobe-shirts/adobe-shirts.css": {
+      "ai_additions": 0,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 0,
+      "ai_lines": "",
+      "human_lines": ""
+    },
+    "blocks/adobe-shirts/adobe-shirts.js": {
+      "ai_additions": 0,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 0,
+      "ai_lines": "",
+      "human_lines": ""
+    },
+    "blocks/automotive-car-compare/automotive-car-compare.css": {
+      "ai_additions": 0,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 0,
+      "ai_lines": "",
+      "human_lines": ""
+    },
+    "blocks/automotive-car-compare/automotive-car-compare.js": {
+      "ai_additions": 0,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 0,
+      "ai_lines": "",
+      "human_lines": ""
+    },
+    "blocks/automotive-car-configuration/automotive-car-configuration.css": {
+      "ai_additions": 0,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 0,
+      "ai_lines": "",
+      "human_lines": ""
+    },
+    "blocks/automotive-car-configuration/automotive-car-configuration.js": {
+      "ai_additions": 0,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 0,
+      "ai_lines": "",
+      "human_lines": ""
+    },
+    "blocks/automotive-car-details/automotive-car-details.css": {
+      "ai_additions": 0,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 0,
+      "ai_lines": "",
+      "human_lines": ""
+    },
+    "blocks/automotive-car-details/automotive-car-details.js": {
+      "ai_additions": 0,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 0,
+      "ai_lines": "",
+      "human_lines": ""
+    },
+    "blocks/automotive-car-get-quote/automotive-car-get-quote.css": {
+      "ai_additions": 0,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 0,
+      "ai_lines": "",
+      "human_lines": ""
+    },
+    "blocks/automotive-car-get-quote/automotive-car-get-quote.js": {
+      "ai_additions": 0,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 0,
+      "ai_lines": "",
+      "human_lines": ""
+    },
+    "blocks/automotive-car-models/automotive-car-models.css": {
+      "ai_additions": 0,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 0,
+      "ai_lines": "",
+      "human_lines": ""
+    },
+    "blocks/automotive-car-models/automotive-car-models.js": {
+      "ai_additions": 0,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 0,
+      "ai_lines": "",
+      "human_lines": ""
+    },
+    "blocks/automotive-test-drive/automotive-test-drive.css": {
+      "ai_additions": 0,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 0,
+      "ai_lines": "",
+      "human_lines": ""
+    },
+    "blocks/automotive-test-drive/automotive-test-drive.js": {
+      "ai_additions": 0,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 0,
+      "ai_lines": "",
+      "human_lines": ""
+    },
+    "blocks/cards/cards.css": {
+      "ai_additions": 0,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 0,
+      "ai_lines": "",
+      "human_lines": ""
+    },
+    "blocks/cards/cards.js": {
+      "ai_additions": 0,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 0,
+      "ai_lines": "",
+      "human_lines": ""
+    },
+    "blocks/columns/columns.css": {
+      "ai_additions": 0,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 0,
+      "ai_lines": "",
+      "human_lines": ""
+    },
+    "blocks/columns/columns.js": {
+      "ai_additions": 0,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 0,
+      "ai_lines": "",
+      "human_lines": ""
+    },
+    "blocks/find-branch/find-branch.css": {
+      "ai_additions": 0,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 0,
+      "ai_lines": "",
+      "human_lines": ""
+    },
+    "blocks/find-branch/find-branch.js": {
+      "ai_additions": 0,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 0,
+      "ai_lines": "",
+      "human_lines": ""
+    },
+    "blocks/footer/footer.css": {
+      "ai_additions": 0,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 0,
+      "ai_lines": "",
+      "human_lines": ""
+    },
+    "blocks/footer/footer.js": {
+      "ai_additions": 0,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 0,
+      "ai_lines": "",
+      "human_lines": ""
+    },
+    "blocks/fragment/fragment.css": {
+      "ai_additions": 0,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 0,
+      "ai_lines": "",
+      "human_lines": ""
+    },
+    "blocks/fragment/fragment.js": {
+      "ai_additions": 0,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 0,
+      "ai_lines": "",
+      "human_lines": ""
+    },
+    "blocks/frescopa-coffee-details/frescopa-coffee-details.css": {
+      "ai_additions": 0,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 0,
+      "ai_lines": "",
+      "human_lines": ""
+    },
+    "blocks/frescopa-coffee-details/frescopa-coffee-details.js": {
+      "ai_additions": 0,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 0,
+      "ai_lines": "",
+      "human_lines": ""
+    },
+    "blocks/frescopa-coffee-list/frescopa-coffee-list.css": {
+      "ai_additions": 0,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 0,
+      "ai_lines": "",
+      "human_lines": ""
+    },
+    "blocks/frescopa-coffee-list/frescopa-coffee-list.js": {
+      "ai_additions": 0,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 0,
+      "ai_lines": "",
+      "human_lines": ""
+    },
+    "blocks/get-product-details/get-product-details.css": {
+      "ai_additions": 0,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 0,
+      "ai_lines": "",
+      "human_lines": ""
+    },
+    "blocks/get-product-details/get-product-details.js": {
+      "ai_additions": 0,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 0,
+      "ai_lines": "",
+      "human_lines": ""
+    },
+    "blocks/get-promotions/get-promotions.css": {
+      "ai_additions": 0,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 0,
+      "ai_lines": "",
+      "human_lines": ""
+    },
+    "blocks/get-promotions/get-promotions.js": {
+      "ai_additions": 0,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 0,
+      "ai_lines": "",
+      "human_lines": ""
+    },
+    "blocks/header/header.css": {
+      "ai_additions": 0,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 0,
+      "ai_lines": "",
+      "human_lines": ""
+    },
+    "blocks/header/header.js": {
+      "ai_additions": 0,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 0,
+      "ai_lines": "",
+      "human_lines": ""
+    },
+    "blocks/hello-world/hello-world.css": {
+      "ai_additions": 0,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 0,
+      "ai_lines": "",
+      "human_lines": ""
+    },
+    "blocks/hello-world/hello-world.js": {
+      "ai_additions": 0,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 0,
+      "ai_lines": "",
+      "human_lines": ""
+    },
+    "blocks/hero/hero.css": {
+      "ai_additions": 0,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 0,
+      "ai_lines": "",
+      "human_lines": ""
+    },
+    "blocks/hero/hero.js": {
+      "ai_additions": 0,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 0,
+      "ai_lines": "",
+      "human_lines": ""
+    },
+    "blocks/list-models/list-models.css": {
+      "ai_additions": 0,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 0,
+      "ai_lines": "",
+      "human_lines": ""
+    },
+    "blocks/list-models/list-models.js": {
+      "ai_additions": 0,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 0,
+      "ai_lines": "",
+      "human_lines": ""
+    },
+    "blocks/sunstargum-get-nearby-stores/sunstargum-get-nearby-stores.css": {
+      "ai_additions": 0,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 0,
+      "ai_lines": "",
+      "human_lines": ""
+    },
+    "blocks/sunstargum-get-nearby-stores/sunstargum-get-nearby-stores.js": {
+      "ai_additions": 0,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 0,
+      "ai_lines": "",
+      "human_lines": ""
+    },
+    "blocks/sunstargum-get-promotions/sunstargum-get-promotions.css": {
+      "ai_additions": 0,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 0,
+      "ai_lines": "",
+      "human_lines": ""
+    },
+    "blocks/sunstargum-get-promotions/sunstargum-get-promotions.js": {
+      "ai_additions": 0,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 0,
+      "ai_lines": "",
+      "human_lines": ""
+    },
+    "blocks/sunstargum-product-details/sunstargum-product-details.css": {
+      "ai_additions": 0,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 0,
+      "ai_lines": "",
+      "human_lines": ""
+    },
+    "blocks/sunstargum-product-details/sunstargum-product-details.js": {
+      "ai_additions": 0,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 0,
+      "ai_lines": "",
+      "human_lines": ""
+    },
+    "blocks/sunstargum-products-list/sunstargum-products-list.css": {
+      "ai_additions": 0,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 0,
+      "ai_lines": "",
+      "human_lines": ""
+    },
+    "blocks/sunstargum-products-list/sunstargum-products-list.js": {
+      "ai_additions": 0,
+      "human_additions": 0,
+      "ai_deletions": 0,
+      "human_deletions": 0,
+      "ai_lines": "",
+      "human_lines": ""
+    }
+  }
+}
