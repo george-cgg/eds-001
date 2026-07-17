@@ -1,0 +1,174 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* Required for correct iframe sizing — AEM section margins inflate shadow body */
+main > div,
+main > .section,
+main > .section:first-of-type {
+  margin: 0;
+}
+main > .section > div {
+  max-width: none;
+  padding: 0;
+}
+body {
+  overflow: auto;
+}
+
+main .get-cruise-deals {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  padding: 8px;
+  max-width: 780px;
+}
+
+main .get-cruise-deals .get-cruise-deals-wrapper {
+  position: relative;
+}
+
+main .get-cruise-deals .get-cruise-deals-track {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: 4px;
+}
+
+main .get-cruise-deals .get-cruise-deals-track::-webkit-scrollbar {
+  display: none;
+}
+
+main .get-cruise-deals .get-cruise-deals-card {
+  flex: 0 0 220px;
+  height: 350px;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  scroll-snap-align: start;
+  box-sizing: border-box;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+main .get-cruise-deals .get-cruise-deals-image {
+  position: relative;
+  width: 100%;
+  height: 150px;
+  flex: 0 0 auto;
+  background: #e5e5e5;
+}
+
+main .get-cruise-deals .get-cruise-deals-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 12px;
+  max-width: calc(100% - 20px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+main .get-cruise-deals .get-cruise-deals-info {
+  padding: 10px 14px;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+main .get-cruise-deals .get-cruise-deals-title {
+  margin: 0 !important;
+  font-size: 14px !important;
+  line-height: 1.2 !important;
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+main .get-cruise-deals .get-cruise-deals-desc {
+  margin: 0 !important;
+  font-size: 11px !important;
+  line-height: 1.35 !important;
+  opacity: 0.78;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  color: inherit;
+}
+
+main .get-cruise-deals .get-cruise-deals-price {
+  font-size: 13px;
+  font-weight: 700;
+  margin-top: auto;
+}
+
+main .get-cruise-deals .get-cruise-deals-cta {
+  margin-top: 8px;
+  padding: 8px;
+  width: 100%;
+  border: none;
+  border-radius: 6px;
+  background: #003595;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  font-family: inherit;
+}
+
+main .get-cruise-deals .get-cruise-deals-cta:hover {
+  opacity: 0.88;
+}
+
+main .get-cruise-deals .get-cruise-deals-cta:focus-visible {
+  outline: 2px solid #cce7eb;
+  outline-offset: 2px;
+}
+
+main .get-cruise-deals .get-cruise-deals-arrow {
+  position: absolute;
+  top: 75px;
+  transform: translateY(-50%);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.92);
+  color: #003595;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+  z-index: 3;
+}
+
+main .get-cruise-deals .get-cruise-deals-arrow-left {
+  left: 2px;
+}
+
+main .get-cruise-deals .get-cruise-deals-arrow-right {
+  right: 2px;
+}
+
+main .get-cruise-deals .get-cruise-deals-arrow:focus-visible {
+  outline: 2px solid #003595;
+  outline-offset: 2px;
+}
+
+@media (prefers-color-scheme: dark) {
+  main .get-cruise-deals { background: #111; }
+}
+body.dark main .get-cruise-deals { background: #111; }
