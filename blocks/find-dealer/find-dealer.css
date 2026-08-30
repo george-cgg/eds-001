@@ -1,0 +1,114 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* Required for correct iframe sizing — AEM section margins inflate shadow body */
+main > div,
+main > .section,
+main > .section:first-of-type {
+  margin: 0;
+}
+main > .section > div {
+  max-width: none;
+  padding: 0;
+}
+body {
+  overflow: auto;
+}
+
+main .find-dealer {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: transparent;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Empty state container */
+main .find-dealer .find-dealer-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+/* Hero banner */
+main .find-dealer .find-dealer-banner {
+  width: 100%;
+  height: 100px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* Search card */
+main .find-dealer .find-dealer-search-card {
+  width: 100%;
+  padding: 24px;
+  border-radius: 12px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+main .find-dealer .find-dealer-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Results container */
+main .find-dealer .find-dealer-results {
+  display: flex;
+  justify-content: center;
+  padding: 16px 8px;
+}
+
+main .find-dealer .find-dealer-grid {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 560px;
+}
+
+/* Dealer card */
+main .find-dealer .find-dealer-card {
+  flex: 0 0 260px;
+  padding: 16px;
+  border-radius: 12px;
+  box-sizing: border-box;
+}
+
+main .find-dealer .find-dealer-pin {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Dark mode — dim outer widget background only, NOT the palette-colored cards */
+@media (prefers-color-scheme: dark) {
+  main .find-dealer {
+    background: transparent;
+  }
+}
+
+body.dark main .find-dealer {
+  background: transparent;
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+  main .find-dealer .find-dealer-grid {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  main .find-dealer .find-dealer-card {
+    flex: 0 0 auto;
+    width: 100%;
+    max-width: 300px;
+  }
+}
